@@ -1,0 +1,70 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile simdjson to .o",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-std=c++17",
+                "-Iinclude",
+                "-c",
+                "libs/simdjson.cpp",
+                "-o",
+                "build/simdjson.o"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "Compile all src to .o",
+            "type": "shell",
+            "command": "${workspaceFolder}\\build_all.bat",
+            "windows": {
+                "command": "${workspaceFolder}\\build_all.bat"
+            },
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
+            "label": "Link all .o to main.exe",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "build\\*.o",
+                "-o",
+                "build\\main.exe"
+            ],
+            "dependsOn": [
+                "Compile simdjson to .o",
+                "Compile all src to .o"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Build current test to exe",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-std=c++17",
+                "-Iinclude",
+                "${file}",
+                "build\\simdjson.o",
+                "-o",
+                "build\\${fileBasenameNoExtension}.exe"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        }
+    ]
+}
