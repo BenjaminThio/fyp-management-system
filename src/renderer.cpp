@@ -1,10 +1,15 @@
 #include <iostream>
+#include <vector>
 #include "globals.h"
 #include "magic_enum.hpp"
 #include "database.h"
 #include "uuid_v4.h"
+#include "simdjson.h"
+#include "table.h"
+#include "input.h"
 using namespace std;
 using namespace magic_enum;
+using namespace simdjson;
 
 void renderPage() {
     string renderer = "";
@@ -42,6 +47,31 @@ void renderPage() {
                 renderer += uuid;
                 renderer += '\n';
             }
+            break;
+        }
+        case static_cast<int>(Page::CONSOLE): {
+            json jsonData = load("test");
+            vector<vector<string>> table = {
+                {"No.", "Titles", "Public", "", "", ""}
+            };
+            
+            for (int i = 0; i < jsonData.size(); i++) {
+                vector<string> keys = jsonData.keys();
+                vector<string> row = {to_string(i + 1) + ". ", keys[i], "ON", "View", "Edit", "Delete"};
+
+                table.push_back(row);
+            }
+
+            renderer += generateTable(table);
+            break;
+        }
+        case static_cast<int>(Page::SIGN_UP): {
+            string userInput;
+
+            renderer += "Username:\n\nPassword:\n\nEmail:";
+            cout << renderer;
+            setInputCursorPosition(0, 7);
+            getline(cin, userInput);
             break;
         }
         default: {

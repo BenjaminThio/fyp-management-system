@@ -1,29 +1,34 @@
 #include <iostream>
-#include <conio.h>
-#include <regex>
+#include <string>
 using namespace std;
 
-int main() {
-    while (true) {
-        if (_kbhit()) {
-            int key = _getch();
-            
-            switch (key) {
-                case 224: {
-                    int specialKey = _getch();
-                    
-                    cout << "Special Key: " << specialKey << endl;
-                    break;
-                }
-                default: {
-                    regex reg()
+int iin(const string&);
+bool isInteger(const string&);
 
-                    cout << "Key: " << key << endl;
-                    break;
-                }
-            }
+int main() {
+    iin("Please key-in a valid integer: ");
+    return 0;
+}
+
+int iin(const string& description) {
+    string userInput;
+
+    cout << description;
+    cin >> userInput;
+
+    if (isInteger(userInput)) {
+        return stoi(userInput);
+    } else {
+        cout << "The input provided is not type of integer." << endl;
+        return iin(description);
+    }
+}
+
+bool isInteger(const string& s) {
+    for (char c : s) {
+        if (!isdigit(c)) {
+            return false;
         }
     }
-    
-    return 0;
+    return true;
 }

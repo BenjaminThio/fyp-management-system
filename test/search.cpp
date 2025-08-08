@@ -2,12 +2,11 @@
 #include <vector>
 using namespace std;
 
-void test(void);
 vector<string> split(string text, char delimiter);
 
 int main() {
-    string text = "Benjamin Thio Zi Liang got infected by pneumonoultramicroscopicsilicovolcanoconiosis";
-    string stringified_keywords = "Benjiminn Test";
+    string text = "Benjamin Thio is a gay.";
+    string stringified_keywords = "Benjimin";
     char delimiter = ' ';
     vector<string> keywords = split(stringified_keywords, delimiter);
     vector<string> text_segments = split(text, delimiter);
@@ -56,10 +55,4 @@ vector<string> split(string text, char delimiter) {
     }
 
     return segments;
-}
-
-void test() {
-    int* pX = 0;
-    
-    cout << *&pX << endl;
 }
