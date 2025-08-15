@@ -1,7 +1,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-void setInputCursorPosition(int, int);
+void set_input_cursor_position(int, int);
 void test();
 
 #endif

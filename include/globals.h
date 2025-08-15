@@ -1,28 +1,19 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
-#include "miniaudio.h"
-
-enum class MainPageOption: int {
-    FYP_TITLES,
-    CONSOLE,
-    ACCOUNT,
-    EXIT
-};
 
 enum class Page: int {
-    MAIN,
-    FYPS,
+    HOME,
+    FYP_LIST,
     SIGN_UP,
     LOGIN,
-    FYP,
+    FYP_VIEW,
     CONSOLE,
     EDIT,
-    WISHLIST
+    WISHLIST,
+    NOT_FOUND
 };
 
-extern int previousPage;
+extern int previous_page;
 extern int page;
-extern int selectedOption;
-extern ma_engine sfxEngine;
 
 #endif

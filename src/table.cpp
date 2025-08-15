@@ -1,46 +1,73 @@
-#include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
 using namespace std;
 
-string generateTable(vector<vector<string>> table) {
-    string renderer = "";
-    vector<int> columnWidths;
+static string strip_ansi(const string& s) {
+    string out;
+    out.reserve(s.size());
+    size_t i = 0;
+    while (i < s.size()) {
+        if (s[i] == '\x1b') {
+            ++i;
+            if (i < s.size() && s[i] == '[') ++i;
+            while (i < s.size() && s[i] != 'm') ++i;
+            if (i < s.size() && s[i] == 'm') ++i;
+        } else out.push_back(s[i++]);
+    }
+    return out;
+}
 
-    if (table.size() > 0) {
-        for (int i = 0; i < table[0].size(); i++) {
-            columnWidths.push_back(0);
-        }
+static int visible_length(const string& s) {
+    return static_cast<int>(strip_ansi(s).length());
+}
+
+string generate_table(vector<vector<string>> table) {
+    ostringstream renderer;
+    size_t longest_row = 0;
+
+    for (const auto& row : table)
+        longest_row = max(longest_row, row.size());
+
+    vector<int> column_widths(longest_row, 0);
+
+    for (const auto& row : table) {
+        for (size_t i = 0; i < row.size(); i++)
+            column_widths[i] = max(column_widths[i], visible_length(row[i]));
     }
 
-    for (int rowIndex = 0; rowIndex < table.size(); rowIndex++) {
-        vector<string> row = table[rowIndex];
-
-        for (int cellIndex = 0; cellIndex < row.size(); cellIndex++) {
-            string cell = row[cellIndex];
-
-            if (cell.length() > columnWidths[cellIndex]) {
-                columnWidths[cellIndex] = cell.length();
-            } 
+    for (const auto& row : table) {
+        renderer << '+';
+        for (size_t i = 0; i < column_widths.size(); i++) {
+            renderer << string(column_widths[i], '-');
+            if (i < column_widths.size() - 1)
+                renderer << '-';
         }
-    }
 
-    for (int rowIndex = 0; rowIndex < table.size(); rowIndex++) {
-        vector<string> row = table[rowIndex];
+        renderer << '+' << endl << '|';
+        
+        for (size_t i = 0; i < column_widths.size(); i++) {
+            int pad;
 
-        for (int cellIndex = 0; cellIndex < row.size(); cellIndex++) {
-            string cell = row[cellIndex];
-
-            renderer += cell;
-            if (columnWidths[cellIndex] - cell.length() > 0) {
-                for (int extraWidth = 0; extraWidth < columnWidths[cellIndex] - cell.length(); extraWidth++) {
-                    renderer += ' ';
-                };
+            if (i < row.size()) {
+                pad = column_widths[i] - visible_length(row[i]);
+                renderer << row[i];
             }
-            renderer += ' ';
+            else pad = column_widths[i];
+            
+            if (pad > 0)
+                renderer << string(pad, ' ');
+            renderer << '|';
         }
-        renderer += '\n';
+        renderer << endl;
     }
+    renderer << '+';
+    for (size_t i = 0; i < column_widths.size(); i++) {
+        renderer << string(column_widths[i], '-');
+        if (i < column_widths.size() - 1)
+            renderer << '-';
+    }
+    renderer << '+';
     
-    return renderer;
+    return renderer.str();
 }

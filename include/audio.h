@@ -1,8 +1,12 @@
 #ifndef AUDIO_H
 #define AUDIO_H
+
 #include <string>
+#include "miniaudio.h"
 using namespace std;
 
-void playSound(string name);
+extern ma_engine sfx_engine;
+
+void play_sound(string);
 
 #endif

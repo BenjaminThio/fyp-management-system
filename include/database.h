@@ -1,6 +1,8 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
+#include <string>
+#include "json.h"
 #include "simdjson.h"
 using namespace simdjson;
 

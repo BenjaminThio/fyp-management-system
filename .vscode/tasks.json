@@ -19,30 +19,17 @@
             "group": "build"
         },
         {
-            "label": "Compile all src to .o",
+            "label": "Full Build (compile + link)",
             "type": "shell",
             "command": "${workspaceFolder}\\build_all.bat",
             "windows": {
                 "command": "${workspaceFolder}\\build_all.bat"
             },
-            "problemMatcher": [],
-            "group": "build"
-        },
-        {
-            "label": "Link all .o to main.exe",
-            "type": "shell",
-            "command": "g++",
-            "args": [
-                "build\\*.o",
-                "-o",
-                "build\\main.exe"
-            ],
-            "dependsOn": [
-                "Compile simdjson to .o",
-                "Compile all src to .o"
-            ],
             "problemMatcher": [
                 "$gcc"
+            ],
+            "dependsOn": [
+                "Compile simdjson to .o"
             ],
             "group": {
                 "kind": "build",

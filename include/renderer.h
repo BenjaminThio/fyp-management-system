@@ -1,6 +1,6 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-void renderPage(void);
+void render_page(void);
 
 #endif

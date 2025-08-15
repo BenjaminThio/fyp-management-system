@@ -10,7 +10,6 @@ enum class Key: int {
     ESCAPE = 27
 };
 
-void detectKeyboardInput(void);
-void keyboardCallback(void);
+void detect_keyboard_input(void);
 
 #endif

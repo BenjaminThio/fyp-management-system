@@ -3,6 +3,7 @@
 #include <fstream>
 #include "json.h"
 #include "database.h"
+#include "uuid_v4.h"
 using namespace std;
 using namespace filesystem;
 
@@ -10,18 +11,23 @@ json default_data = json::dictionary{
     {"Benjamin Thio Zi Liang", 1}
 };
 
+/*
 int main() {
-    json j = load("../data/test.json");
+    json j;
 
-    cout << j.parse_string() << endl;
+    for (size_t i = 0; i < 10; i++) {
+        string uuid = UUIDv4::generate();
 
-    j = default_data;
-    j["TEST"] = true;
+        j[uuid] = json::dictionary{
+            { "Benjamin", 1 }
+        };
+    }
 
     save("../data/test.json", j);
+
+    cout << j.parse_string() << endl;
 }
 
-/*
 int main() {
     json test = json::dictionary{};
 

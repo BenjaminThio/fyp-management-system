@@ -1,6 +1,7 @@
 #ifndef JSON_H
 #define JSON_H
 
+#include <cstdint>
 #include <vector>
 #include <map>
 #include <variant>
@@ -77,12 +78,13 @@ class json {
         }
 
         json& operator[](const string& key) {
-            if (!is_dictionary()) throw runtime_error("Not a dictionary!");
-            else return get<dictionary>(value)[key];
+            if (!is_dictionary()) throw runtime_error("Not a dictionary"); //*this = dictionary{};
+            
+            return get<dictionary>(value)[key];
         }
 
         json& operator[](const char* key) {
-            if (!is_dictionary()) *this = dictionary{};
+            if (!is_dictionary()) throw runtime_error("Not a dictionary"); //*this = dictionary{};
 
             return (*this)[string(key)];
         }
@@ -120,6 +122,12 @@ class json {
             return get<dictionary>(value);
         }
 
+        string& as_string() {
+            if (!is_string()) throw runtime_error("Not a string!");
+
+            return get<string>(value);
+        }
+
         string parse_string(const size_t indent = 0, const bool left_trim = false) const {
             ostringstream oss;
             string indent_str(indent, ' ');
@@ -133,16 +141,20 @@ class json {
             else if (holds_alternative<list>(value)) {
                 const list l = get<list>(value);
 
-                oss << '[' << endl;
-                for (size_t i = 0; i < l.size(); i++) oss << l[i].parse_string(indent + 4) << ((i < l.size() - 1) ? "," : "") << endl;
-                oss << indent_str << ']';
+                if (l.size() > 0) {
+                    oss << '[' << endl;
+                    for (size_t i = 0; i < l.size(); i++) oss << l[i].parse_string(indent + 4) << ((i < l.size() - 1) ? "," : "") << endl;
+                    oss << indent_str << ']';
+                } else oss << "[]" << endl;
             } else if (holds_alternative<dictionary>(value)) {
                 dictionary d = get<dictionary>(value);
                 size_t counter = 0;
 
-                oss << '{' << endl;
-                for (const auto& [key, val] : d) oss << indent_str << string(4, ' ') + '"' << key << '"' << ": " << val.parse_string(indent + 4, true) << ((++counter < d.size()) ? "," : "") << endl;
-                oss << indent_str << '}';
+                if (d.size() > 0) {
+                    oss << '{' << endl;
+                    for (const auto& [key, val] : d) oss << indent_str << string(4, ' ') + '"' << key << '"' << ": " << val.parse_string(indent + 4, true) << ((++counter < d.size()) ? "," : "") << endl;
+                    oss << indent_str << '}';
+                } else oss << "{}" << endl;
                 /*
                 dictionary d = get<dictionary>(value);
                 vector<string> d_keys = keys();

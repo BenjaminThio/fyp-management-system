@@ -1,0 +1,442 @@
+{
+    "05a953ec-3377-4895-93df-6333418b54c1": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Developing of an IoT Based Smart Parking System"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "0b687fbd-c7ea-4b81-88e5-639359d245b4": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Asset Management Mobile Application"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "0f795df9-5de7-466a-93c3-f7da550a5d98": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Text-Based Emotion Detection Using Deep Learning"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "1d534369-c436-47e8-a5df-9f8f1d6895bc": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Course and University Recommendation System using Machine Learning"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "1fd4d86b-f5d6-4de3-83c2-025704acdcd6": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Stock Screening and Recommendation System for Singapore Real Estate Investment Trust"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "273136be-ebbe-4249-8561-6bf400d8ddb9": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Development of an IoT-Integrated App for Monitoring Hydroponic Farming Systems"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "32d05066-cfe5-46f5-9827-40d03d4d1836": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Smart Mobile Application for Resume Building and Career Advisory Services"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "37bd475d-c616-4038-b2d5-bce3164bf932": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Mining significant factors associated with defensive stocks from consumer products & services sector of Bursa Malaysia"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "3e006ca1-781b-4ec6-81e8-56201f83196a": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "A Mobile Application Development for Water Potability Prediction via Machine Learning Models"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "4472a21c-0844-4e3c-afad-c90301bd3da7": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Arduino for Physics Electronics Experiments"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "45e73ae0-580b-4b65-b629-c2687bc692a8": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Application of optimization techniques in portfolio management"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "56acf44d-a6fd-4e90-8399-d7d850ea7483": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "AI Personalized Tutor for University Students"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "627a3ee9-bab0-4b05-97b6-b2267c41d0e0": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Malaysia Integrated EV Charging Information System"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "686bc979-1014-4b8b-a121-5838a0155fef": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Sizing Tool for Solar PV and Battery Systems"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "6e242084-3c84-45c1-b22d-408ef94bc54e": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Web-based IT Service Management (ITSM) System for Service Request Management"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "732e9b56-f0b1-4cee-935b-7c2e99b612f6": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Self-Hosted Multi-Agent RAG System for Contextual Document Processing"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "84e1bb87-af9d-4607-aa51-1a6df8be6d30": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "EcoTrack AI: A Personalized Carbon Footprint Tracker"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "901fee27-ab2c-4f9a-b28f-3de08916ceb6": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Intelligent Waste Collection Monitoring System Using IoT and Data Analytics"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "967f1b33-829f-4259-b3ee-2e4618e80f1a": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Enhancing Diversity in Deepfake Detection Datasets"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "974dadeb-9a1b-4741-a902-119fcfeef1c4": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Real-Time Microplastic Detection in Marine Environments Using Edge AI"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "a34d6f40-3f25-48e9-b272-0ad5705f6d0f": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "A Quantitative Approach on Sustainable Construction’s Blockchain Technology Awareness on Trust Issue and Change Resistance."
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "a3cffd85-b5fe-4901-adb2-674f59974397": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "On Self-Supervised Contrastive Learning via Neural Collapse"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "a7d203e8-e0ef-4b36-b24b-3f59033437bc": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Price comparison website for online shopping"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "af88b76e-8d10-4b88-9e95-962948b24242": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Data hiding methods in High dynamic range (HDR) images"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "c03096c1-78c7-462c-9752-3400034cd1e7": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Web Application Development for Person Counting"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "c0445024-2abc-47de-aba6-01c55d12497f": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Combination of Generative Artificial Intelligence and Deep Reinforcement Learning: Performance Comparison"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "c3cc316e-803b-4de5-b235-b865a05ec225": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "A Web Application to Help Novice Players in PalWorld"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "c947aa9f-1338-46f2-bbdc-8aa2e32d9597": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Gamified Mood and Wellness Journal"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "ca96fbd5-b651-46eb-8774-2790a0cff295": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Mobile-based Location Services for Event Management"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "cb500426-5c4b-4174-b0da-3a5568e35d00": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "LiDAR-based Freespace Detection and Path Planning for Autonomous Navigation"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "d39a8730-cb2d-4449-8bc2-70d3049a05af": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Student Academic Performance Prediction System Using Data Mining Techniques"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "d3a84eee-4622-49d2-a33e-5dcc666cf596": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "The use of transformer model to detect fraud in credit card transaction"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "d3c8f01c-a4c0-4e1c-a257-4566c5ffc059": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Intelligent Document Classification System for Automated Bank Loan Approval"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "dab3a7d5-b0fa-4587-ae5c-4cac1fefac2a": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Develop a customizable VR environment that supports the integration of eye tracking technology for paralyze patient"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "dd6d6141-27bb-486c-a151-95896766bb34": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "AI-Powered Social Media Content Creator: Automating Engaging and Optimized Content Generation"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "e639445f-b27d-49c2-94ba-4048fad48131": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Mobile-based Patient’s Healthcare Management System"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "f22d6780-a522-46ff-ace0-a2a404b7cce2": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Automated Face Recognition System for Enhanced Security and Convenience at UTAR Entrances"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "f345a2fe-62db-4dec-84e0-ad77ee9a8a38": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Phishing Website Detection Using Machine Learning Approaches"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "f5a1bdd0-db3b-420c-88c1-9a5da2b1b491": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Student Ride-Sharing Mobile Application for UTAR Sungai Long"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    },
+    "f8a7aaf3-190d-468d-8fa8-34797c08f573": {
+        "info": {
+            "category": "TESTING123",
+            "description": "TESTING456",
+            "name": "Intelligent Home Design Hub"
+        },
+        "isPublic": true,
+        "ownerUUID": "cb14a437-f09f-45ed-a11f-c861aa7a8200",
+        "wishlistUUIDs": []
+
+    }
+}
