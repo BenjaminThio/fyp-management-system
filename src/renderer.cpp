@@ -14,12 +14,15 @@
 #include "console/page.h"
 #include "auth/page.h"
 #include "fyp_view/page.h"
+#include "input.h"
+#include <array>
 using namespace std;
 using namespace magic_enum;
 using namespace simdjson;
 
 void render_page() {
     ostringstream renderer;
+    array<int, 2> manual_input_cursor_pos = { -1, -1 };
 
     system("cls");
 
@@ -39,7 +42,7 @@ void render_page() {
             break;
         }
         case static_cast<int>(Page::SIGN_UP): {
-            sign_up::push_frame(renderer);
+            sign_up::push_frame(renderer, manual_input_cursor_pos);
             break;
         }
         case static_cast<int>(Page::FYP_VIEW): {
@@ -61,4 +64,5 @@ void render_page() {
     }
 
     cout << renderer.str();
+    if (manual_input_cursor_pos[0] >= 0 && manual_input_cursor_pos[1] >= 0) set_input_cursor_position(manual_input_cursor_pos[0], manual_input_cursor_pos[1]);
 }

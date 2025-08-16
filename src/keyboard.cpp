@@ -4,6 +4,7 @@
 #include "fyp/page.h"
 #include "console/page.h"
 #include "fyp_view/page.h"
+#include "auth/page.h"
 
 void detect_keyboard_input() {
     switch (page) {
@@ -21,6 +22,10 @@ void detect_keyboard_input() {
         }
         case static_cast<int>(Page::FYP_VIEW): {
             fyp_view::keyboard_input_callback();
+            break;
+        }
+        case static_cast<int>(Page::SIGN_UP): {
+            sign_up::keyboard_input_callback();
             break;
         }
         default: break;

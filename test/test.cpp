@@ -1,10 +1,27 @@
 #include <string>
 #include <iostream>
-#include "uuid_v4.h"
+#include <conio.h>
+#include <windows.h>
 using namespace std;
 
 int main() {
-    string uuid = UUIDv4::generate();
-    cout << "Generated UUID: " << uuid << endl;
-    return 0;
+    while (true) {
+        if (_kbhit()) {
+            int key = _getch();
+
+            switch (key) {
+                case 0:
+                case 224: {
+                    int special_key = 0;
+
+                    cout << "Special Key: " << special_key << endl;
+                    break;
+                }
+                default:
+                    if (GetAsyncKeyState(VK_SHIFT) & 0x8000)
+                        cout << "Key: " << key << endl;
+                    break;
+            }
+        }
+    }
 }
