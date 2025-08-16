@@ -19,6 +19,7 @@ namespace sign_up {
     static int field_index = 0;
     static array<string, 3> fields;
     static array<int, 3> cursor_input_pos = { 0, 0, 0 };
+    static bool is_password_visible = false;
 
     void push_frame(ostringstream& renderer, array<int, 2>& manual_cursor_input_pos) {
         string userInput;
@@ -30,7 +31,7 @@ namespace sign_up {
         << endl
         << "Password:"
         << endl
-        << fields[1]
+        << (is_password_visible ? fields[1] : string(fields[1].length(), '*'))
         << endl
         << "Email:"
         << endl
@@ -39,9 +40,9 @@ namespace sign_up {
     }
 
     void keyboard_input_callback() {
-        array<int, 2> keyboard_input = better_cin(fields[field_index], cursor_input_pos[field_index], true);
+        array<int, 2> keyboard_input = better_cin(fields[field_index], cursor_input_pos[field_index], field_index != 1);
         int key = keyboard_input[0];
-        //int special_key = keyboard_input[1];
+        int special_key = keyboard_input[1];
         
         switch (key) {
             case static_cast<int>(Key::ESCAPE):
@@ -58,6 +59,15 @@ namespace sign_up {
                     if (field_index + 1 < fields.size()) field_index++;
                     else field_index = 0;
                 }
+
+                render_page();
+                play_sound("squeak");
+                break;
+        }
+
+        switch (special_key) {
+            case 59: // 'F1'
+                is_password_visible = !is_password_visible;
 
                 render_page();
                 play_sound("squeak");
