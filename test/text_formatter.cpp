@@ -4,6 +4,6 @@ using namespace std;
 using namespace ansi;
 
 int main() {
-    cout << format("Ng", FG_BLUE, UNDERLINE) << format("Yao Zong", BG_YELLOW) << endl;
+    cout << format("Yen", FG_BLUE, BG_WHITE) << format("Zhang", UNDERLINE, BG_RED) << endl;
     return 0;
 }

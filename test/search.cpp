@@ -5,8 +5,8 @@ using namespace std;
 vector<string> split(string text, char delimiter);
 
 int main() {
-    string text = "Benjamin Thio is a gay.";
-    string stringified_keywords = "Benjimin";
+    string text = "Developing of an IoT Based Smart Parking System";
+    string stringified_keywords = "Develop";
     char delimiter = ' ';
     vector<string> keywords = split(stringified_keywords, delimiter);
     vector<string> text_segments = split(text, delimiter);
@@ -32,6 +32,7 @@ int main() {
 
                     identical_streak_counter = 0;
                 }
+                cout << highest_identical_streaks << endl;
             }
             float similarity = identical_counter / text_segment.length() * 100;
             float partial_similarity = identical_counter / keyword.length() * 100;

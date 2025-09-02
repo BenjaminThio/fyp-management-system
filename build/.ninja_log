@@ -1,0 +1,8 @@
+# ninja log v6
+38	76	7785095268843697	C:/Users/User/Documents/hell/fyp-management-system/build/CMakeFiles/cmake.verify_globs	e467e7d81b41fe57
+78	7303	7785095269217243	CMakeFiles/simdjson.dir/Unity/unity_0_cxx.cxx.obj	62dc9dd5c56deb97
+7312	7724	7785095341585452	libsimdjson.a	8d5431f31b678315
+93	9116	7785095269398521	CMakeFiles/main.dir/Unity/unity_1_cxx.cxx.obj	1e18bba60ef9855f
+85	9869	7785095269315144	CMakeFiles/main.dir/Unity/unity_2_cxx.cxx.obj	fbb2cf56cb800003
+101	26045	7785095269458587	CMakeFiles/main.dir/Unity/unity_0_cxx.cxx.obj	852900977841413c
+26046	26696	7785095528927625	main.exe	39b5550f45694607

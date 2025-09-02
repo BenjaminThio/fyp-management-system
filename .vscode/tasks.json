@@ -2,56 +2,41 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Compile simdjson to .o",
+            "label": "CMake Configure + Build",
             "type": "shell",
-            "command": "g++",
+            "command": "cmake",
             "args": [
-                "-std=c++17",
-                "-Iinclude",
-                "-c",
-                "libs/simdjson.cpp",
-                "-o",
-                "build/simdjson.o"
+                "-S", ".",
+                "-B", "build",
+                "-G", "Ninja"
             ],
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": "build"
+            "problemMatcher": []
         },
         {
-            "label": "Full Build (compile + link)",
+            "label": "CMake Build",
             "type": "shell",
-            "command": "${workspaceFolder}\\build_all.bat",
-            "windows": {
-                "command": "${workspaceFolder}\\build_all.bat"
-            },
-            "problemMatcher": [
-                "$gcc"
+            "command": "cmake",
+            "args": [
+                "--build", "build",
+                "-j8"
             ],
-            "dependsOn": [
-                "Compile simdjson to .o"
-            ],
+            "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
+            },
+            "dependsOn": ["CMake Configure + Build"]
         },
         {
-            "label": "Build current test to exe",
+            "label": "CMake: Run Tests",
             "type": "shell",
-            "command": "g++",
+            "command": "ctest",
             "args": [
-                "-std=c++17",
-                "-Iinclude",
-                "${file}",
-                "build\\simdjson.o",
-                "-o",
-                "build\\${fileBasenameNoExtension}.exe"
+                "--test-dir", "${workspaceFolder}/build",
+                "-V"
             ],
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": "build"
+            "group": "test",
+            "problemMatcher": []
         }
     ]
 }

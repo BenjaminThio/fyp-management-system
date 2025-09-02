@@ -128,7 +128,7 @@ class json {
             return get<string>(value);
         }
 
-        string parse_string(const size_t indent = 0, const bool left_trim = false) const {
+        string parse_string(const size_t indent = 0, const bool left_trim = false, bool destringify = false) const {
             ostringstream oss;
             string indent_str(indent, ' ');
 
@@ -137,7 +137,7 @@ class json {
             else if (holds_alternative<bool>(value)) oss << boolalpha << get<bool>(value);
             else if (holds_alternative<int64_t>(value)) oss << get<int64_t>(value);
             else if (holds_alternative<double>(value)) oss << fixed << setprecision(6) << get<double>(value);
-            else if (holds_alternative<string>(value)) oss << '"' << get<string>(value) << '"';
+            else if (holds_alternative<string>(value)) oss << (destringify ? "" : "\"") << get<string>(value) << (destringify ? "" : "\"");
             else if (holds_alternative<list>(value)) {
                 const list l = get<list>(value);
 

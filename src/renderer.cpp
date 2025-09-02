@@ -1,3 +1,4 @@
+#include <windows.h>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -14,13 +15,16 @@
 #include "console/page.h"
 #include "auth/page.h"
 #include "fyp_view/page.h"
+#include "create_edit/page.h"
 #include "input.h"
+#include "wishlist/page.h"
 #include <array>
 using namespace std;
 using namespace magic_enum;
 using namespace simdjson;
 
 void render_page() {
+    SetConsoleOutputCP(CP_UTF8);
     ostringstream renderer;
     array<int, 2> manual_input_cursor_pos = { -1, -1 };
 
@@ -34,19 +38,29 @@ void render_page() {
             break;
         }
         case static_cast<int>(Page::FYP_LIST): {
-            fyp::push_frame(renderer);
+            fyp::push_frame(renderer, manual_input_cursor_pos);
             break;
         }
         case static_cast<int>(Page::CONSOLE): {
             console::push_frame(renderer);
             break;
         }
+        case static_cast<int>(Page::LOGIN):
         case static_cast<int>(Page::SIGN_UP): {
-            sign_up::push_frame(renderer, manual_input_cursor_pos);
+            auth::subpage = static_cast<int>(page) - 2;
+            auth::push_frame(renderer, manual_input_cursor_pos);
+            break;
+        }
+        case static_cast<int>(Page::CREATE_EDIT): {
+            create_edit_fyp::push_frame(renderer, manual_input_cursor_pos);
             break;
         }
         case static_cast<int>(Page::FYP_VIEW): {
             fyp_view::push_frame(renderer);
+            break;
+        }
+        case static_cast<int>(Page::WISHLIST): {
+            wishlist::push_frame(renderer);
             break;
         }
         default: {

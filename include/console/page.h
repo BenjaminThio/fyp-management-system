@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sstream>
+#include "json.h"
 using namespace std;
 
 namespace console {

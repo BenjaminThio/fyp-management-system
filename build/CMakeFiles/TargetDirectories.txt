@@ -1,0 +1,4 @@
+C:/Users/User/Documents/hell/fyp-management-system/build/CMakeFiles/simdjson.dir
+C:/Users/User/Documents/hell/fyp-management-system/build/CMakeFiles/main.dir
+C:/Users/User/Documents/hell/fyp-management-system/build/CMakeFiles/edit_cache.dir
+C:/Users/User/Documents/hell/fyp-management-system/build/CMakeFiles/rebuild_cache.dir

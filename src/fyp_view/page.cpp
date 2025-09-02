@@ -21,10 +21,7 @@ namespace fyp_view {
                     break;
                 }
                 case static_cast<int>(Key::ESCAPE): {
-                    page = previous_page;
-
-                    render_page();
-                    play_sound("squeak");
+                    return_page();
                     break;
                 }
             }

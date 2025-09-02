@@ -1,6 +1,7 @@
 #include <string>
 #include <sstream>
 #include <conio.h>
+#include <array>
 #include "json.h"
 #include "database.h"
 #include "uuid_v4.h"
@@ -10,27 +11,54 @@
 #include "renderer.h"
 #include "audio.h"
 #include "renderer.h"
+#include "text_formatter.h"
+#include "input.h"
+#include "terminal.h"
+#include "search.h"
 using namespace std;
+using namespace ansi;
 
 namespace fyp {
     static int selected_option = 0;
     static int unit = 0;
-    static json fyps;
+    static json visible_fyps = json::dictionary{};
+    static string search_field;
+    static int local_caret_pos;
+    static int input_field_view_offset;
+    static int visible_quantity = 20;
+    static int field_length = 30;
 
-    void start() {
-        fyps = load("../data/fyp.json");
+    void caret_handler() {
+        switch (selected_option) {
+            case 0:
+                terminal::show_cursor();
+                return;
+        }
+        terminal::hide_cursor();
     }
 
-    void push_frame(ostringstream& renderer) {
+    void push_frame(ostringstream& renderer, array<int, 2>& manual_cursor_input_pos) {
         switch (unit) {
             case static_cast<int>(Unit::LIST): {
                 size_t counter = 0;
 
-                for (auto& [key, val] : fyps.as_dictionary()) renderer << ((counter++ == selected_option) ? '>' : ' ') << ' ' << val["info"]["name"].parse_string() << endl;
+                renderer << "Search: " << render_input_field(search_field, local_caret_pos, input_field_view_offset, field_length) << endl << endl;
+                if (search_field.length() > 0) {
+                    visible_fyps = json::dictionary{};
+                    for (auto& [key, val] : fyps.as_dictionary()) {
+                        if (search::similar(val["info"]["name"].parse_string(), search_field)) {
+                            visible_fyps[key] = val;
+                        }
+                    }
+                }
+                for (auto& [key, val] : (search_field.length() == 0 ? fyps : visible_fyps).as_dictionary()) {
+                    if (counter < visible_quantity)
+                        renderer << ((counter++ + 1 == selected_option) ? '>' : ' ') << ' ' << val["info"]["name"].parse_string() << endl;
+                }
                 break;
             }
             case static_cast<int>(Unit::VIEW): {
-                renderer << "Title: " << fyps[fyps.keys()[selected_option]]["info"]["name"].parse_string() << endl
+                renderer << "Title: " << (search_field.length() == 0 ? fyps : visible_fyps)[(search_field.length() == 0 ? fyps : visible_fyps).keys()[selected_option - 1]]["info"]["name"].parse_string() << endl
                 << endl
                 << "Description: Testing123... You are gay :)";
                 break;
@@ -40,53 +68,79 @@ namespace fyp {
                 break;
             }
         }
+
+        switch (selected_option) {
+            case 0:
+                manual_cursor_input_pos = { local_caret_pos + 8, 6 };
+                break;
+        }
     }
         
     void keyboard_input_callback() {
-        if (_kbhit()) {
-            int key = _getch();
+        int key = -1;
+        int special_key = -1;
 
-            switch (key) {
-                case 224: {
-                    int special_key = _getch();
+        if (selected_option == 0) {
+            array<int, 2> keyboard_input = input_field(search_field, local_caret_pos, input_field_view_offset, true, 0, field_length);
 
-                    switch (special_key) {
-                        case static_cast<int>(Key::UP): {
-                            if (selected_option - 1 >= 0) {
-                                selected_option--;
-                            } else {
-                                selected_option = fyps.size() - 1;
-                            }
-                            break;
-                        }
-                        case static_cast<int>(Key::DOWN): {
-                            if (selected_option + 1 < fyps.size()) {
-                                selected_option++;
-                            } else {
-                                selected_option = 0;
-                            }
-                            break;
-                        }
-                    }
+            key = keyboard_input[0];
+            special_key = keyboard_input[1];
+        } else if (selected_option > 0) {
+            if (_kbhit()) {
+                key = _getch();
 
-                    render_page();
-                    play_sound("select");
-                    break;
+                switch (key) {
+                    case 0:
+                    case 224:
+                        special_key = _getch();
+                        break;
                 }
-                case static_cast<int>(Key::ENTER): {
-                    unit = static_cast<int>(Unit::VIEW);
+            }
+        }
 
-                    render_page();
-                    play_sound("select");
-                    break;
+        switch (special_key) {
+            case static_cast<int>(Key::UP): {
+                if (selected_option - 1 >= 0) {
+                    selected_option--;
+                } else {
+                    selected_option = (visible_quantity > (search_field.length() == 0 ? fyps : visible_fyps).size() ? (search_field.length() == 0 ? fyps : visible_fyps).size() : visible_quantity); // fyps.size() - 1
                 }
-                case static_cast<int>(Key::ESCAPE): {
-                    page = previous_page;
+                play_sound("squeak");
+                render_page();
+                caret_handler();
+                break;
+            }
+            case static_cast<int>(Key::DOWN): {
+                if (selected_option + 1 <= (visible_quantity > (search_field.length() == 0 ? fyps : visible_fyps).size() ? (search_field.length() == 0 ? fyps : visible_fyps).size() : visible_quantity)) { // selected_option + 1 < fyps.size()
+                    selected_option++;
+                } else {
+                    selected_option = 0;
+                }
+                play_sound("squeak");
+                render_page();
+                caret_handler();
+                break;
+            }
+        }
 
-                    render_page();
-                    play_sound("squeak");
-                    break;
+        switch (key) {
+            case static_cast<int>(Key::ENTER): {
+                switch (selected_option) {
+                    case 0:
+                        break;
+                    default:
+                        unit = static_cast<int>(Unit::VIEW);
+                        
+                        break;
                 }
+
+                render_page();
+                play_sound("select");
+                break;
+            }
+            case static_cast<int>(Key::ESCAPE): {
+                return_page();
+                break;
             }
         }
     }
@@ -135,7 +189,7 @@ namespace fyp {
             "Student Academic Performance Prediction System Using Data Mining Techniques",
             "Intelligent Waste Collection Monitoring System Using IoT and Data Analytics"
         };
-        string owner_uuid = UUIDv4::generate();
+        //string owner_uuid = UUIDv4::generate();
 
         for (const string& title : titles) {
             string project_uuid = UUIDv4::generate();
@@ -148,11 +202,11 @@ namespace fyp {
                     }
                 },
                 { "isPublic", true },
-                { "ownerUUID", owner_uuid },
+                { "ownerUUID", "benjaminthio@utaradmin.com" /* owner_uuid */ },
                 { "wishlistUUIDs", json::list{} }
             };
         }
 
-        save("../../data/fyp.json", j);
+        save("../data/fyp.json", j);
     }
 }

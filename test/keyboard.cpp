@@ -1,8 +1,21 @@
 #include <iostream>
 #include <conio.h>
+#include <thread>
+#include <chrono>
 using namespace std;
 
+bool test = false;
+
+void test1() {
+    cout << test << endl;
+    this_thread::sleep_for(chrono::milliseconds(3000));
+    cout << test << endl;
+}
+
 int main() {
+    thread t(test1);
+
+    t.detach();
     while (true) {
         if (_kbhit()) {
             int key = _getch();
@@ -13,6 +26,7 @@ int main() {
                 cout << "Special Key:" << special_key << endl;
             }
             else {
+                test = true;
                 cout << "Key: " << key << endl;
             }
         }
