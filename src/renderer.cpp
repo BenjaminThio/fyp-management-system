@@ -18,6 +18,7 @@
 #include "create_edit/page.h"
 #include "input.h"
 #include "wishlist/page.h"
+#include "grading/page.h"
 #include <array>
 using namespace std;
 using namespace magic_enum;
@@ -61,6 +62,10 @@ void render_page() {
         }
         case static_cast<int>(Page::WISHLIST): {
             wishlist::push_frame(renderer);
+            break;
+        }
+        case static_cast<int>(Page::GRADING): {
+            grading::push_frame(renderer, manual_input_cursor_pos);
             break;
         }
         default: {

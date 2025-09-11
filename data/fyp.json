@@ -5,7 +5,7 @@
             "description": "TESTING456",
             "name": "Asset Management Mobile Application"
         },
-        "isPublic": true,
+        "isPublic": false,
         "ownerUUID": "benjaminthio@utaradmin.com",
         "wishlistUUIDs": []
 
@@ -27,7 +27,7 @@
             "description": "TESTING456",
             "name": "Student Academic Performance Prediction System Using Data Mining Techniques"
         },
-        "isPublic": true,
+        "isPublic": false,
         "ownerUUID": "benjaminthio@utaradmin.com",
         "wishlistUUIDs": []
 
@@ -93,7 +93,7 @@
             "description": "TESTING456",
             "name": "Intelligent Document Classification System for Automated Bank Loan Approval"
         },
-        "isPublic": true,
+        "isPublic": false,
         "ownerUUID": "benjaminthio@utaradmin.com",
         "wishlistUUIDs": []
 
@@ -104,7 +104,7 @@
             "description": "TESTING456",
             "name": "Self-Hosted Multi-Agent RAG System for Contextual Document Processing"
         },
-        "isPublic": true,
+        "isPublic": false,
         "ownerUUID": "benjaminthio@utaradmin.com",
         "wishlistUUIDs": []
 
@@ -335,7 +335,7 @@
             "description": "TESTING456",
             "name": "Sizing Tool for Solar PV and Battery Systems"
         },
-        "isPublic": true,
+        "isPublic": false,
         "ownerUUID": "benjaminthio@utaradmin.com",
         "wishlistUUIDs": []
 
@@ -346,7 +346,7 @@
             "description": "wowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
             "name": "wowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
         },
-        "isPublic": true,
+        "isPublic": false,
         "ownerUUID": "benjaminthio@utaradmin.com",
         "wishlistUUIDs": []
 
@@ -357,7 +357,7 @@
             "description": "TESTING456",
             "name": "Real-Time Microplastic Detection in Marine Environments Using Edge AI"
         },
-        "isPublic": true,
+        "isPublic": false,
         "ownerUUID": "benjaminthio@utaradmin.com",
         "wishlistUUIDs": []
 

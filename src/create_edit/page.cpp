@@ -18,13 +18,13 @@
 #include "renderer.h"
 #include "terminal.h"
 #include "uuid_v4.h"
-#include "console/page.h"
 using namespace std;
 using namespace ansi;
 using namespace magic_enum;
+using namespace globals;
 
 namespace create_edit_fyp {
-    bool subpage = static_cast<bool>(Subpage::SIGN_UP);
+    bool subpage = static_cast<bool>(Subpage::CREATE);
     static int field_index = 0;
     static array<input_header, 3> inputs = {
         input_header("", 0, 0, 10, 50, 50, false),
@@ -46,7 +46,7 @@ namespace create_edit_fyp {
 
     void push_frame(ostringstream& renderer, array<int, 2>& manual_cursor_input_pos) {
         renderer << generate_table({
-            { " __   _   __    _          _     ___\n( (` | | / /`_ | |\\ |     | | | | |_)\n_)_) |_| \\_\\_/ |_| \\|     \\_\\_/ |_|" },
+            { " __    ___   ____   __   _____  ____ \n/ /`  | |_) | |_   / /\\   | |  | |_  \n\\_\\_, |_| \\ |_|__ /_/--\\  |_|  |_|__"  },
             { 
                 "Title:\n" + render_input_field(inputs[0].field, inputs[0].local_caret_pos, inputs[0].input_field_view_offset, inputs[0].length, inputs[0].error ? BG_RED : BG_WHITE)
             },
@@ -88,9 +88,9 @@ namespace create_edit_fyp {
                     if (field_index - 1 >= 0)
                         field_index--;
                     else
-                        field_index = (subpage ? enum_count<LoginField>() : enum_count<SignUpField>()) - 1;
+                        field_index = (subpage ? enum_count<EditField>() : enum_count<CreateField>()) - 1;
                 } else {
-                    if (field_index + 1 < (subpage ? enum_count<LoginField>() : enum_count<SignUpField>()))
+                    if (field_index + 1 < (subpage ? enum_count<EditField>() : enum_count<CreateField>()))
                         field_index++;
                     else
                         field_index = 0;
@@ -102,9 +102,9 @@ namespace create_edit_fyp {
                 break;
             case static_cast<int>(Key::ENTER):
                 switch (subpage) {
-                    case static_cast<int>(Subpage::SIGN_UP):
+                    case static_cast<int>(Subpage::CREATE):
                         switch (field_index) {
-                            case static_cast<int>(SignUpField::SIGN_UP): {
+                            case static_cast<int>(CreateField::CREATE): {
                                 for (size_t i = 0; i < inputs.size(); i++) 
                                     inputs[i].error = inputs[i].field.length() < inputs[i].min_length || inputs[i].field.length() > inputs[i].max_length;
 
@@ -128,8 +128,8 @@ namespace create_edit_fyp {
                                         {
                                             "info", json::dictionary{
                                                 { "category", "TESTING123" },
-                                                { "description", inputs[0].field },
-                                                { "name", inputs[1].field }
+                                                { "description", inputs[1].field },
+                                                { "name", inputs[0].field }
                                             }
                                         },
                                         { "isPublic", true },
@@ -140,18 +140,16 @@ namespace create_edit_fyp {
 
                                 save("../data/fyp.json", j);
                                 fyps = load("../data/fyp.json");
-                                console::start();
+                                console::refresh_fyps_data();
 
                                 redirect(static_cast<int>(Page::CONSOLE));
                                 break;
                             }
                         }
                         break;
-                    case static_cast<int>(Subpage::LOGIN):
+                    case static_cast<int>(Subpage::EDIT):
                         switch (field_index) {
-                            case static_cast<int>(LoginField::LOGIN):
-                                break;
-                            case static_cast<int>(LoginField::SIGN_UP):
+                            case static_cast<int>(EditField::EDIT):
                                 break;
                         }
                         break;
@@ -173,10 +171,10 @@ namespace create_edit_fyp {
                         if (field_index - 1 >= 0)
                             field_index--;
                         else
-                            field_index = (subpage ? enum_count<LoginField>() : enum_count<SignUpField>()) - 1;
+                            field_index = (subpage ? enum_count<EditField>() : enum_count<CreateField>()) - 1;
                         break;
                     case static_cast<int>(Key::DOWN):
-                        if (field_index + 1 < (subpage ? enum_count<LoginField>() : enum_count<SignUpField>()))
+                        if (field_index + 1 < (subpage ? enum_count<EditField>() : enum_count<CreateField>()))
                             field_index++;
                         else
                             field_index = 0;

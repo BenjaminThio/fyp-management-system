@@ -7,6 +7,9 @@
 #include "C:/Users/User/Documents/hell/fyp-management-system/src/auth/page.cpp"
 
 /* NOLINTNEXTLINE(bugprone-suspicious-include,misc-include-cleaner) */
+#include "C:/Users/User/Documents/hell/fyp-management-system/src/buffer.cpp"
+
+/* NOLINTNEXTLINE(bugprone-suspicious-include,misc-include-cleaner) */
 #include "C:/Users/User/Documents/hell/fyp-management-system/src/console/page.cpp"
 
 /* NOLINTNEXTLINE(bugprone-suspicious-include,misc-include-cleaner) */
@@ -16,11 +19,8 @@
 #include "C:/Users/User/Documents/hell/fyp-management-system/src/database.cpp"
 
 /* NOLINTNEXTLINE(bugprone-suspicious-include,misc-include-cleaner) */
+#include "C:/Users/User/Documents/hell/fyp-management-system/src/dialog_box.cpp"
+
+/* NOLINTNEXTLINE(bugprone-suspicious-include,misc-include-cleaner) */
 #include "C:/Users/User/Documents/hell/fyp-management-system/src/fyp/page.cpp"
-
-/* NOLINTNEXTLINE(bugprone-suspicious-include,misc-include-cleaner) */
-#include "C:/Users/User/Documents/hell/fyp-management-system/src/fyp_view/page.cpp"
-
-/* NOLINTNEXTLINE(bugprone-suspicious-include,misc-include-cleaner) */
-#include "C:/Users/User/Documents/hell/fyp-management-system/src/globals.cpp"
 

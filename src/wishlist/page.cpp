@@ -11,7 +11,12 @@ using namespace std;
 
 namespace wishlist {
     void push_frame(ostringstream& renderer) {
-        vector<vector<string>> wishlist_table = { { "Wishlist Titles" } };
+        if (get_role() == Role::ADMIN) {
+            renderer << "Only students can view their wishlist." << endl;
+            return;
+        }
+
+        vector<vector<string>> wishlist_table = { { "Wishlist Titles", "Status" } };
 
         for (json& id : get_wishlist())
             wishlist_table.push_back({ "⭐️ " + fyps[id.parse_string(0, false, true)]["info"]["name"].parse_string(0, false, true) });

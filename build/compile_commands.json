@@ -1,0 +1,26 @@
+[
+{
+  "directory": "C:/Users/User/Documents/hell/fyp-management-system/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DNOMINMAX -DNORPC -DWIN32_LEAN_AND_MEAN -D_NO_BYTE_DEFINED @CMakeFiles/simdjson.dir/includes_CXX.rsp -g -std=gnu++20 -O0 -g1 -pipe -fdiagnostics-color=always -o CMakeFiles\\simdjson.dir\\Unity\\unity_0_cxx.cxx.obj -c C:\\Users\\User\\Documents\\hell\\fyp-management-system\\build\\CMakeFiles\\simdjson.dir\\Unity\\unity_0_cxx.cxx",
+  "file": "C:/Users/User/Documents/hell/fyp-management-system/build/CMakeFiles/simdjson.dir/Unity/unity_0_cxx.cxx",
+  "output": "CMakeFiles/simdjson.dir/Unity/unity_0_cxx.cxx.obj"
+},
+{
+  "directory": "C:/Users/User/Documents/hell/fyp-management-system/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DNOMINMAX -DNORPC -DWIN32_LEAN_AND_MEAN -D_NO_BYTE_DEFINED @CMakeFiles/main.dir/includes_CXX.rsp -g -std=gnu++20 -O0 -g1 -pipe -fdiagnostics-color=always -o CMakeFiles\\main.dir\\Unity\\unity_2_cxx.cxx.obj -c C:\\Users\\User\\Documents\\hell\\fyp-management-system\\build\\CMakeFiles\\main.dir\\Unity\\unity_2_cxx.cxx",
+  "file": "C:/Users/User/Documents/hell/fyp-management-system/build/CMakeFiles/main.dir/Unity/unity_2_cxx.cxx",
+  "output": "CMakeFiles/main.dir/Unity/unity_2_cxx.cxx.obj"
+},
+{
+  "directory": "C:/Users/User/Documents/hell/fyp-management-system/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DNOMINMAX -DNORPC -DWIN32_LEAN_AND_MEAN -D_NO_BYTE_DEFINED @CMakeFiles/main.dir/includes_CXX.rsp -g -std=gnu++20 -O0 -g1 -pipe -fdiagnostics-color=always -o CMakeFiles\\main.dir\\Unity\\unity_1_cxx.cxx.obj -c C:\\Users\\User\\Documents\\hell\\fyp-management-system\\build\\CMakeFiles\\main.dir\\Unity\\unity_1_cxx.cxx",
+  "file": "C:/Users/User/Documents/hell/fyp-management-system/build/CMakeFiles/main.dir/Unity/unity_1_cxx.cxx",
+  "output": "CMakeFiles/main.dir/Unity/unity_1_cxx.cxx.obj"
+},
+{
+  "directory": "C:/Users/User/Documents/hell/fyp-management-system/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DNOMINMAX -DNORPC -DWIN32_LEAN_AND_MEAN -D_NO_BYTE_DEFINED @CMakeFiles/main.dir/includes_CXX.rsp -g -std=gnu++20 -O0 -g1 -pipe -fdiagnostics-color=always -o CMakeFiles\\main.dir\\Unity\\unity_0_cxx.cxx.obj -c C:\\Users\\User\\Documents\\hell\\fyp-management-system\\build\\CMakeFiles\\main.dir\\Unity\\unity_0_cxx.cxx",
+  "file": "C:/Users/User/Documents/hell/fyp-management-system/build/CMakeFiles/main.dir/Unity/unity_0_cxx.cxx",
+  "output": "CMakeFiles/main.dir/Unity/unity_0_cxx.cxx.obj"
+}
+]

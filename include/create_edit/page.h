@@ -6,21 +6,18 @@ using namespace std;
 
 namespace create_edit_fyp {
     enum class Subpage: int {
-        SIGN_UP,
-        LOGIN
+        CREATE,
+        EDIT
     };
-    enum class LoginField: int {
-        EMAIL,
-        PASSWORD,
-        LOGIN,
-        SIGN_UP
+    enum class CreateField: int {
+        TITLE,
+        DESCRIPTION,
+        CREATE
     };
-    enum class SignUpField: int {
-        USERNAME,
-        PASSWORD,
-        SIGN_UP,
-        EMAIL,
-        LOGIN
+    enum class EditField: int {
+        TITLE,
+        DESCRIPTION,
+        EDIT
     };
 
     extern bool subpage;

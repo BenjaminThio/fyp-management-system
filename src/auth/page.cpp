@@ -18,9 +18,13 @@
 #include "table.h"
 #include "renderer.h"
 #include "terminal.h"
+#include "dialog_box.h"
+#include "console/page.h"
+#include "grading/page.h"
 using namespace std;
 using namespace ansi;
 using namespace magic_enum;
+using namespace globals;
 
 namespace auth {
     bool subpage = static_cast<bool>(Subpage::SIGN_UP);
@@ -40,23 +44,120 @@ namespace auth {
     static bool is_password_visible = false;
 
     void caret_handler() {
-        switch (field_index) {
-            case 0: // 0..2
-            case 1:
-            case 2:
-                terminal::show_cursor();
-                break;
-            case 3: // 3..4
-            case 4:
-                terminal::hide_cursor();
-                break;
+        if (subpage) {
+            switch (field_index) {
+                case 0: // 0..1
+                case 1:
+                    terminal::show_cursor();
+                    break;
+                case 2: // 2..3
+                case 3:
+                    terminal::hide_cursor();
+                    break;
+            }
+        } else {
+            switch (field_index) {
+                case 0: // 0..2
+                case 1:
+                case 2:
+                    terminal::show_cursor();
+                    break;
+                case 3: // 3..4
+                case 4:
+                    terminal::hide_cursor();
+                    break;
+            }
+        }
+    }
+
+    static void sign_up() {
+        const regex username_regex(R"(^[a-zA-Z]+(?: [a-zA-Z]+)*{8,32}$)");
+
+        if (!regex_match(inputs[0].field, username_regex))
+            inputs[0].error = true;
+        else
+            inputs[0].error = false;
+
+        const regex password_pattern(R"(^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~`!@#$%^&*()_\-+={[}\]|\\:;"'<,>.?\/])[^\s]{8,32}$)");
+        
+        if (!regex_match(inputs[1].field, password_pattern))
+            inputs[1].error = true;
+        else
+            inputs[1].error = false;
+
+        const regex email_pattern(R"(^[0-9a-zA-Z]{6,32}@utar(student|admin).com?)");
+
+        if (!regex_match(inputs[2].field, email_pattern))
+            inputs[2].error = true;
+        else
+            inputs[2].error = false;
+
+        for (const input_header& input : inputs) {
+            if (input.error) {
+                render_page();
+                return;
+            }
+        }
+
+        json j = load("../data/user.json");
+        json session = load("../data/session.json");
+
+        if (j.contains(json(inputs[2].field))) {
+            return;
+        }
+
+        if (j.is_null()) j = json::dictionary{};
+
+        if (j.is_dictionary()) {
+            j[inputs[2].field] = json::dictionary{
+                { "fyps", json::list{} },
+                {
+                    "info", json::dictionary{
+                        { "username", inputs[0].field },
+                        { "password", inputs[1].field },
+                        { "email", inputs[2].field }
+                    }
+                }
+            };
+        } else throw runtime_error("The user data is not a dictionary.");
+        session["sessionId"] = inputs[2].field;
+
+        save("../data/user.json", j);
+        save("../data/session.json", session);
+        update_data();
+
+        redirect(static_cast<int>(Page::HOME));
+    }
+
+    static void login() {
+        json users = load("../data/user.json");
+
+        if (users.contains(inputs[0].field)) {
+            if (users[inputs[0].field]["info"]["password"].parse_string(0, false, true) == inputs[1].field) {
+                json session = load("../data/session.json");
+
+                session["sessionId"] = inputs[0].field;
+                save("../data/session.json", session);
+                update_data();
+
+                if (get_role() == Role::ADMIN) {
+                    console::refresh_fyps_data();
+                    grading::start();
+                }
+
+                redirect(static_cast<int>(Page::HOME));
+            } else {
+                dialog::error_message("Invalid password!");
+            }
+        } else {
+            dialog::error_message("Email not found!");
         }
     }
 
     void push_frame(ostringstream& renderer, array<int, 2>& manual_cursor_input_pos) {
         renderer << (
         subpage ? generate_table({
-            { "" },
+            { " __   _   __    _          _   _     \n( (` | | / /`_ | |\\ |     | | | |\\ | \n_)_) |_| \\_\\_/ |_| \\|     |_| |_| \\|" },
             {
                 "Email:\n" + render_input_field(inputs[0].field, inputs[0].local_caret_pos, inputs[0].input_field_view_offset, inputs[0].length, inputs[0].error ? BG_RED : BG_WHITE), generate_table({
                     { "No.", "Guidelines" },
@@ -170,58 +271,7 @@ namespace auth {
                     case static_cast<int>(Subpage::SIGN_UP):
                         switch (field_index) {
                             case static_cast<int>(SignUpField::SIGN_UP): {
-                                const regex username_regex(R"(^[a-zA-Z]+(?: [a-zA-Z]+)*{8,32}$)");
-
-                                if (!regex_match(inputs[0].field, username_regex))
-                                    inputs[0].error = true;
-                                else
-                                    inputs[0].error = false;
-
-                                const regex password_pattern(R"(^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~`!@#$%^&*()_\-+={[}\]|\\:;"'<,>.?\/])[^\s]{8,32}$)");
-                                
-                                if (!regex_match(inputs[1].field, password_pattern))
-                                    inputs[1].error = true;
-                                else
-                                    inputs[1].error = false;
-
-                                const regex email_pattern(R"(^[0-9a-zA-Z]{6,32}@utar(student|admin).com?)");
-
-                                if (!regex_match(inputs[2].field, email_pattern))
-                                    inputs[2].error = true;
-                                else
-                                    inputs[2].error = false;
-
-                                for (const input_header& input : inputs) {
-                                    if (input.error) {
-                                        render_page();
-                                        return;
-                                    }
-                                }
-
-                                json j = load("../data/user.json");
-
-                                if (j.contains(json(inputs[2].field))) {
-                                    return;
-                                }
-
-                                if (j.is_null()) j = json::dictionary{};
-
-                                if (j.is_dictionary()) {
-                                    j[inputs[2].field] = json::dictionary{
-                                        { "fyps", json::list{} },
-                                        {
-                                            "info", json::dictionary{
-                                                { "username", inputs[0].field },
-                                                { "password", inputs[1].field },
-                                                { "email", inputs[2].field }
-                                            }
-                                        }
-                                    };
-                                } else throw runtime_error("The user data is not a dictionary.");
-
-                                save("../data/user.json", j);
-
-                                redirect(static_cast<int>(Page::HOME));
+                                sign_up();
                                 break;
                             }
                         }
@@ -229,8 +279,7 @@ namespace auth {
                     case static_cast<int>(Subpage::LOGIN):
                         switch (field_index) {
                             case static_cast<int>(LoginField::LOGIN):
-                                break;
-                            case static_cast<int>(LoginField::SIGN_UP):
+                                login();
                                 break;
                         }
                         break;

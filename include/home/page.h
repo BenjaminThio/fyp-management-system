@@ -12,6 +12,28 @@ namespace home {
         LOGIN,
         WISHLIST,
         CREATE_EDIT,
+        GRADING,
+        SUBMIT,
+        TEST,
+        EXIT
+    };
+    enum class UnauthorizedOption: int {
+        SIGN_UP,
+        LOGIN,
+        EXIT
+    };
+    enum class StudentOption: int {
+        FYP_LIST,
+        WISHLIST,
+        SUBMIT,
+        LOG_OUT,
+        EXIT
+    };
+    enum class AdminOption: int {
+        FYP_LIST,
+        CONSOLE,
+        GRADING,
+        LOG_OUT,
         EXIT
     };
 
@@ -20,6 +42,7 @@ namespace home {
     extern bool is_initialized;
     extern map<int, bool> active_tasks;
 
+    void start(void);
     void push_frame(ostringstream& renderer);
     void keyboard_input_callback(void);
 }

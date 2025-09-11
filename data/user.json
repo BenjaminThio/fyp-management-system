@@ -1,22 +1,11 @@
 {
-    "benjamin@utarstudent.com": {
+    "benjaminthio@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "benjamin@utarstudent.com",
-            "password": "benBEN123!@#",
+            "email": "benjaminthio@utaradmin.com",
+            "password": "asdfghASDFG123!@#$",
             "username": "Benjamin Thio Zi Liang"
-        },
-        "wishlist": []
-    },
-    "benjaminthio@utarstudent.com": {
-        "fyps": []
-,
-        "info": {
-            "email": "benjaminthio@utarstudent.com",
-            "password": "benBEN123!@#",
-            "username": "Thio Zi Liang"
-        },
-        "wishlist": ["f9125f18-c5e0-499c-bc35-4ea7616bd803", "fd9c7bb7-b353-4c6f-9cac-383b67ae1c95"]
+        }
     }
 }

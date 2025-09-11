@@ -9,6 +9,7 @@
 #include "auth/page.h"
 #include "create_edit/page.h"
 #include "wishlist/page.h"
+#include "grading/page.h"
 #include "typing.h"
 
 using namespace std;
@@ -37,6 +38,7 @@ void detect_keyboard_input() {
         case static_cast<int>(Page::LOGIN):
         case static_cast<int>(Page::CREATE_EDIT):
         case static_cast<int>(Page::WISHLIST):
+        case static_cast<int>(Page::GRADING):
             if (home::is_initialized) home::is_initialized = false;
 
             switch (page) {
@@ -62,8 +64,10 @@ void detect_keyboard_input() {
                     break;
                 }
                 case static_cast<int>(Page::WISHLIST):
-                    
                     wishlist::keyboard_input_callback();
+                    break;
+                case static_cast<int>(Page::GRADING):
+                    grading::keyboard_input_callback();
                     break;
             }
             break;

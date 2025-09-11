@@ -17,6 +17,15 @@ void set_input_cursor_position(int x, int y) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
+string render_static_input_field_t(const string& input, const size_t length) {
+    if (input.length() < length)
+        return input + string(length - input.length(), ' ');
+    else if (input.length() == length)
+        return input;
+    else
+        return input.substr(0, length - 1) + "…"; // "...";
+}
+
 string render_static_input_field(const string& input, const size_t length, const TextFormat& bg_color, const TextFormat& fg_color) {
     if (input.length() < length)
         return format(input + string(length - input.length(), ' '), bg_color, fg_color);
@@ -33,6 +42,94 @@ string render_input_field(const string& input, const int local_caret_pos, const 
         return format(input, bg_color, fg_color);
     else
         return format(input.substr(input_field_view_offset, input_field_view_offset + local_caret_pos < length || input_field_view_offset + local_caret_pos > length ? length : input_field_view_offset + local_caret_pos), bg_color, fg_color);
+}
+
+array<int, 2> int_input_field(string& input, int& local_caret_pos, int& input_field_view_offset, const size_t max_length, const size_t length, size_t max_value) {
+    int key = -1;
+    int special_key = -1;
+
+    if (_kbhit()) {
+        key = _getch();
+
+        switch (key) {
+            case 0:
+            case 224: {
+                special_key = _getch();
+
+                switch (special_key) {
+                    case (static_cast<int>(Key::LEFT)):
+                    case (static_cast<int>(Key::RIGHT)):
+                        switch (special_key) {
+                            case (static_cast<int>(Key::LEFT)):
+                                if (local_caret_pos - 1 >= 0)
+                                    local_caret_pos--;
+                                else if (input_field_view_offset - 1 >= 0)
+                                    input_field_view_offset--;
+                                break;
+                            case (static_cast<int>(Key::RIGHT)):
+                                if (local_caret_pos + 1 <= (input.length() < length ? input.length() : length))
+                                    local_caret_pos++;
+                                else if (local_caret_pos + input_field_view_offset + 1 <= input.length())
+                                    input_field_view_offset++;
+                                break;
+                        }
+
+                        render_page();
+                        break;
+                }
+                break;
+            }
+            default:
+                if (key >= 33 && key <= 126) {
+                    string temp_input = input;
+
+                    temp_input.insert(input_field_view_offset + local_caret_pos, 1, (char)key);
+                    temp_input = to_string(stoi(temp_input));
+
+                    if (max_length == 0 || max_length > 0 && temp_input.size() <= max_length) {
+                        size_t prev_size = input.size();
+                        input.insert(input_field_view_offset + local_caret_pos, 1, (char)key);
+
+                        if (max_value > 0 && stoi(input) > max_value) {
+                            input = to_string(max_value);
+                        }
+
+                        if (prev_size == to_string(stoi(input)).size()) {
+                            input = to_string(stoi(input));
+                        } else {
+                            if (local_caret_pos + 1 <= length)
+                                local_caret_pos++;
+                            else if (local_caret_pos + input_field_view_offset + 1 <= input.length())
+                                input_field_view_offset++;
+                        }
+
+                        render_page();
+                    }
+                } else {
+                    switch (key) {
+                        case static_cast<int>(Key::BACKSPACE):
+                            if (input_field_view_offset - 1 >= 0 || local_caret_pos - 1 >= 0) {
+                                input.erase(input_field_view_offset + local_caret_pos - 1, 1);
+
+                                if (input == "")
+                                    input = "0";
+                                else {
+                                    if (input_field_view_offset - 1 >= 0)
+                                        input_field_view_offset--;
+                                    else if (local_caret_pos - 1 >= 0)
+                                        local_caret_pos--;
+                                }
+
+                                render_page();
+                            }
+                            break;
+                    }
+                }
+                break;
+        }
+    }
+
+    return { key, special_key };
 }
 
 array<int, 2> input_field(string& input, int& local_caret_pos, int& input_field_view_offset, bool allow_spaces, const size_t max_length, const size_t length) {

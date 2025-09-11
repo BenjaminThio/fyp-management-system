@@ -6,9 +6,11 @@ file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/Users/User/Documents/hell/
 set(OLD_GLOB
   "C:/Users/User/Documents/hell/fyp-management-system/src/audio.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/auth/page.cpp"
+  "C:/Users/User/Documents/hell/fyp-management-system/src/buffer.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/console/page.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/create_edit/page.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/database.cpp"
+  "C:/Users/User/Documents/hell/fyp-management-system/src/dialog_box.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/fyp/page.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/fyp_view/page.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/globals.cpp"

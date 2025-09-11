@@ -10,12 +10,16 @@
 #include "audio.h"
 #include "fyp/page.h"
 #include "console/page.h"
+#include "grading/page.h"
 #include "terminal.h"
 using namespace std;
 
 int main() {
-    start();
-    console::start();
+    update_data();
+    if (is_authorized()) {
+        console::refresh_fyps_data();
+        grading::start();
+    }
 
     // terminal::maximize_window();
     terminal::hide_cursor();

@@ -45,7 +45,7 @@ double round_dec(double value, int dec) {
 }
 
 int main() {
-    cout << stringify_rounded_dec(1.375, 3) << endl;
+    cout << round_sf(1.67890, 3) << endl;
 
     return 0;
 }

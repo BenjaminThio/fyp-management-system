@@ -12,8 +12,7 @@ namespace auth {
     enum class LoginField: int {
         EMAIL,
         PASSWORD,
-        LOGIN,
-        SIGN_UP
+        LOGIN
     };
     enum class SignUpField: int {
         USERNAME,

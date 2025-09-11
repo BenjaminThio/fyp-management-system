@@ -5,53 +5,68 @@
 #include "utils.h"
 using namespace std;
 
-/*
-static string strip_ansi(const string& s) {
-    string out;
-    out.reserve(s.size());
-    size_t i = 0;
-    while (i < s.size()) {
-        if (s[i] == '\x1b') {
-            ++i;
-            if (i < s.size() && s[i] == '[') ++i;
-            while (i < s.size() && s[i] != 'm') ++i;
-            if (i < s.size() && s[i] == 'm') ++i;
-        } else out.push_back(s[i++]);
-    }
-    return out;
-}
-*/
+static std::pair<std::string, size_t> next_utf8_char(const std::string& input, size_t raw_pos) {
+    unsigned char c = input[raw_pos];
+    size_t len = 1;
 
-static string strip_ansi(const string& s) {
-    string out;
-    out.reserve(s.size());
+    if ((c & 0x80) == 0x00) {
+        len = 1; // ASCII
+    } else if ((c & 0xE0) == 0xC0) {
+        len = 2;
+    } else if ((c & 0xF0) == 0xE0) {
+        len = 3;
+    } else if ((c & 0xF8) == 0xF0) {
+        len = 4;
+    } else {
+        throw std::runtime_error("Invalid UTF-8 sequence");
+    }
+
+    return {input.substr(raw_pos, len), raw_pos + len};
+}
+
+static std::string strip_ansi(const std::string& s) {
+    std::string out;
     size_t i = 0;
+
     while (i < s.size()) {
         if (s[i] == '\x1b') {
-            ++i;
+            i++;
             if (i < s.size() && s[i] == '[') {
-                ++i;
-                while (i < s.size() && (s[i] < 0x40 || s[i] > 0x7E))
-                    ++i;
-                if (i < s.size()) ++i;
+                i++;
+                while (i < s.size() && (s[i] < 0x40 || s[i] > 0x7E)) i++;
+                if (i < s.size()) i++;
             }
         } else {
-            // skip Unicode ellipsis (U+2026) if present
-            unsigned char c = s[i];
-            if (c == 0xE2 && i + 2 < s.size() &&
-                (unsigned char)s[i+1] == 0x80 &&
-                (unsigned char)s[i+2] == 0xA6) {
-                i += 2; // skip '…'
-            } else {
-                out.push_back(s[i++]);
-            }
+            auto [ch, next_pos] = next_utf8_char(s, i);
+            out += ch;
+            i = next_pos;
         }
     }
     return out;
 }
 
-static size_t visible_length(const string& s) {
-    return strip_ansi(s).length();
+static size_t visible_length(const std::string& s) {
+    size_t length = 0;
+    size_t i = 0;
+
+    while (i < s.size()) {
+        if (s[i] == '\x1b') {
+            // Skip ANSI escape sequence
+            i++;
+            if (i < s.size() && s[i] == '[') {
+                i++;
+                while (i < s.size() && (s[i] < 0x40 || s[i] > 0x7E)) i++;
+                if (i < s.size()) i++; // consume final command char
+            }
+        } else {
+            // Count one Unicode character
+            auto [ch, next_pos] = next_utf8_char(s, i);
+            length++;
+            i = next_pos;
+        }
+    }
+
+    return length;
 }
 
 string generate_table(vector<vector<string>> table) {
