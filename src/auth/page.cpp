@@ -71,6 +71,14 @@ namespace auth {
     }
 
     static void sign_up() {
+        json j = load("../data/user.json");
+
+        if (j.contains(json(inputs[2].field))) {
+            dialog::warning_message("Account existed! Sign in instead?");
+            redirect(static_cast<int>(Page::LOGIN), "select", true);
+            return;
+        }
+
         const regex username_regex(R"(^[a-zA-Z]+(?: [a-zA-Z]+)*{8,32}$)");
 
         if (!regex_match(inputs[0].field, username_regex))
@@ -78,16 +86,16 @@ namespace auth {
         else
             inputs[0].error = false;
 
-        const regex password_pattern(R"(^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~`!@#$%^&*()_\-+={[}\]|\\:;"'<,>.?\/])[^\s]{8,32}$)");
-        
-        if (!regex_match(inputs[1].field, password_pattern))
+        const regex email_pattern(R"(^[0-9a-zA-Z]{6,32}@utar(student|admin).com?)");
+
+        if (!regex_match(inputs[1].field, email_pattern))
             inputs[1].error = true;
         else
             inputs[1].error = false;
 
-        const regex email_pattern(R"(^[0-9a-zA-Z]{6,32}@utar(student|admin).com?)");
-
-        if (!regex_match(inputs[2].field, email_pattern))
+        const regex password_pattern(R"(^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~`!@#$%^&*()_\-+={[}\]|\\:;"'<,>.?\/])[^\s]{8,32}$)");
+        
+        if (!regex_match(inputs[2].field, password_pattern))
             inputs[2].error = true;
         else
             inputs[2].error = false;
@@ -99,34 +107,32 @@ namespace auth {
             }
         }
 
-        json j = load("../data/user.json");
         json session = load("../data/session.json");
-
-        if (j.contains(json(inputs[2].field))) {
-            return;
-        }
 
         if (j.is_null()) j = json::dictionary{};
 
         if (j.is_dictionary()) {
-            j[inputs[2].field] = json::dictionary{
+            j[inputs[1].field] = json::dictionary{
                 { "fyps", json::list{} },
                 {
                     "info", json::dictionary{
                         { "username", inputs[0].field },
-                        { "password", inputs[1].field },
-                        { "email", inputs[2].field }
+                        { "password", inputs[2].field },
+                        { "email", inputs[1].field }
                     }
                 }
             };
+            if (is_student(inputs[1].field)) {
+                j[inputs[1].field]["wishlist"] = json::list{};
+            }
         } else throw runtime_error("The user data is not a dictionary.");
-        session["sessionId"] = inputs[2].field;
+        session["sessionId"] = inputs[1].field;
 
         save("../data/user.json", j);
         save("../data/session.json", session);
         update_data();
 
-        redirect(static_cast<int>(Page::HOME));
+        redirect(static_cast<int>(Page::HOME), "select", true);
     }
 
     static void login() {
@@ -145,7 +151,7 @@ namespace auth {
                     grading::start();
                 }
 
-                redirect(static_cast<int>(Page::HOME));
+                redirect(static_cast<int>(Page::HOME), "select", true);
             } else {
                 dialog::error_message("Invalid password!");
             }
@@ -186,17 +192,17 @@ namespace auth {
                 })
             },
             {
-                "Password:\n" + render_input_field(is_password_visible ? inputs[1].field : string(inputs[1].field.length(), '*'), inputs[1].local_caret_pos, inputs[1].input_field_view_offset, inputs[1].length, inputs[1].error ? BG_RED : BG_WHITE), generate_table({
+                "Email:\n" + render_input_field(inputs[1].field, inputs[1].local_caret_pos, inputs[1].input_field_view_offset, inputs[1].length, inputs[1].error ? BG_RED : BG_WHITE), generate_table({
                     { "No.", "Guidelines" },
-                    { "1.", "The password must contain at least " + to_string(inputs[1].min_length) + " characters and no more than " + to_string(inputs[1].max_length) + " characters." },
-                    { "2.", "The password must not include the characters..." }
+                    { "1.", "The email must contain at least " + to_string(inputs[1].min_length) + " characters and no more than " + to_string(inputs[1].max_length) + " characters." },
+                    { "2.", "The email must not include the characters..." }
                 })
             },
-            {
-                "Email:\n" + render_input_field(inputs[2].field, inputs[2].local_caret_pos, inputs[2].input_field_view_offset, inputs[2].length, inputs[2].error ? BG_RED : BG_WHITE), generate_table({
+            {   
+                "Password:\n" + render_input_field(is_password_visible ? inputs[2].field : string(inputs[2].field.length(), '*'), inputs[2].local_caret_pos, inputs[2].input_field_view_offset, inputs[2].length, inputs[2].error ? BG_RED : BG_WHITE), generate_table({
                     { "No.", "Guidelines" },
-                    { "1.", "The email must contain at least " + to_string(inputs[2].min_length) + " characters and no more than " + to_string(inputs[2].max_length) + " characters." },
-                    { "2.", "The email must not include the characters..." }
+                    { "1.", "The password must contain at least " + to_string(inputs[2].min_length) + " characters and no more than " + to_string(inputs[2].max_length) + " characters." },
+                    { "2.", "The password must not include the characters..." }
                 })
             },
             { (field_index == 3 ? format("Sign Up", UNDERLINE) : "Sign Up") },
@@ -231,7 +237,7 @@ namespace auth {
         int special_key = -1;
 
         if (field_index < 3) {
-            array<int, 2> keyboard_input = input_field(inputs[field_index].field, inputs[field_index].local_caret_pos, inputs[field_index].input_field_view_offset, field_index != 1, inputs[field_index].max_length, inputs[field_index].length);
+            array<int, 2> keyboard_input = input_field(inputs[field_index].field, inputs[field_index].local_caret_pos, inputs[field_index].input_field_view_offset, true /* field_index != 1 */, inputs[field_index].max_length, inputs[field_index].length);
 
             key = keyboard_input[0];
             special_key = keyboard_input[1];
@@ -274,12 +280,20 @@ namespace auth {
                                 sign_up();
                                 break;
                             }
+                            case static_cast<int>(SignUpField::LOGIN):
+                                field_index = 0;
+                                redirect(static_cast<int>(Page::LOGIN), "select", true);
+                                break;
                         }
                         break;
                     case static_cast<int>(Subpage::LOGIN):
                         switch (field_index) {
                             case static_cast<int>(LoginField::LOGIN):
                                 login();
+                                break;
+                            case static_cast<int>(LoginField::SIGN_UP):
+                                field_index = 0;
+                                redirect(static_cast<int>(Page::SIGN_UP), "select", true);
                                 break;
                         }
                         break;

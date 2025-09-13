@@ -6,7 +6,6 @@ using namespace std;
 using namespace ansi;
 
 void set_input_cursor_position(int, int);
-string render_static_input_field_t(const string& input, const size_t length);
 string render_static_input_field(const string& input, const size_t length, const TextFormat& bg_color = BG_WHITE, const TextFormat& fg_color = FG_BLACK);
 string render_input_field(const string& input, const int local_caret_pos, const int input_field_view_offset, const size_t length, const TextFormat& bg_color = BG_WHITE, const TextFormat& fg_color = FG_BLACK);
 array<int, 2> int_input_field(string& input, int& local_caret_pos, int& input_field_view_offset, const size_t max_length, const size_t length, const size_t max_value = 0);

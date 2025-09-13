@@ -1,7 +1,9 @@
 #include <string>
 #include <sstream>
 #include <conio.h>
+#include <algorithm>
 #include <array>
+#include "dialog_box.h"
 #include "json.h"
 #include "database.h"
 #include "uuid_v4.h"
@@ -20,13 +22,15 @@ using namespace ansi;
 
 namespace fyp {
     static int selected_option = 0;
-    static int unit = 0;
+    static int selected_view_option = static_cast<int>(ViewOption::SHORTLIST);
+    static int unit = static_cast<int>(Unit::LIST);
     static json visible_fyps = json::dictionary{};
     static string search_field;
     static int local_caret_pos;
     static int input_field_view_offset;
     static int visible_quantity = 20;
     static int field_length = 30;
+    static bool incognito_mode = false;
 
     void caret_handler() {
         switch (selected_option) {
@@ -35,6 +39,15 @@ namespace fyp {
                 return;
         }
         terminal::hide_cursor();
+    }
+
+    void view(const string& fyp_id) {
+        incognito_mode = true;
+        search_field = "";
+        selected_option = distance(fyps.as_dictionary().begin(), fyps.as_dictionary().find(fyp_id)) + 1;
+        unit = static_cast<int>(Unit::VIEW);
+        caret_handler();
+        render_page();
     }
 
     void push_frame(ostringstream& renderer, array<int, 2>& manual_cursor_input_pos) {
@@ -53,14 +66,23 @@ namespace fyp {
                 }
                 for (auto& [key, val] : (search_field.length() == 0 ? fyps : visible_fyps).as_dictionary()) {
                     if (counter < visible_quantity)
-                        renderer << ((counter++ + 1 == selected_option) ? '>' : ' ') << ' ' << val["info"]["name"].parse_string() << endl;
+                        renderer << ((counter++ + 1 == selected_option) ? '>' : ' ') << ' ' << val["info"]["name"].parse_string(0, false, true) << endl;
                 }
                 break;
             }
             case static_cast<int>(Unit::VIEW): {
-                renderer << "Title: " << (search_field.length() == 0 ? fyps : visible_fyps)[(search_field.length() == 0 ? fyps : visible_fyps).keys()[selected_option - 1]]["info"]["name"].parse_string() << endl
+                string fyp_id = (search_field.length() == 0 ? fyps : visible_fyps).keys()[selected_option - 1];
+                json fyp_data = (search_field.length() == 0 ? fyps : visible_fyps)[fyp_id];
+
+                renderer << "Title: " << fyp_data["info"]["name"].parse_string(0, false, true) << endl
                 << endl
-                << "Description: Testing123... You are gay :)";
+                << "Description:" << endl << fyp_data["info"]["description"].parse_string(0, false, true);
+                
+                if (get_role() == Role::STUDENT) {
+                    renderer << endl
+                    << endl << (user["wishlist"].contains(fyp_id) ? "⭐" : "☆") << ' '
+                    << (selected_view_option == static_cast<int>(ViewOption::SHORTLIST) ? format("Shortlist", UNDERLINE, (user["wishlist"].contains(fyp_id) ? FG_YELLOW : FG_DARK_GRAY)) : "Shortlist");
+                }
                 break;
             }
             default: {
@@ -100,6 +122,11 @@ namespace fyp {
 
         switch (special_key) {
             case static_cast<int>(Key::UP): {
+                switch (unit) {
+                    case static_cast<int>(Unit::VIEW):
+                        return;
+                }
+
                 if (selected_option - 1 >= 0) {
                     selected_option--;
                 } else {
@@ -111,6 +138,11 @@ namespace fyp {
                 break;
             }
             case static_cast<int>(Key::DOWN): {
+                switch (unit) {
+                    case static_cast<int>(Unit::VIEW):
+                        return;
+                }
+
                 if (selected_option + 1 <= (visible_quantity > (search_field.length() == 0 ? fyps : visible_fyps).size() ? (search_field.length() == 0 ? fyps : visible_fyps).size() : visible_quantity)) { // selected_option + 1 < fyps.size()
                     selected_option++;
                 } else {
@@ -125,22 +157,67 @@ namespace fyp {
 
         switch (key) {
             case static_cast<int>(Key::ENTER): {
-                switch (selected_option) {
-                    case 0:
+                switch (unit) {
+                    case static_cast<int>(Unit::LIST):
+                        switch (selected_option) {
+                            case 0:
+                                break;
+                            default:
+                                unit = static_cast<int>(Unit::VIEW);
+                                break;
+                        }
                         break;
-                    default:
-                        unit = static_cast<int>(Unit::VIEW);
-                        
+                    case static_cast<int>(Unit::VIEW):
+                        if (get_role() == Role::ADMIN) return;
+
+                        string fyp_id = (search_field.length() == 0 ? fyps : visible_fyps).keys()[selected_option - 1];
+
+                        if (user["wishlist"].contains(fyp_id)) {
+                            json::list& wishlist_ids = user["wishlist"].as_list();
+                            json::list& pending_ids = fyps[fyp_id]["wishlistPending"].as_list();
+                            json::list& approved_ids = fyps[fyp_id]["wishlistApproved"].as_list();
+                            
+                            wishlist_ids.erase(find(wishlist_ids.begin(), wishlist_ids.end(), json(fyp_id)));
+
+                            if (fyps[fyp_id]["wishlistPending"].contains(user["info"]["email"])) {
+                                pending_ids.erase(find(pending_ids.begin(), pending_ids.end(), user["info"]["email"]));
+                            }
+                            else if (fyps[fyp_id]["wishlistApproved"].contains(user["info"]["email"])) {
+                                approved_ids.erase(find(approved_ids.begin(), approved_ids.end(), user["info"]["email"]));
+                            }
+                        } else {
+                            if (user["wishlist"].size() + 1 > MAX_WISHLIST_AMOUNT) {
+                                dialog::warning_message("Shortlist limit exceeded! You can only add up to " + to_string(MAX_WISHLIST_AMOUNT) + " projects. Please remove some before adding new ones.");
+                                return;
+                            }
+                            user["wishlist"].as_list().push_back(fyp_id);
+                            fyps[fyp_id]["wishlistPending"].as_list().push_back(user["info"]["email"]);
+                        }
+                        update_user();
+                        update_fyps();
                         break;
                 }
-
                 render_page();
                 play_sound("select");
                 break;
             }
             case static_cast<int>(Key::ESCAPE): {
-                return_page();
-                break;
+                if (incognito_mode) {
+                    incognito_mode = false;
+                    selected_option = 0;
+                    unit = static_cast<int>(Unit::LIST);
+                    return_page();
+                    return;
+                }
+                switch (unit) {
+                    case static_cast<int>(Unit::VIEW):
+                        unit = static_cast<int>(Unit::LIST);
+                        render_page();
+                        break;
+                    case static_cast<int>(Unit::LIST):
+                        return_page();
+                        break;
+                }
             }
         }
     }
@@ -203,7 +280,8 @@ namespace fyp {
                 },
                 { "isPublic", true },
                 { "ownerUUID", "benjaminthio@utaradmin.com" /* owner_uuid */ },
-                { "wishlistUUIDs", json::list{} }
+                { "wishlistPending", json::list{} },
+                { "wishlistApproved", json::list{} }
             };
         }
 

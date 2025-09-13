@@ -3,6 +3,8 @@
 #include <iostream>
 #include <conio.h>
 #include <map>
+#include <array>
+#include <cstring>
 #include "magic_enum.hpp"
 #include "home/page.h"
 #include "globals.h"
@@ -16,7 +18,7 @@ using namespace std;
 using namespace magic_enum;
 
 namespace home {
-    static const char* hint_message = "* Press the [Up] and [Down] arrow keys to navigate the selections.\n* Press [Enter] to select.";
+    static array<const char*, 2> hint_messages = { "* Press the [Up] and [Down] arrow keys to navigate the selections.", "* Press [Enter] to select." };
     static int selected_option = 0;
     
     // For typing effect.
@@ -33,16 +35,18 @@ namespace home {
         if (!is_authorized()) {
             renderer
             << frame_chunk << endl << endl
-            << hint_message << endl << endl
+            << hint_messages[0] << endl << hint_messages[1] << endl << endl
             << (selected_option == static_cast<int>(UnauthorizedOption::SIGN_UP) ? '>' : ' ') << " SIGN UP" << endl
             << (selected_option == static_cast<int>(UnauthorizedOption::LOGIN) ? '>' : ' ') << " SIGN IN" << endl
             << (selected_option == static_cast<int>(UnauthorizedOption::EXIT) ? '>' : ' ') << " EXIT";
         } else {
+            string welcome_message = "Welcome " + user["info"]["username"].parse_string(0, false, true) + "!";
+
             if (get_role() == Role::STUDENT) {
                 renderer
                 << frame_chunk << endl << endl
-                << "Welcome " << user["info"]["username"].parse_string(0, false, true) << '!' << string(30, ' ') + " Role: Student" << endl << endl
-                << hint_message << endl << endl
+                << welcome_message << string(strlen(hint_messages[0]) - welcome_message.size() - strlen(" Role: Student") - 1, ' ') + " Role: Student" << endl << endl
+                << hint_messages[0] << endl << hint_messages[1] << endl << endl
                 << (selected_option == static_cast<int>(StudentOption::FYP_LIST) ? '>' : ' ') << " FINAL YEAR PROJECTS LIST" << endl
                 << (selected_option == static_cast<int>(StudentOption::WISHLIST) ? '>' : ' ') << " SHORTLIST" << endl
                 << (selected_option == static_cast<int>(StudentOption::SUBMIT) ? '>' : ' ') << " SUBMIT" << endl
@@ -51,8 +55,8 @@ namespace home {
             } else if (get_role() == Role::ADMIN) {
                 renderer
                 << frame_chunk << endl << endl
-                << "Welcome " << user["info"]["username"].parse_string(0, false, true) << '!' << string(30, ' ') + " Role: Admin" << endl << endl
-                << hint_message << endl << endl
+                << welcome_message << string(strlen(hint_messages[0]) - welcome_message.size() - strlen(" Role: Admin") - 1, ' ') + " Role: Admin" << endl << endl
+                << hint_messages[0] << endl << hint_messages[1] << endl << endl
                 << (selected_option == static_cast<int>(AdminOption::FYP_LIST) ? '>' : ' ') << " FINAL YEAR PROJECTS LIST" << endl
                 << (selected_option == static_cast<int>(AdminOption::CONSOLE) ? '>' : ' ') << " CONSOLE" << endl
                 << (selected_option == static_cast<int>(AdminOption::GRADING) ? '>' : ' ') << " GRADING" << endl
@@ -88,11 +92,11 @@ namespace home {
                             if (selected_option - 1 >= 0) selected_option--;
                             else {
                                 if (!is_authorized()) {
-                                    selected_option = enum_count<UnauthorizedOption>();
+                                    selected_option = enum_count<UnauthorizedOption>() - 1;
                                 } else if (get_role() == Role::STUDENT) {
-                                    selected_option = enum_count<StudentOption>();
+                                    selected_option = enum_count<StudentOption>() - 1;
                                 } else if (get_role() == Role::ADMIN) {
-                                    selected_option = enum_count<AdminOption>();
+                                    selected_option = enum_count<AdminOption>() - 1;
                                 }
                             };
 
@@ -137,10 +141,10 @@ namespace home {
                     if (!is_authorized()) {
                         switch (selected_option) {
                             case static_cast<int>(UnauthorizedOption::SIGN_UP):
-                                redirect(static_cast<int>(Page::SIGN_UP));
+                                redirect(static_cast<int>(Page::SIGN_UP), "select", true);
                                 break;
                             case static_cast<int>(UnauthorizedOption::LOGIN):
-                                redirect(static_cast<int>(Page::LOGIN));
+                                redirect(static_cast<int>(Page::LOGIN), "select", true);
                                 break;
                             case static_cast<int>(UnauthorizedOption::EXIT):
                                 exit(0);
@@ -149,15 +153,16 @@ namespace home {
                         if (get_role() == Role::STUDENT) {
                             switch (selected_option) {
                                 case static_cast<int>(StudentOption::FYP_LIST):
-                                    redirect(static_cast<int>(Page::FYP_LIST));
+                                    redirect(static_cast<int>(Page::FYP_LIST), "select", true);
                                     break;
                                 case static_cast<int>(StudentOption::WISHLIST):
-                                    redirect(static_cast<int>(Page::WISHLIST));
+                                    redirect(static_cast<int>(Page::WISHLIST), "select", true);
                                     break;
                                 case static_cast<int>(StudentOption::SUBMIT):
                                     dialog_box();
                                     break;
                                 case static_cast<int>(StudentOption::LOG_OUT):
+                                    selected_option = 0;
                                     clear_session();
                                     break;
                                 case static_cast<int>(StudentOption::EXIT):
@@ -166,15 +171,16 @@ namespace home {
                         } else if (get_role() == Role::ADMIN) {
                             switch (selected_option) {
                                 case static_cast<int>(AdminOption::FYP_LIST):
-                                    redirect(static_cast<int>(Page::FYP_LIST));
+                                    redirect(static_cast<int>(Page::FYP_LIST), "select", true);
                                     break;
                                 case static_cast<int>(AdminOption::CONSOLE):
-                                    redirect(static_cast<int>(Page::CONSOLE));
+                                    redirect(static_cast<int>(Page::CONSOLE), "select", true);
                                     break;
                                 case static_cast<int>(AdminOption::GRADING):
-                                    redirect(static_cast<int>(Page::GRADING));
+                                    redirect(static_cast<int>(Page::GRADING), "select", true);
                                     break;
                                 case static_cast<int>(AdminOption::LOG_OUT):
+                                    selected_option = 0;
                                     clear_session();
                                     break;
                                 case static_cast<int>(StudentOption::EXIT):

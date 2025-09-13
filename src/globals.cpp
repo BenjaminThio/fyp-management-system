@@ -13,7 +13,7 @@ using namespace std;
 
 string session_id;
 int page = static_cast<int>(Page::HOME);
-vector<int> previous_page;
+vector<int> previous_page = { static_cast<int>(Page::HOME) };
 json user;
 json fyps;
 
@@ -44,20 +44,45 @@ void clear_session() {
     user = nullptr;
 
     save("../data/session.json", j);
+    render_page();
+}
+
+json get_users() {
+    return load("../data/user.json");
 }
 
 json get_user() {
-    json users = load("../data/user.json");
+    json users = get_users();
     
     return users[session_id];
+}
+
+void update_user() {
+    json users = get_users();
+
+    users[user["info"]["email"].parse_string(0, false, true)] = user;
+
+    save("../data/user.json", users);
+}
+
+void update_fyps() {
+    save("../data/fyp.json", fyps);
+}
+
+bool is_student(const string& email) {
+    return email.ends_with(globals::STUDENT_DOMAIN);
+}
+
+bool is_admin(const string& email) {
+    return email.ends_with(globals::ADMIN_DOMAIN);
 }
 
 Role get_role() {
     string user_email = get_user()["info"]["email"].parse_string(0, false, true);
     
-    if (user_email.ends_with(globals::STUDENT_DOMAIN)) {
+    if (is_student(user_email)) {
         return Role::STUDENT;
-    } else if (user_email.ends_with(globals::ADMIN_DOMAIN)) {
+    } else if (is_admin(user_email)) {
         return Role::ADMIN;
     } else {
         throw runtime_error("Unknown role!");
@@ -66,6 +91,16 @@ Role get_role() {
 
 json::list get_wishlist() {
     return user["wishlist"].as_list();
+}
+
+WishlistStatus get_wishlist_status(const json& fyp_id) {
+    if (user["wishlist"].contains(fyp_id)) {
+        if (fyps[fyp_id.parse_string(0, false, true)]["wishlistPending"].contains(user["info"]["email"]))
+            return WishlistStatus::PENDING;
+        else if (fyps[fyp_id.parse_string(0, false, true)]["wishlistApproved"].contains(user["info"]["email"]))
+            return WishlistStatus::APPROVED;
+    }
+    return WishlistStatus::UNKNOWN;
 }
 
 json::dictionary get_fyps() {
@@ -110,5 +145,6 @@ void redirect(int p, const string& snd, const bool incognito_mode) {
 
 void return_page() {
     redirect(previous_page[previous_page.size() - 1], "squeak", true);
-    previous_page.pop_back();
+    if (previous_page.size() > 1)
+        previous_page.pop_back();
 }

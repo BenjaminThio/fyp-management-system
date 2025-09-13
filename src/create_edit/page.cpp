@@ -25,12 +25,18 @@ using namespace globals;
 
 namespace create_edit_fyp {
     bool subpage = static_cast<bool>(Subpage::CREATE);
+    static string id;
     static int field_index = 0;
     static array<input_header, 3> inputs = {
         input_header("", 0, 0, 10, 50, 50, false),
-        input_header("", 0, 0, 10, 50, 50, false)
+        input_header("", 0, 0, 1, 200, 50, false)
     };
     static bool is_password_visible = false;
+
+    void edit(const string& fyp_id) {
+        subpage = static_cast<bool>(Subpage::EDIT);
+        id = fyp_id;
+    }
 
     void caret_handler() {
         switch (field_index) {
@@ -134,7 +140,8 @@ namespace create_edit_fyp {
                                         },
                                         { "isPublic", true },
                                         { "ownerUUID", session_id },
-                                        { "wishlistUUIDs", json::list() }
+                                        { "wishlistPending", json::list() },
+                                        { "wishlistApproved", json::list() }
                                     };
                                 } else throw runtime_error("The fyp data is not a dictionary.");
 

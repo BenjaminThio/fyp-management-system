@@ -17,15 +17,6 @@ void set_input_cursor_position(int x, int y) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
-string render_static_input_field_t(const string& input, const size_t length) {
-    if (input.length() < length)
-        return input + string(length - input.length(), ' ');
-    else if (input.length() == length)
-        return input;
-    else
-        return input.substr(0, length - 1) + "…"; // "...";
-}
-
 string render_static_input_field(const string& input, const size_t length, const TextFormat& bg_color, const TextFormat& fg_color) {
     if (input.length() < length)
         return format(input + string(length - input.length(), ' '), bg_color, fg_color);

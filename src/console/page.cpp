@@ -17,6 +17,7 @@
 #include "utils.h"
 #include "magic_enum.hpp"
 #include "buffer.h"
+#include "fyp/page.h"
 using namespace std;
 using namespace ansi;
 using namespace magic_enum;
@@ -69,6 +70,11 @@ namespace console {
     void push_frame(ostringstream& renderer) {
         if (get_role() == Role::STUDENT) {
             renderer << "Only admins can view the console page." << endl;
+            return;
+        }
+
+        if (authorized_fyps.size() == 0) {
+            renderer << R"(Your console is empty ¯\(ツ)/¯)" << endl << "Press [Enter] to create your first FYP.";
             return;
         }
 
@@ -241,6 +247,7 @@ namespace console {
                                 break;
                             case static_cast<int>(Option::VIEW):
                                 redirect(static_cast<int>(Page::FYP_LIST));
+                                fyp::view(fyp_id);
                                 break;
                             case static_cast<int>(Option::EDIT):
                                 redirect(static_cast<int>(Page::CREATE_EDIT));

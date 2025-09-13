@@ -14,6 +14,13 @@
 #include "terminal.h"
 using namespace std;
 
+/*
+int main() {
+    fyp::create_default_fyp_data();
+    return 0;
+}
+*/
+
 int main() {
     update_data();
     if (is_authorized()) {

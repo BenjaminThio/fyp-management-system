@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <commdlg.h>
 #include <iostream>
+#include <string>
 using namespace std;
 
 LPSTR dialog_box() {
@@ -28,19 +29,19 @@ LPSTR dialog_box() {
 }
 
 namespace dialog {
-    void warning_message(const char* message) {
+    void warning_message(string message) {
         MessageBox(
             NULL,
-            message,
+            message.c_str(),
             "Warning",
             MB_ICONWARNING | MB_OK
         );
     }
 
-    void error_message(const char* message) {
+    void error_message(string message) {
         MessageBox(
             NULL,
-            message,
+            message.c_str(),
             "Error",
             MB_ICONERROR | MB_OK
         );

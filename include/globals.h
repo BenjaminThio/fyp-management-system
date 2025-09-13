@@ -48,6 +48,15 @@ enum class Role: int {
     ADMIN
 };
 
+enum class WishlistStatus: int {
+    PENDING,
+    APPROVED,
+    REJECTED,
+    DISCARDED,
+    UNKNOWN = -1
+};
+
+const int MAX_WISHLIST_AMOUNT = 5;
 extern string session_id;
 extern vector<int> previous_page;
 extern int page;
@@ -57,7 +66,13 @@ extern json fyps;
 bool is_authorized();
 void update_data();
 void clear_session();
+json get_users();
 json get_user();
+void update_user();
+void update_fyps();
+WishlistStatus get_wishlist_status(const json& fyp_id);
+bool is_student(const string& email);
+bool is_admin(const string& email);
 Role get_role();
 json::list get_wishlist();
 json::dictionary get_fyps();
