@@ -12,16 +12,20 @@ namespace create_edit_fyp {
     enum class CreateField: int {
         TITLE,
         DESCRIPTION,
+        ASSIGN_MODERATOR,
         CREATE
     };
     enum class EditField: int {
         TITLE,
         DESCRIPTION,
-        EDIT
+        ASSIGN_MODERATOR,
+        SAVE
     };
 
     extern bool subpage;
 
+    string get_fyp_id();
+    void edit(const string& fyp_id);
     void push_frame(ostringstream& renderer, array<int, 2>& manual_input_cursor_pos);
     void keyboard_input_callback(void);
     void caret_handler(void);

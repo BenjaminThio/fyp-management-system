@@ -7,11 +7,11 @@
         },
         "isPublic": true,
         "ownerUUID": "benjaminthio@utaradmin.com",
-        "wishlistApproved": []
-,
-        "wishlistPending": [
+        "wishlistApproved": [
             "benjaminthio@utarstudent.com"
-        ]
+        ],
+        "wishlistPending": []
+
     },
     "0bc9e603-e30e-41b0-be85-97d8e3e6f831": {
         "info": {
@@ -49,8 +49,9 @@
         "ownerUUID": "benjaminthio@utaradmin.com",
         "wishlistApproved": []
 ,
-        "wishlistPending": []
-
+        "wishlistPending": [
+            "benjaminthio@utarstudent.com"
+        ]
     },
     "256620f6-151c-49c1-ae90-3efcc9942ded": {
         "info": {
@@ -62,9 +63,8 @@
         "ownerUUID": "benjaminthio@utaradmin.com",
         "wishlistApproved": []
 ,
-        "wishlistPending": [
-            "benjaminthio@utarstudent.com"
-        ]
+        "wishlistPending": []
+
     },
     "277c1bbd-7765-4504-bb2c-e8b9c1f32dba": {
         "info": {
@@ -193,6 +193,20 @@
         },
         "isPublic": true,
         "ownerUUID": "benjaminthio@utaradmin.com",
+        "wishlistApproved": []
+,
+        "wishlistPending": []
+
+    },
+    "49f1f23d-d7fb-4be7-ac25-7e4eb81d6e1e": {
+        "info": {
+            "category": "TESTING123",
+            "description": "This is a forbiden love story.",
+            "name": "Teh Yi Fan loves Zen Thye"
+        },
+        "isPublic": true,
+        "moderator": "benjaminthio@utaradmin.com",
+        "ownerUUID": "thiauleng@utaradmin.com",
         "wishlistApproved": []
 ,
         "wishlistPending": []
@@ -402,21 +416,29 @@
         },
         "isPublic": true,
         "ownerUUID": "benjaminthio@utaradmin.com",
-        "wishlistApproved": [],
+        "wishlistApproved": []
+,
         "wishlistPending": []
 
     },
     "b738c225-89ea-4abd-88bf-60bc08db5569": {
         "info": {
             "category": "TESTING123",
-            "description": "Create an augmented reality application.",
-            "name": "Augmented Reality Application"
+            "description": "Edit for testing123!",
+            "name": "Augmented Reality Application456"
         },
         "isPublic": true,
         "ownerUUID": "thiauleng@utaradmin.com",
-        "wishlistApproved": [],
-        "wishlistPending": []
-
+        "wishlistApproved": [
+            "benjaminthio@utarstudent.com",
+            "lawchoonhong@utarstudent.com",
+            "tehyifan@utarstudent.com"
+        ],
+        "wishlistPending": [
+            "lohzenan@utarstudent.com",
+            "ngyaozong@utarstudent.com",
+            "lohzenthye@utarstudent.com"
+        ]
     },
     "b793b29b-5264-49c9-b9e1-9c16ba56e693": {
         "info": {

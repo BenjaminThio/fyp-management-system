@@ -4,6 +4,7 @@
 # SRC_FILES at CMakeLists.txt:65 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/Users/User/Documents/hell/fyp-management-system/src/*.cpp")
 set(OLD_GLOB
+  "C:/Users/User/Documents/hell/fyp-management-system/src/assign_mod/page.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/audio.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/auth/page.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/buffer.cpp"
@@ -21,11 +22,13 @@ set(OLD_GLOB
   "C:/Users/User/Documents/hell/fyp-management-system/src/main.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/renderer.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/search.cpp"
+  "C:/Users/User/Documents/hell/fyp-management-system/src/submit/page.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/table.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/terminal.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/typing.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/utils.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/wishlist/page.cpp"
+  "C:/Users/User/Documents/hell/fyp-management-system/src/wishlist_approval/page.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

@@ -7,6 +7,12 @@
 },
 {
   "directory": "C:/Users/User/Documents/hell/fyp-management-system/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DNOMINMAX -DNORPC -DWIN32_LEAN_AND_MEAN -D_NO_BYTE_DEFINED @CMakeFiles/main.dir/includes_CXX.rsp -g -std=gnu++20 -O0 -g1 -pipe -fdiagnostics-color=always -o CMakeFiles\\main.dir\\Unity\\unity_3_cxx.cxx.obj -c C:\\Users\\User\\Documents\\hell\\fyp-management-system\\build\\CMakeFiles\\main.dir\\Unity\\unity_3_cxx.cxx",
+  "file": "C:/Users/User/Documents/hell/fyp-management-system/build/CMakeFiles/main.dir/Unity/unity_3_cxx.cxx",
+  "output": "CMakeFiles/main.dir/Unity/unity_3_cxx.cxx.obj"
+},
+{
+  "directory": "C:/Users/User/Documents/hell/fyp-management-system/build",
   "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DNOMINMAX -DNORPC -DWIN32_LEAN_AND_MEAN -D_NO_BYTE_DEFINED @CMakeFiles/main.dir/includes_CXX.rsp -g -std=gnu++20 -O0 -g1 -pipe -fdiagnostics-color=always -o CMakeFiles\\main.dir\\Unity\\unity_2_cxx.cxx.obj -c C:\\Users\\User\\Documents\\hell\\fyp-management-system\\build\\CMakeFiles\\main.dir\\Unity\\unity_2_cxx.cxx",
   "file": "C:/Users/User/Documents/hell/fyp-management-system/build/CMakeFiles/main.dir/Unity/unity_2_cxx.cxx",
   "output": "CMakeFiles/main.dir/Unity/unity_2_cxx.cxx.obj"

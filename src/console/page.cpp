@@ -18,13 +18,15 @@
 #include "magic_enum.hpp"
 #include "buffer.h"
 #include "fyp/page.h"
+#include "create_edit/page.h"
+#include "wishlist_approval/page.h"
 using namespace std;
 using namespace ansi;
 using namespace magic_enum;
 
 namespace console {
     static const char* DELETE_LABEL = "DELETE";
-    static const char* WISHLIST_APPROVAL_LABEL = "Wishlist Approval";
+    static const char* WISHLIST_APPROVAL_LABEL = "Shortlist Approval";
     static const int PADDING = 20;
     // static int selected_row = 0;
     // static int selected_option = 0;
@@ -97,7 +99,7 @@ namespace console {
                 ),
                 (collapse ? "View" : (selected_coord.y == i && selected_coord.x == 1) ? format("View", FG_BLACK, BG_GREEN) : format("View", FG_GREEN)),
                 (collapse ? "Edit" : (selected_coord.y == i && selected_coord.x == 2) ? format("Edit", FG_BLACK, BG_YELLOW) : format("Edit", FG_YELLOW)),
-                (collapse ? WISHLIST_APPROVAL_LABEL : (selected_coord.y == i && selected_coord.x == 3) ? format(WISHLIST_APPROVAL_LABEL, FG_BLACK, BG_LIGHT_RED) : format(WISHLIST_APPROVAL_LABEL, FG_LIGHT_RED)),
+                (collapse ? (WISHLIST_APPROVAL_LABEL + get_pending_wishlist_amount(key)) : (selected_coord.y == i && selected_coord.x == 3) ? format((WISHLIST_APPROVAL_LABEL + get_pending_wishlist_amount(key)), FG_BLACK, BG_LIGHT_RED) : format((WISHLIST_APPROVAL_LABEL + get_pending_wishlist_amount(key)), FG_LIGHT_RED)),
                 (collapse ? DELETE_LABEL : (selected_coord.y == i && selected_coord.x == 4) ? format(DELETE_LABEL, FG_BLACK, BG_RED) : format(DELETE_LABEL, FG_RED))
             };
             i++;
@@ -246,13 +248,13 @@ namespace console {
                                 refresh_fyps_data();
                                 break;
                             case static_cast<int>(Option::VIEW):
-                                redirect(static_cast<int>(Page::FYP_LIST));
                                 fyp::view(fyp_id);
                                 break;
                             case static_cast<int>(Option::EDIT):
-                                redirect(static_cast<int>(Page::CREATE_EDIT));
+                                create_edit_fyp::edit(fyp_id);
                                 break;
                             case static_cast<int>(Option::WISHLIST_APPROVAL):
+                                wishlist_approval::wishlist_approval(fyp_id);
                                 break;
                             case static_cast<int>(Option::DELETEE):
                                 break;

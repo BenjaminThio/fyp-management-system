@@ -11,6 +11,9 @@
 #include "wishlist/page.h"
 #include "grading/page.h"
 #include "typing.h"
+#include "wishlist_approval/page.h"
+#include "submit/page.h"
+#include "assign_mod/page.h"
 
 using namespace std;
 
@@ -39,6 +42,9 @@ void detect_keyboard_input() {
         case static_cast<int>(Page::CREATE_EDIT):
         case static_cast<int>(Page::WISHLIST):
         case static_cast<int>(Page::GRADING):
+        case static_cast<int>(Page::WISHLIST_APPROVAL):
+        case static_cast<int>(Page::SUBMIT):
+        case static_cast<int>(Page::ASSIGN_MOD):
             if (home::is_initialized) home::is_initialized = false;
 
             switch (page) {
@@ -68,6 +74,15 @@ void detect_keyboard_input() {
                     break;
                 case static_cast<int>(Page::GRADING):
                     grading::keyboard_input_callback();
+                    break;
+                case static_cast<int>(Page::WISHLIST_APPROVAL):
+                    wishlist_approval::keyboard_input_callback();
+                    break;
+                case static_cast<int>(Page::SUBMIT):
+                    submit::keyboard_input_callback();
+                    break;
+                case static_cast<int>(Page::ASSIGN_MOD):
+                    assign_mod::keyboard_input_callback();
                     break;
             }
             break;

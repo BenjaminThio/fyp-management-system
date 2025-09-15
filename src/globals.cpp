@@ -103,6 +103,27 @@ WishlistStatus get_wishlist_status(const json& fyp_id) {
     return WishlistStatus::UNKNOWN;
 }
 
+string get_pending_wishlist_amount(const string& fyp_id) {
+    if (fyps[fyp_id]["wishlistPending"].size() > 99) {
+        return "[99+]";
+    } else {
+        return "[" + to_string(fyps[fyp_id]["wishlistPending"].size()) + "]";
+    }
+}
+
+vector<json> get_user_approved_fyps() {
+    vector<json> approved_fyps;
+
+    for (auto& [key, val] : fyps.as_dictionary()) {
+        if (val["wishlistApproved"].contains(user["info"]["email"])) {
+            val["id"] = key;
+            approved_fyps.push_back(val);
+        }
+    }
+    
+    return approved_fyps;
+}
+
 json::dictionary get_fyps() {
     json::dictionary authorized_fyps;
 

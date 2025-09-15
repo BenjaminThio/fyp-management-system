@@ -2,9 +2,12 @@
 #include <commdlg.h>
 #include <iostream>
 #include <string>
+#include <filesystem>
 using namespace std;
 
-LPSTR dialog_box() {
+namespace fs = filesystem;
+
+fs::path dialog_box() {
     SetProcessDPIAware();
 
     OPENFILENAME ofn;
@@ -23,9 +26,10 @@ LPSTR dialog_box() {
     ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
     if (GetOpenFileName(&ofn) == TRUE)
-        return ofn.lpstrFile;
-    else 
-        throw runtime_error("No file selected.");
+        return fs::path(ofn.lpstrFile);
+    else
+        return fs::path();
+        // throw runtime_error("No file selected.");
 }
 
 namespace dialog {

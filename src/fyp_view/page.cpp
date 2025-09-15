@@ -16,6 +16,7 @@ namespace fyp_view {
             int key = _getch();
 
             switch (key) {
+                case 0:
                 case 224: {
                     // int special_key = _getch();
                     break;

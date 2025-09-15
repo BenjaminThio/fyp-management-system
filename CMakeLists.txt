@@ -75,6 +75,7 @@ add_library(simdjson STATIC libs/simdjson.cpp)
 
 # main program
 add_executable(main ${SRC_FILES})
+# target_link_libraries(main PRIVATE miniaudio)
 target_link_libraries(main PRIVATE simdjson)
 target_link_libraries(main PRIVATE comdlg32)
 

@@ -1,4 +1,13 @@
 {
+    "benjaminthio@utaradmin.com": {
+        "fyps": []
+,
+        "info": {
+            "email": "benjaminthio@utaradmin.com",
+            "password": "@BenjaminThio123",
+            "username": "Benjamin Thio Zi Liang"
+        }
+    },
     "benjaminthio@utarstudent.com": {
         "fyps": []
 ,
@@ -9,10 +18,70 @@
         },
         "wishlist": [
             "08ec89d4-637c-47cb-9e9d-bc9fa61a657b",
-            "256620f6-151c-49c1-ae90-3efcc9942ded",
             "28e65fba-91b3-44b9-951b-1d7c151aa6cf",
             "330408f0-c46d-42c2-b6ec-d058f61325a2",
-            "53db3c07-27b3-42e6-88f3-9b4962b728e0"
+            "53db3c07-27b3-42e6-88f3-9b4962b728e0",
+            "2032bb58-f8b3-4fdb-9898-65cfb966afc3"
+        ]
+    },
+    "lawchoonhong@utarstudent.com": {
+        "fyps": []
+,
+        "info": {
+            "email": "lawchoonhong@utarstudent.com",
+            "password": "aA1!LawChoonHong",
+            "username": "Law Choon Hong"
+        },
+        "wishlist": [
+            "b738c225-89ea-4abd-88bf-60bc08db5569"
+        ]
+    },
+    "lohzenan@utarstudent.com": {
+        "fyps": []
+,
+        "info": {
+            "email": "lohzenan@utarstudent.com",
+            "password": "aA1!LohZenAn",
+            "username": "Loh Zen An"
+        },
+        "wishlist": [
+            "b738c225-89ea-4abd-88bf-60bc08db5569"
+        ]
+    },
+    "lohzenthye@utarstudent.com": {
+        "fyps": []
+,
+        "info": {
+            "email": "lohzenthye@utarstudent.com",
+            "password": "aA1!LohZenThye",
+            "username": "Loh Zen Thye"
+        },
+        "wishlist": [
+            "b738c225-89ea-4abd-88bf-60bc08db5569"
+        ]
+    },
+    "ngyaozong@utarstudent.com": {
+        "fyps": []
+,
+        "info": {
+            "email": "ngyaozong@utarstudent.com",
+            "password": "aA1!NgYaoZong",
+            "username": "Ng Yao Zong"
+        },
+        "wishlist": [
+            "b738c225-89ea-4abd-88bf-60bc08db5569"
+        ]
+    },
+    "tehyifan@utarstudent.com": {
+        "fyps": []
+,
+        "info": {
+            "email": "tehyifan@utarstudent.com",
+            "password": "aA1!TehYiFan",
+            "username": "Teh Yi Fan"
+        },
+        "wishlist": [
+            "b738c225-89ea-4abd-88bf-60bc08db5569"
         ]
     },
     "thiauleng@utaradmin.com": {

@@ -40,6 +40,9 @@ enum class Page: int {
     CREATE_EDIT,
     WISHLIST,
     GRADING,
+    WISHLIST_APPROVAL,
+    SUBMIT,
+    ASSIGN_MOD,
     NOT_FOUND
 };
 
@@ -70,10 +73,12 @@ json get_users();
 json get_user();
 void update_user();
 void update_fyps();
+string get_pending_wishlist_amount(const string& fyp_id);
 WishlistStatus get_wishlist_status(const json& fyp_id);
 bool is_student(const string& email);
 bool is_admin(const string& email);
 Role get_role();
+vector<json> get_user_approved_fyps();
 json::list get_wishlist();
 json::dictionary get_fyps();
 void redirect(int p, const string& snd = "select", const bool incognito_mode = false);

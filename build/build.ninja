@@ -76,6 +76,14 @@ build libsimdjson.a: CXX_STATIC_LIBRARY_LINKER__simdjson_ CMakeFiles/simdjson.di
 
 build cmake_object_order_depends_target_main: phony || cmake_object_order_depends_target_simdjson
 
+build CMakeFiles/main.dir/Unity/unity_3_cxx.cxx.obj: CXX_COMPILER__main_unscanned_ C$:/Users/User/Documents/hell/fyp-management-system/build/CMakeFiles/main.dir/Unity/unity_3_cxx.cxx || cmake_object_order_depends_target_main
+  DEFINES = -DNOMINMAX -DNORPC -DWIN32_LEAN_AND_MEAN -D_NO_BYTE_DEFINED
+  DEP_FILE = CMakeFiles\main.dir\Unity\unity_3_cxx.cxx.obj.d
+  FLAGS = -std=gnu++20 -pipe -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/User/Documents/hell/fyp-management-system/include
+  OBJECT_DIR = CMakeFiles\main.dir
+  OBJECT_FILE_DIR = CMakeFiles\main.dir\Unity
+
 build CMakeFiles/main.dir/Unity/unity_2_cxx.cxx.obj: CXX_COMPILER__main_unscanned_ C$:/Users/User/Documents/hell/fyp-management-system/build/CMakeFiles/main.dir/Unity/unity_2_cxx.cxx || cmake_object_order_depends_target_main
   DEFINES = -DNOMINMAX -DNORPC -DWIN32_LEAN_AND_MEAN -D_NO_BYTE_DEFINED
   DEP_FILE = CMakeFiles\main.dir\Unity\unity_2_cxx.cxx.obj.d
@@ -108,7 +116,7 @@ build CMakeFiles/main.dir/Unity/unity_0_cxx.cxx.obj: CXX_COMPILER__main_unscanne
 #############################################
 # Link the executable main.exe
 
-build main.exe: CXX_EXECUTABLE_LINKER__main_ CMakeFiles/main.dir/Unity/unity_2_cxx.cxx.obj CMakeFiles/main.dir/Unity/unity_1_cxx.cxx.obj CMakeFiles/main.dir/Unity/unity_0_cxx.cxx.obj | libsimdjson.a || libsimdjson.a
+build main.exe: CXX_EXECUTABLE_LINKER__main_ CMakeFiles/main.dir/Unity/unity_3_cxx.cxx.obj CMakeFiles/main.dir/Unity/unity_2_cxx.cxx.obj CMakeFiles/main.dir/Unity/unity_1_cxx.cxx.obj CMakeFiles/main.dir/Unity/unity_0_cxx.cxx.obj | libsimdjson.a || libsimdjson.a
   LINK_LIBRARIES = libsimdjson.a  -lcomdlg32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\main.dir
   POST_BUILD = cd .

@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/main.dir/Unity/unity_1_cxx.cxx.obj.d"
   "CMakeFiles/main.dir/Unity/unity_2_cxx.cxx.obj"
   "CMakeFiles/main.dir/Unity/unity_2_cxx.cxx.obj.d"
+  "CMakeFiles/main.dir/Unity/unity_3_cxx.cxx.obj"
+  "CMakeFiles/main.dir/Unity/unity_3_cxx.cxx.obj.d"
   "libmain.dll.a"
   "main.exe"
   "main.exe.manifest"

@@ -47,7 +47,7 @@ namespace fyp {
         selected_option = distance(fyps.as_dictionary().begin(), fyps.as_dictionary().find(fyp_id)) + 1;
         unit = static_cast<int>(Unit::VIEW);
         caret_handler();
-        render_page();
+        redirect(static_cast<int>(Page::FYP_LIST));
     }
 
     void push_frame(ostringstream& renderer, array<int, 2>& manual_cursor_input_pos) {
@@ -59,14 +59,14 @@ namespace fyp {
                 if (search_field.length() > 0) {
                     visible_fyps = json::dictionary{};
                     for (auto& [key, val] : fyps.as_dictionary()) {
-                        if (search::similar(val["info"]["name"].parse_string(), search_field)) {
+                        if (search::similar(val["info"]["name"].as_string(), search_field)) {
                             visible_fyps[key] = val;
                         }
                     }
                 }
                 for (auto& [key, val] : (search_field.length() == 0 ? fyps : visible_fyps).as_dictionary()) {
                     if (counter < visible_quantity)
-                        renderer << ((counter++ + 1 == selected_option) ? '>' : ' ') << ' ' << val["info"]["name"].parse_string(0, false, true) << endl;
+                        renderer << ((counter++ + 1 == selected_option) ? '>' : ' ') << ' ' << val["info"]["name"].as_string() << endl;
                 }
                 break;
             }
@@ -74,9 +74,9 @@ namespace fyp {
                 string fyp_id = (search_field.length() == 0 ? fyps : visible_fyps).keys()[selected_option - 1];
                 json fyp_data = (search_field.length() == 0 ? fyps : visible_fyps)[fyp_id];
 
-                renderer << "Title: " << fyp_data["info"]["name"].parse_string(0, false, true) << endl
+                renderer << "Title: " << fyp_data["info"]["name"].as_string() << endl
                 << endl
-                << "Description:" << endl << fyp_data["info"]["description"].parse_string(0, false, true);
+                << "Description:" << endl << fyp_data["info"]["description"].as_string();
                 
                 if (get_role() == Role::STUDENT) {
                     renderer << endl

@@ -18,6 +18,7 @@
 #include "renderer.h"
 #include "terminal.h"
 #include "uuid_v4.h"
+#include "assign_mod/page.h"
 using namespace std;
 using namespace ansi;
 using namespace magic_enum;
@@ -28,14 +29,24 @@ namespace create_edit_fyp {
     static string id;
     static int field_index = 0;
     static array<input_header, 3> inputs = {
-        input_header("", 0, 0, 10, 50, 50, false),
-        input_header("", 0, 0, 1, 200, 50, false)
+        input_header("", 0, 0, 10, 123, 123, false),
+        input_header("", 0, 0, 1, 130, 130, false)
     };
     static bool is_password_visible = false;
+
+    string get_fyp_id() {
+        return id;
+    }
 
     void edit(const string& fyp_id) {
         subpage = static_cast<bool>(Subpage::EDIT);
         id = fyp_id;
+        inputs[0].field = fyps[fyp_id]["info"]["name"].as_string();
+        inputs[0].local_caret_pos = fyps[fyp_id]["info"]["name"].as_string().size();
+        inputs[1].field = fyps[fyp_id]["info"]["description"].as_string();
+        inputs[1].local_caret_pos = fyps[fyp_id]["info"]["description"].as_string().size();
+        caret_handler();
+        redirect(static_cast<int>(Page::CREATE_EDIT));
     }
 
     void caret_handler() {
@@ -51,16 +62,34 @@ namespace create_edit_fyp {
     }
 
     void push_frame(ostringstream& renderer, array<int, 2>& manual_cursor_input_pos) {
-        renderer << generate_table({
-            { " __    ___   ____   __   _____  ____ \n/ /`  | |_) | |_   / /\\   | |  | |_  \n\\_\\_, |_| \\ |_|__ /_/--\\  |_|  |_|__"  },
-            { 
+        renderer << (subpage ?
+        generate_table({
+            { " ____  ___   _  _____ \n| |_  | | \\ | |  | |  \n|_|__ |_|_/ |_|  |_|"  },
+            {
                 "Title:\n" + render_input_field(inputs[0].field, inputs[0].local_caret_pos, inputs[0].input_field_view_offset, inputs[0].length, inputs[0].error ? BG_RED : BG_WHITE)
             },
             {
                 "Description:\n" + render_input_field(inputs[1].field, inputs[1].local_caret_pos, inputs[1].input_field_view_offset, inputs[1].length, inputs[2].error ? BG_RED : BG_WHITE)
             },
-            { (field_index == 2 ? format("Create", UNDERLINE) : "Create") },
-        });
+            {
+                "Assigned Moderator:\n" + format( (fyps[id].contains(json("moderator")) ? fyps[id]["moderator"].as_string() : "None"), FG_BLACK, (field_index == 2 ? BG_GREEN : BG_WHITE))
+            },
+            { (field_index == 3 ? format("Save", UNDERLINE) : "Save") }
+        })
+        :
+        generate_table({
+            { " __    ___   ____   __   _____  ____ \n/ /`  | |_) | |_   / /\\   | |  | |_  \n\\_\\_, |_| \\ |_|__ /_/--\\  |_|  |_|__"  },
+            {
+                "Title:\n" + render_input_field(inputs[0].field, inputs[0].local_caret_pos, inputs[0].input_field_view_offset, inputs[0].length, inputs[0].error ? BG_RED : BG_WHITE)
+            },
+            {
+                "Description:\n" + render_input_field(inputs[1].field, inputs[1].local_caret_pos, inputs[1].input_field_view_offset, inputs[1].length, inputs[2].error ? BG_RED : BG_WHITE)
+            },
+            {
+                "Assigned Moderator:\n" + format( (fyps[id].contains(json("moderator")) ? fyps[id]["moderator"].as_string() : "None"), FG_BLACK, (field_index == 2 ? BG_GREEN : BG_WHITE))
+            },
+            { (field_index == 3 ? format("Create", UNDERLINE) : "Create") }
+        }));
 
         if (field_index < 2)
             manual_cursor_input_pos = { inputs[field_index].local_caret_pos + 1, (field_index * 3) + 12 };
@@ -152,11 +181,24 @@ namespace create_edit_fyp {
                                 redirect(static_cast<int>(Page::CONSOLE));
                                 break;
                             }
+                            case static_cast<int>(CreateField::ASSIGN_MODERATOR):
+                                assign_mod::refresh_admins();
+                                redirect(static_cast<int>(Page::ASSIGN_MOD));
+                                break;
                         }
                         break;
                     case static_cast<int>(Subpage::EDIT):
                         switch (field_index) {
-                            case static_cast<int>(EditField::EDIT):
+                            case static_cast<int>(EditField::SAVE):
+                                fyps[id]["info"]["name"] = inputs[0].field;
+                                fyps[id]["info"]["description"] = inputs[1].field;
+                                update_fyps();
+                                console::refresh_fyps_data();
+                                return_page();
+                                break;
+                            case static_cast<int>(EditField::ASSIGN_MODERATOR):
+                                assign_mod::refresh_admins();
+                                redirect(static_cast<int>(Page::ASSIGN_MOD));
                                 break;
                         }
                         break;

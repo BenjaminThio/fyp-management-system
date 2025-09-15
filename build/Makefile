@@ -217,6 +217,30 @@ Unity/unity_2_cxx.cxx.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/Unity/unity_2_cxx.cxx.s
 .PHONY : Unity/unity_2_cxx.cxx.s
 
+Unity/unity_3_cxx.obj: Unity/unity_3_cxx.cxx.obj
+.PHONY : Unity/unity_3_cxx.obj
+
+# target to build an object file
+Unity/unity_3_cxx.cxx.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/Unity/unity_3_cxx.cxx.obj
+.PHONY : Unity/unity_3_cxx.cxx.obj
+
+Unity/unity_3_cxx.i: Unity/unity_3_cxx.cxx.i
+.PHONY : Unity/unity_3_cxx.i
+
+# target to preprocess a source file
+Unity/unity_3_cxx.cxx.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/Unity/unity_3_cxx.cxx.i
+.PHONY : Unity/unity_3_cxx.cxx.i
+
+Unity/unity_3_cxx.s: Unity/unity_3_cxx.cxx.s
+.PHONY : Unity/unity_3_cxx.s
+
+# target to generate assembly for a file
+Unity/unity_3_cxx.cxx.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/Unity/unity_3_cxx.cxx.s
+.PHONY : Unity/unity_3_cxx.cxx.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -236,6 +260,9 @@ help:
 	@echo ... Unity/unity_2_cxx.obj
 	@echo ... Unity/unity_2_cxx.i
 	@echo ... Unity/unity_2_cxx.s
+	@echo ... Unity/unity_3_cxx.obj
+	@echo ... Unity/unity_3_cxx.i
+	@echo ... Unity/unity_3_cxx.s
 .PHONY : help
 
 

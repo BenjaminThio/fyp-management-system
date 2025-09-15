@@ -13,6 +13,7 @@
 #include "audio.h"
 #include "terminal.h"
 #include "dialog_box.h"
+#include "submit/page.h"
 
 using namespace std;
 using namespace magic_enum;
@@ -118,7 +119,7 @@ namespace home {
                                         selected_option++;
                                     else
                                         selected_option = 0;
-                                }else if (get_role() == Role::ADMIN) {
+                                } else if (get_role() == Role::ADMIN) {
                                     if (selected_option + 1 < enum_count<AdminOption>())
                                         selected_option++;
                                     else
@@ -159,7 +160,9 @@ namespace home {
                                     redirect(static_cast<int>(Page::WISHLIST), "select", true);
                                     break;
                                 case static_cast<int>(StudentOption::SUBMIT):
-                                    dialog_box();
+                                    submit::refresh_approved_fyps();
+                                    redirect(static_cast<int>(Page::SUBMIT), "select", true);
+                                    // dialog_box();
                                     break;
                                 case static_cast<int>(StudentOption::LOG_OUT):
                                     selected_option = 0;

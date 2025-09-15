@@ -41,14 +41,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "main::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-main-Debug-220a5da3776d9f10025d.json",
+					"jsonFile" : "target-main-Debug-0fe1bfa91a61f4def43c.json",
 					"name" : "main",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "simdjson::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-simdjson-Debug-398240a3ac88a9e12d1b.json",
+					"jsonFile" : "target-simdjson-Debug-ac0f0bcb772b1dc654d1.json",
 					"name" : "simdjson",
 					"projectIndex" : 0
 				}
