@@ -2,8 +2,11 @@
 #define GLOBALS_H
 #include <string>
 #include <vector>
+#include <filesystem>
 #include "json.h"
 using namespace std;
+
+namespace fs = filesystem;
 
 namespace globals {
     struct input_header {
@@ -43,6 +46,7 @@ enum class Page: int {
     WISHLIST_APPROVAL,
     SUBMIT,
     ASSIGN_MOD,
+    VIEW_SUBMISSION,
     NOT_FOUND
 };
 
@@ -59,6 +63,8 @@ enum class WishlistStatus: int {
     UNKNOWN = -1
 };
 
+fs::path get_exe_dir();
+const fs::path DESTINATION = get_exe_dir().parent_path() / "data";
 const int MAX_WISHLIST_AMOUNT = 5;
 extern string session_id;
 extern vector<int> previous_page;

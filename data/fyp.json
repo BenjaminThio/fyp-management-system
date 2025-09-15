@@ -1,5 +1,6 @@
 {
     "08ec89d4-637c-47cb-9e9d-bc9fa61a657b": {
+        "id": "08ec89d4-637c-47cb-9e9d-bc9fa61a657b",
         "info": {
             "category": "TESTING123",
             "description": "TESTING456",
@@ -49,9 +50,8 @@
         "ownerUUID": "benjaminthio@utaradmin.com",
         "wishlistApproved": []
 ,
-        "wishlistPending": [
-            "benjaminthio@utarstudent.com"
-        ]
+        "wishlistPending": []
+
     },
     "256620f6-151c-49c1-ae90-3efcc9942ded": {
         "info": {
@@ -205,7 +205,7 @@
             "name": "Teh Yi Fan loves Zen Thye"
         },
         "isPublic": true,
-        "moderator": "benjaminthio@utaradmin.com",
+        "moderator": "lckang@utaradmin.com",
         "ownerUUID": "thiauleng@utaradmin.com",
         "wishlistApproved": []
 ,
@@ -422,22 +422,24 @@
 
     },
     "b738c225-89ea-4abd-88bf-60bc08db5569": {
+        "id": "b738c225-89ea-4abd-88bf-60bc08db5569",
         "info": {
             "category": "TESTING123",
             "description": "Edit for testing123!",
             "name": "Augmented Reality Application456"
         },
         "isPublic": true,
+        "moderator": "behhc@utaradmin.com",
         "ownerUUID": "thiauleng@utaradmin.com",
         "wishlistApproved": [
             "benjaminthio@utarstudent.com",
-            "lawchoonhong@utarstudent.com",
-            "tehyifan@utarstudent.com"
+            "tehyifan@utarstudent.com",
+            "lohzenan@utarstudent.com",
+            "ngyaozong@utarstudent.com"
         ],
         "wishlistPending": [
-            "lohzenan@utarstudent.com",
-            "ngyaozong@utarstudent.com",
-            "lohzenthye@utarstudent.com"
+            "lohzenthye@utarstudent.com",
+            "lawchoonhong@utarstudent.com"
         ]
     },
     "b793b29b-5264-49c9-b9e1-9c16ba56e693": {

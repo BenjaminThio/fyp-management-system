@@ -1,3 +1,4 @@
+#include <windows.h>
 #include "globals.h"
 #include "terminal.h"
 #include "renderer.h"
@@ -18,6 +19,13 @@ json user;
 json fyps;
 
 // sessionId: "benjaminthio@utarstudent.com"
+
+fs::path get_exe_dir() {
+    char buffer[MAX_PATH];
+    GetModuleFileNameA(NULL, buffer, MAX_PATH);
+
+    return fs::path(buffer).parent_path();
+}
 
 bool is_authorized() {
     json j = load("../data/session.json");

@@ -11,6 +11,7 @@
 #include "text_formatter.h"
 #include "input.h"
 #include "terminal.h"
+#include "view_submission/page.h"
 using namespace std;
 using namespace ansi;
 
@@ -39,13 +40,19 @@ namespace grading {
             { "FYP 2 Effort (5%)" }
         }
     };
-    static array<vector<array<input_header, 2>>, 2> inputs = {
-        vector<array<input_header, 2>>{
+    static array<vector<vector<input_header>>, 4> inputs = {
+        vector<vector<input_header>>{
+            { input_header("View FYP 1", 0, 0, 0, 10, 10, false, 0) }
+        },
+        vector<vector<input_header>>{
             { input_header("0", 1, 0, 0, 2, 2, false, 15), input_header("0", 1, 0, 0, 2, 2, false, 15) },
             { input_header("0", 1, 0, 0, 2, 2, false, 10), input_header("0", 1, 0, 0, 2, 2, false, 10) },
             { input_header("0", 1, 0, 0, 1, 1, false, 5), input_header("0", 1, 0, 0, 1, 1, false, 5) }
         },
-        vector<array<input_header, 2>>{
+        vector<vector<input_header>>{
+            { input_header("View FYP 2", 1, 0, 0, 10, 10, false, 0) }
+        },
+        vector<vector<input_header>>{
             { input_header("0", 1, 0, 0, 2, 2, false, 20), input_header("0", 1, 0, 0, 2, 2, false, 20) },
             { input_header("0", 1, 0, 0, 2, 2, false, 35), input_header("0", 1, 0, 0, 2, 2, false, 35) },
             { input_header("0", 1, 0, 0, 2, 2, false, 10), input_header("0", 1, 0, 0, 2, 2, false, 10) },
@@ -78,12 +85,23 @@ namespace grading {
     
     void start() {
         for (size_t z = 0; z < inputs.size(); z++) {
+            if (z == 0 || z == 2) continue;
             for (size_t y = 0; y < inputs[z].size(); y++) {
+                int normalized_z = 0;
+
+                switch (z) {
+                    case 1:
+                        normalized_z = 0;
+                        break;
+                    case 3:
+                        normalized_z = 1;
+                        break;
+                }
                 for (auto& header : inputs[z][y]) {
                     // tables[z][y + 1].push_back("TESTING123");
-                    tables[z][y + 1].push_back(render_input_field(header.field, header.local_caret_pos, header.input_field_view_offset, header.length) + "%");
+                    tables[normalized_z][y + 1].push_back(render_input_field(header.field, header.local_caret_pos, header.input_field_view_offset, header.length) + "%");
                 }
-                tables[z][y + 1].push_back(to_string((stod(inputs[z][y][0].field) + stod(inputs[z][y][1].field)) / 2) + "%");
+                tables[normalized_z][y + 1].push_back(to_string((stod(inputs[z][y][0].field) + stod(inputs[z][y][1].field)) / 2) + "%");
             }
         }
     }
@@ -93,7 +111,47 @@ namespace grading {
     }
 
     static void caret_handler() {
-        focus && field_coord.z < inputs.size() ? terminal::show_cursor() : terminal::hide_cursor();
+        focus && field_coord.z < inputs.size() && field_coord.z != 0 && field_coord.z != 2 ? terminal::show_cursor() : terminal::hide_cursor();
+    }
+
+    static pair<string, size_t> next_utf8_char(const string& input, size_t raw_pos) {
+        unsigned char c = input[raw_pos];
+        size_t len = 1;
+
+        if ((c & 0x80) == 0x00) {
+            len = 1; // ASCII
+        } else if ((c & 0xE0) == 0xC0) {
+            len = 2;
+        } else if ((c & 0xF0) == 0xE0) {
+            len = 3;
+        } else if ((c & 0xF8) == 0xF0) {
+            len = 4;
+        } else {
+            throw runtime_error("Invalid UTF-8 sequence");
+        }
+
+        return {input.substr(raw_pos, len), raw_pos + len};
+    }
+
+    static string strip_ansi(const string& s) {
+        string out;
+        size_t i = 0;
+
+        while (i < s.size()) {
+            if (s[i] == '\x1b') {
+                i++;
+                if (i < s.size() && s[i] == '[') {
+                    i++;
+                    while (i < s.size() && (s[i] < 0x40 || s[i] > 0x7E)) i++;
+                    if (i < s.size()) i++;
+                }
+            } else {
+                auto [ch, next_pos] = next_utf8_char(s, i);
+                out += ch;
+                i = next_pos;
+            }
+        }
+        return out;
     }
 
     void push_frame(ostringstream& renderer, array<int, 2>& manual_cursor_input_pos) {
@@ -102,14 +160,25 @@ namespace grading {
         caret_handler();
 
         for (size_t z = 0; z < inputs.size(); z++) {
+            if (z == 0 || z == 2) continue;
             for (size_t y = 0; y < inputs[z].size(); y++) {
                 ostringstream oss; 
                 double score = (stod(inputs[z][y][0].field) + stod(inputs[z][y][1].field)) / 2;
+                int normalized_z = 0;
+
+                switch (z) {
+                    case 1:
+                        normalized_z = 0;
+                        break;
+                    case 3:
+                        normalized_z = 1;
+                        break;
+                }
 
                 for (size_t x = 0; x < inputs[z][y].size(); x++) {
                     input_header header = inputs[z][y][x];
 
-                    tables[z][y + 1][x + 1] = render_input_field(
+                    tables[normalized_z][y + 1][x + 1] = render_input_field(
                         header.field,
                         header.local_caret_pos,
                         header.input_field_view_offset,
@@ -119,16 +188,32 @@ namespace grading {
 
                 oss << fixed << setprecision(2) << score;
                 total_marks += score;
-                tables[z][y + 1][3] = oss.str() + "%";
+                tables[normalized_z][y + 1][3] = oss.str() + "%";
             }
         }
 
         double cgpa = marks_to_cgpa(total_marks);
-
         renderer
-        << generate_table(tables[0])
-        << endl
-        << generate_table(tables[1])
+        << (
+        view_submission::get_submitter().contains(json("fyp_1_id"))
+        ?
+        "Title: " + fyps[view_submission::get_submitter()["fyp_1_id"].as_string()]["info"]["name"].as_string()
+        + "\nID: " + view_submission::get_submitter()["fyp_1_id"].as_string() + "\n"
+        + render_static_input_field(inputs[0][0][0].field, inputs[0][0][0].length, (field_coord.z == 0 ? BG_GREEN : BG_WHITE)) + (field_coord.z == 0 ? " 👁" : "") + "\n"
+        + generate_table(tables[0])
+        :
+        format(strip_ansi("Title: None\nID: None\n" + render_static_input_field(inputs[0][0][0].field, inputs[0][0][0].length, (field_coord.z == 0 ? BG_GREEN : BG_WHITE)) + (field_coord.z == 0 ? " 👁" : "") + "\n" + generate_table(tables[0])), FG_DARK_GRAY)
+        ) << endl
+        << (
+        view_submission::get_submitter().contains(json("fyp_2_id"))
+        ?
+        "Title: " + fyps[view_submission::get_submitter()["fyp_2_id"].as_string()]["info"]["name"].as_string()
+        + "\nID: " + view_submission::get_submitter()["fyp_2_id"].as_string() + "\n"
+        + render_static_input_field(inputs[2][0][0].field, inputs[2][0][0].length, (field_coord.z == 2 ? BG_GREEN : BG_WHITE)) + (field_coord.z == 2 ? " 👁" : "") + "\n"
+        + generate_table(tables[1])
+        :
+        format(strip_ansi("Title: None\nID: None\n" + render_static_input_field(inputs[2][0][0].field, inputs[2][0][0].length, (field_coord.z == 2 ? BG_GREEN : BG_WHITE)) + (field_coord.z == 2 ? " 👁" : "") + "\n" + generate_table(tables[1])), FG_DARK_GRAY)
+        ) << endl
         // << '(' << field_coord.x << ',' << field_coord.y << ',' << field_coord.z << ')' << endl
         << "Final Marks: " << total_marks << '%' << endl
         << "CGPA: " << fixed << setprecision(2) << cgpa << endl
@@ -136,7 +221,7 @@ namespace grading {
         << endl
         << (field_coord.z == inputs.size() ? format("Save", UNDERLINE) : "Save");
 
-        if (focus && field_coord.z < inputs.size())
+        if (focus && field_coord.z < inputs.size() && field_coord.z != 0 && field_coord.z != 2)
             manual_cursor_input_pos = { 26 + (field_coord.x * 11) + inputs[field_coord.z][field_coord.y][field_coord.x].local_caret_pos, 9 + (field_coord.y * 2) + (field_coord.z * 10) };
     }
 
@@ -144,7 +229,7 @@ namespace grading {
         int key = -1;
         int special_key = -1;
 
-        if (focus && field_coord.z < inputs.size()) {
+        if (focus && field_coord.z < inputs.size() && field_coord.z != 0 && field_coord.z != 2) {
             input_header& input = inputs[field_coord.z][field_coord.y][field_coord.x];
             array<int, 2> keyboard_input = int_input_field(input.field, input.local_caret_pos, input.input_field_view_offset, input.max_length, input.length, input.max_value);
             key = keyboard_input[0];
@@ -162,7 +247,7 @@ namespace grading {
 
         switch (key) {
             case static_cast<int>(Key::ENTER):
-                if (field_coord.z < inputs.size()) {
+                if (field_coord.z < inputs.size() && field_coord.z != 0 && field_coord.z != 2) {
                     focus = !focus;
                 } else {
                     // TODO: Save student's grade.
@@ -211,7 +296,7 @@ namespace grading {
                             }
                             break;
                         case static_cast<int>(Key::LEFT):
-                            if (field_coord.z >= inputs.size()) {
+                            if (field_coord.z >= inputs.size() || field_coord.z == 0 || field_coord.z == 2) {
                                 return;
                             }
 
@@ -222,7 +307,7 @@ namespace grading {
                             }
                             break;
                         case static_cast<int>(Key::RIGHT):
-                            if (field_coord.z >= inputs.size()) {
+                            if (field_coord.z >= inputs.size() || field_coord.z == 0 || field_coord.z == 2) {
                                 return;
                             }
 

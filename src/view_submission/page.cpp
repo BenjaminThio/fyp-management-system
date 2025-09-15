@@ -1,19 +1,20 @@
 #include <sstream>
 #include <conio.h>
 #include <array>
+#include <filesystem>
 #include "keyboard.h"
 #include "globals.h"
 #include "renderer.h"
 #include "input.h"
-#include "terminal.h"
 #include "database.h"
 #include "search.h"
-#include "create_edit/page.h"
 using namespace std;
 
-namespace assign_mod {
-    static json admins = json::dictionary{};
-    static json visible_admins = json::dictionary{};
+namespace fs = filesystem;
+
+namespace view_submission {
+    static json submitters = json::dictionary{};
+    static json visible_submitters = json::dictionary{};
     static int selected_option = 0;
     static string search_field;
     static int local_caret_pos;
@@ -21,12 +22,27 @@ namespace assign_mod {
     static int visible_quantity = 20;
     static int field_length = 30;
 
-    void refresh_admins() {
-        json j = load("../data/user.json");
+    json get_submitter() {
+        return (search_field.length() == 0 ? submitters : visible_submitters)[(search_field.length() == 0 ? submitters : visible_submitters).keys()[selected_option - 1]];
+    }
 
-        for (auto& [key, val] : j.as_dictionary()) {
-            if (is_admin(key) && val["info"]["email"].as_string() != user["info"]["email"].as_string()) {
-                admins[key] = val;
+    void refresh_submitters() {
+        for (auto& [key, val] : fyps.as_dictionary()) {
+            if (val["wishlistApproved"].size() == 0) continue;
+
+            for (json& email : val["wishlistApproved"].as_list()) {
+                fs::path destination = DESTINATION / fs::path(email.as_string());
+
+                if (fs::exists(destination) && !fs::is_empty(destination)) {
+                    submitters[email.as_string()] = get_users()[email.as_string()];
+                    if (!submitters[email.as_string()].contains(json("fyp_1_id"))) {
+                        submitters[email.as_string()]["fyp_1_id"] = json(key);
+                    } else if (!submitters[email.as_string()].contains(json("fyp_2_id"))) {
+                        submitters[email.as_string()]["fyp_2_id"] = json(key);
+                    } else {
+                        continue;
+                    }
+                }
             }
         }
     }
@@ -44,18 +60,18 @@ namespace assign_mod {
         renderer << "Search: " << render_input_field(search_field, local_caret_pos, input_field_view_offset, field_length) << endl << endl;
 
         if (search_field.length() > 0) {
-            visible_admins = json::dictionary{};
+            visible_submitters = json::dictionary{};
             
-            for (auto& [key, val] : admins.as_dictionary()) {
+            for (auto& [key, val] : submitters.as_dictionary()) {
                 if (search::similar(val["info"]["username"].as_string() + " " + val["info"]["email"].as_string(), search_field)) {
-                    visible_admins[key] = val;
+                    visible_submitters[key] = val;
                 }
             }
         }
 
         size_t counter = 0;
 
-        for (auto& [key, val] : (search_field.length() == 0 ? admins : visible_admins).as_dictionary()) {
+        for (auto& [key, val] : (search_field.length() == 0 ? submitters : visible_submitters).as_dictionary()) {
             if (counter < visible_quantity) {
                 renderer << ((counter++ + 1 == selected_option) ? '>' : ' ') << ' ' << val["info"]["username"].as_string() << endl;
             }
@@ -96,7 +112,7 @@ namespace assign_mod {
                 if (selected_option - 1 >= 0) {
                     selected_option--;
                 } else {
-                    selected_option = (visible_quantity > (search_field.length() == 0 ? admins : visible_admins).size() ? (search_field.length() == 0 ? admins : visible_admins).size() : visible_quantity);
+                    selected_option = (visible_quantity > (search_field.length() == 0 ? submitters : visible_submitters).size() ? (search_field.length() == 0 ? submitters : visible_submitters).size() : visible_quantity);
                 }
                 // play_sound("squeak");
                 render_page();
@@ -104,7 +120,7 @@ namespace assign_mod {
                 break;
             }
             case static_cast<int>(Key::DOWN): {
-                if (selected_option + 1 <= (visible_quantity > (search_field.length() == 0 ? admins : visible_admins).size() ? (search_field.length() == 0 ? admins : visible_admins).size() : visible_quantity)) {
+                if (selected_option + 1 <= (visible_quantity > (search_field.length() == 0 ? submitters : visible_submitters).size() ? (search_field.length() == 0 ? submitters : visible_submitters).size() : visible_quantity)) {
                     selected_option++;
                 } else {
                     selected_option = 0;
@@ -122,9 +138,7 @@ namespace assign_mod {
                     case 0:
                         return;
                 }
-                fyps[create_edit_fyp::get_fyp_id()]["moderator"] = (search_field.length() == 0 ? admins : visible_admins).keys()[selected_option - 1];
-                update_fyps();
-                return_page();
+                redirect(static_cast<int>(Page::GRADING));
                 break;
             }
             case static_cast<int>(Key::ESCAPE): {

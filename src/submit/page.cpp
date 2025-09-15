@@ -17,14 +17,6 @@ using namespace ansi;
 namespace fs = filesystem;
 
 namespace submit {
-    fs::path get_exe_dir() {
-        char buffer[MAX_PATH];
-        GetModuleFileNameA(NULL, buffer, MAX_PATH);
-
-        return fs::path(buffer).parent_path();
-    }
-
-    static const fs::path DESTINATION = get_exe_dir().parent_path() / "data";
     static coord_2d selected_coord = { 1, 0 };
     static vector<json> approved_fyps;
 

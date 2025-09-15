@@ -22,5 +22,5 @@
 #include "C:/Users/User/Documents/hell/fyp-management-system/src/utils.cpp"
 
 /* NOLINTNEXTLINE(bugprone-suspicious-include,misc-include-cleaner) */
-#include "C:/Users/User/Documents/hell/fyp-management-system/src/wishlist/page.cpp"
+#include "C:/Users/User/Documents/hell/fyp-management-system/src/view_submission/page.cpp"
 

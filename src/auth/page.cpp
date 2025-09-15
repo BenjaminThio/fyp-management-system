@@ -86,7 +86,7 @@ namespace auth {
         else
             inputs[0].error = false;
 
-        const regex email_pattern(R"(^[0-9a-zA-Z]{6,32}@utar(student|admin).com?)");
+        const regex email_pattern(R"(^[0-9a-zA-Z]{5,32}@utar(student|admin).com?)");
 
         if (!regex_match(inputs[1].field, email_pattern))
             inputs[1].error = true;

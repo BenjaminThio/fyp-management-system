@@ -5,7 +5,7 @@
 #include "utils.h"
 using namespace std;
 
-static std::pair<std::string, size_t> next_utf8_char(const std::string& input, size_t raw_pos) {
+static pair<string, size_t> next_utf8_char(const string& input, size_t raw_pos) {
     unsigned char c = input[raw_pos];
     size_t len = 1;
 
@@ -18,14 +18,14 @@ static std::pair<std::string, size_t> next_utf8_char(const std::string& input, s
     } else if ((c & 0xF8) == 0xF0) {
         len = 4;
     } else {
-        throw std::runtime_error("Invalid UTF-8 sequence");
+        throw runtime_error("Invalid UTF-8 sequence");
     }
 
     return {input.substr(raw_pos, len), raw_pos + len};
 }
 
-static std::string strip_ansi(const std::string& s) {
-    std::string out;
+static string strip_ansi(const string& s) {
+    string out;
     size_t i = 0;
 
     while (i < s.size()) {
@@ -45,7 +45,7 @@ static std::string strip_ansi(const std::string& s) {
     return out;
 }
 
-static size_t visible_length(const std::string& s) {
+static size_t visible_length(const string& s) {
     size_t length = 0;
     size_t i = 0;
 

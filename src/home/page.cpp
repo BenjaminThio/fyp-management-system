@@ -14,6 +14,7 @@
 #include "terminal.h"
 #include "dialog_box.h"
 #include "submit/page.h"
+#include "view_submission/page.h"
 
 using namespace std;
 using namespace magic_enum;
@@ -180,7 +181,9 @@ namespace home {
                                     redirect(static_cast<int>(Page::CONSOLE), "select", true);
                                     break;
                                 case static_cast<int>(AdminOption::GRADING):
-                                    redirect(static_cast<int>(Page::GRADING), "select", true);
+                                    view_submission::refresh_submitters();
+                                    redirect(static_cast<int>(Page::VIEW_SUBMISSION), "select", true);
+                                    // redirect(static_cast<int>(Page::GRADING), "select", true);
                                     break;
                                 case static_cast<int>(AdminOption::LOG_OUT):
                                     selected_option = 0;

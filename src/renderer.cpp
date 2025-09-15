@@ -22,6 +22,7 @@
 #include "grading/page.h"
 #include "submit/page.h"
 #include "assign_mod/page.h"
+#include "view_submission/page.h"
 #include <array>
 using namespace std;
 using namespace magic_enum;
@@ -81,6 +82,10 @@ void render_page() {
         }
         case static_cast<int>(Page::ASSIGN_MOD): {
             assign_mod::push_frame(renderer, manual_input_cursor_pos);
+            break;
+        }
+        case static_cast<int>(Page::VIEW_SUBMISSION): {
+            view_submission::push_frame(renderer, manual_input_cursor_pos);
             break;
         }
         default: {
