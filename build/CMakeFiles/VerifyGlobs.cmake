@@ -27,6 +27,7 @@ set(OLD_GLOB
   "C:/Users/User/Documents/hell/fyp-management-system/src/terminal.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/typing.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/utils.cpp"
+  "C:/Users/User/Documents/hell/fyp-management-system/src/view_grading/page.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/view_submission/page.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/wishlist/page.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/wishlist_approval/page.cpp"

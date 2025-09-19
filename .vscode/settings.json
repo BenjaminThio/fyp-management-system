@@ -81,7 +81,8 @@
         "chrono": "cpp",
         "forward_list": "cpp",
         "regex": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "codecvt": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

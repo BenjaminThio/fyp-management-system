@@ -7,9 +7,12 @@
             "name": "Intelligent Document Classification System for Automated Bank Loan Approval"
         },
         "isPublic": true,
+        "moderator": "behhc@utaradmin.com",
         "ownerUUID": "benjaminthio@utaradmin.com",
         "wishlistApproved": [
-            "benjaminthio@utarstudent.com"
+            "benjaminthio@utarstudent.com",
+            "teehueleng123@utarstudent.com",
+            "afiqahh@utarstudent.com"
         ],
         "wishlistPending": []
 
@@ -22,8 +25,9 @@
         },
         "isPublic": true,
         "ownerUUID": "benjaminthio@utaradmin.com",
-        "wishlistApproved": []
-,
+        "wishlistApproved": [
+            "helloworld@utarstudent.com"
+        ],
         "wishlistPending": []
 
     },
@@ -35,8 +39,9 @@
         },
         "isPublic": true,
         "ownerUUID": "benjaminthio@utaradmin.com",
-        "wishlistApproved": []
-,
+        "wishlistApproved": [
+            "zanelim@utarstudent.com"
+        ],
         "wishlistPending": []
 
     },
@@ -61,8 +66,9 @@
         },
         "isPublic": true,
         "ownerUUID": "benjaminthio@utaradmin.com",
-        "wishlistApproved": []
-,
+        "wishlistApproved": [
+            "nawaf123@utarstudent.com"
+        ],
         "wishlistPending": []
 
     },
@@ -89,9 +95,8 @@
         "ownerUUID": "benjaminthio@utaradmin.com",
         "wishlistApproved": []
 ,
-        "wishlistPending": [
-            "benjaminthio@utarstudent.com"
-        ]
+        "wishlistPending": []
+
     },
     "2c1f2348-5473-4cea-b770-635dc0bac435": {
         "info": {
@@ -142,15 +147,55 @@
         "ownerUUID": "benjaminthio@utaradmin.com",
         "wishlistApproved": []
 ,
-        "wishlistPending": [
-            "benjaminthio@utarstudent.com"
-        ]
+        "wishlistPending": []
+
     },
     "33714b01-d888-4bb6-80b1-19f9e2ce8f3d": {
         "info": {
             "category": "TESTING123",
             "description": "TESTING456",
             "name": "Phishing Website Detection Using Machine Learning Approaches"
+        },
+        "isPublic": true,
+        "ownerUUID": "benjaminthio@utaradmin.com",
+        "wishlistApproved": []
+,
+        "wishlistPending": []
+
+    },
+    "37979345-7e72-4588-bde7-6020fdfcf3db": {
+        "info": {
+            "category": "TESTING123",
+            "description": "drtyuhgcfdtyuiugy",
+            "name": "Helllllllo Worllllllll"
+        },
+        "isPublic": true,
+        "moderator": "behhc@utaradmin.com",
+        "ownerUUID": "thiauleng@utaradmin.com",
+        "wishlistApproved": []
+,
+        "wishlistPending": []
+
+    },
+    "3d7c1659-fa0c-4629-a341-3af9fdf8cfe2": {
+        "info": {
+            "category": "TESTING123",
+            "description": "Benjamin is testing the program.",
+            "name": "Testing12345"
+        },
+        "isPublic": true,
+        "moderator": "gohyk@utaradmin.com",
+        "ownerUUID": "benjaminthio@utaradmin.com",
+        "wishlistApproved": []
+,
+        "wishlistPending": []
+
+    },
+    "3f4a32e4-2df5-4a7b-a16a-33e7b084280c": {
+        "info": {
+            "category": "TESTING123",
+            "description": "Testing123",
+            "name": "Testing123"
         },
         "isPublic": true,
         "ownerUUID": "benjaminthio@utaradmin.com",
@@ -248,9 +293,8 @@
         "ownerUUID": "benjaminthio@utaradmin.com",
         "wishlistApproved": []
 ,
-        "wishlistPending": [
-            "benjaminthio@utarstudent.com"
-        ]
+        "wishlistPending": []
+
     },
     "54a3de06-4df0-4430-ad9f-2843e781c6e1": {
         "info": {
@@ -432,15 +476,14 @@
         "moderator": "behhc@utaradmin.com",
         "ownerUUID": "thiauleng@utaradmin.com",
         "wishlistApproved": [
-            "benjaminthio@utarstudent.com",
-            "tehyifan@utarstudent.com",
-            "lohzenan@utarstudent.com",
-            "ngyaozong@utarstudent.com"
-        ],
-        "wishlistPending": [
+            "lawchoonhong@utarstudent.com",
+            "ngyaozong@utarstudent.com",
             "lohzenthye@utarstudent.com",
-            "lawchoonhong@utarstudent.com"
-        ]
+            "tehyifan@utarstudent.com",
+            "lohzenan@utarstudent.com"
+        ],
+        "wishlistPending": []
+
     },
     "b793b29b-5264-49c9-b9e1-9c16ba56e693": {
         "info": {
@@ -450,6 +493,19 @@
         },
         "isPublic": true,
         "ownerUUID": "benjaminthio@utaradmin.com",
+        "wishlistApproved": []
+,
+        "wishlistPending": []
+
+    },
+    "c3ca69e2-0068-4d59-b7e6-d99d3c4d7b04": {
+        "info": {
+            "category": "TESTING123",
+            "description": "ghuiokjhvfgyuiokjhgfghji",
+            "name": "ghjklkjnbvcftyuiokjhgvfgyuiolkjhbgvfghjkl;"
+        },
+        "isPublic": true,
+        "ownerUUID": "behhc@utaradmin.com",
         "wishlistApproved": []
 ,
         "wishlistPending": []
@@ -507,6 +563,20 @@
         "wishlistPending": []
 
     },
+    "dd84524a-b594-421c-8d27-d7a15c183061": {
+        "info": {
+            "category": "TESTING123",
+            "description": "Testing123456789",
+            "name": "Testing123456789"
+        },
+        "isPublic": true,
+        "moderator": "behhc@utaradmin.com",
+        "ownerUUID": "thiauleng@utaradmin.com",
+        "wishlistApproved": []
+,
+        "wishlistPending": []
+
+    },
     "de18a6a8-b2f7-4eaa-a291-c0df8b3afb5f": {
         "info": {
             "category": "TESTING123",
@@ -515,6 +585,20 @@
         },
         "isPublic": true,
         "ownerUUID": "benjaminthio@utaradmin.com",
+        "wishlistApproved": []
+,
+        "wishlistPending": []
+
+    },
+    "de603a62-db0a-4503-8e97-6420c4177a74": {
+        "info": {
+            "category": "TESTING123",
+            "description": "LOLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
+            "name": "LOLLLLLLLLLLLLLLLLLLLLLLLLLL"
+        },
+        "isPublic": true,
+        "moderator": "behhc@utaradmin.com",
+        "ownerUUID": "thiauleng@utaradmin.com",
         "wishlistApproved": []
 ,
         "wishlistPending": []

@@ -142,40 +142,40 @@ namespace grading {
         json submitter = view_submission::get_submitter();
 
         if (users[submitter["info"]["email"].as_string()].contains(json("grading"))) {
-            if (users[submitter["info"]["email"].as_string()]["grading"].contains(json("fyp1"))) {
-                if (users[submitter["info"]["email"].as_string()]["grading"]["fyp1"].contains(json("supervisor"))) {
-                    inputs[1][0][0].field = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp1"]["supervisor"]["fyp_1_report"].as_int());
-                    inputs[1][0][0].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp1"]["supervisor"]["fyp_1_report"].as_int()).size();
-                    inputs[1][1][0].field = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp1"]["supervisor"]["fyp_1_presentation"].as_int());
-                    inputs[1][1][0].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp1"]["supervisor"]["fyp_1_presentation"].as_int()).size();
-                    inputs[1][2][0].field = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp1"]["supervisor"]["fyp_1_effort"].as_int());
-                    inputs[1][2][0].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp1"]["supervisor"]["fyp_1_effort"].as_int()).size();
+            if (users[submitter["info"]["email"].as_string()]["grading"].contains(json(submitter["fyp_1_id"].as_string()))) {
+                if (users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_1_id"].as_string()].contains(json("supervisor"))) {
+                    inputs[1][0][0].field = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_1_id"].as_string()]["supervisor"]["fyp_1_report"].as_int());
+                    inputs[1][0][0].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_1_id"].as_string()]["supervisor"]["fyp_1_report"].as_int()).size();
+                    inputs[1][1][0].field = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_1_id"].as_string()]["supervisor"]["fyp_1_presentation"].as_int());
+                    inputs[1][1][0].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_1_id"].as_string()]["supervisor"]["fyp_1_presentation"].as_int()).size();
+                    inputs[1][2][0].field = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_1_id"].as_string()]["supervisor"]["fyp_1_effort"].as_int());
+                    inputs[1][2][0].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_1_id"].as_string()]["supervisor"]["fyp_1_effort"].as_int()).size();
                 }
-                if (users[submitter["info"]["email"].as_string()]["grading"]["fyp1"].contains(json("moderator"))) {
-                    inputs[1][0][1].field = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp1"]["moderator"]["fyp_1_report"].as_int());
-                    inputs[1][0][1].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp1"]["moderator"]["fyp_1_report"].as_int()).size();
-                    inputs[1][1][1].field = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp1"]["moderator"]["fyp_1_presentation"].as_int());
-                    inputs[1][1][1].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp1"]["moderator"]["fyp_1_presentation"].as_int()).size();
+                if (users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_1_id"].as_string()].contains(json("moderator"))) {
+                    inputs[1][0][1].field = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_1_id"].as_string()]["moderator"]["fyp_1_report"].as_int());
+                    inputs[1][0][1].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_1_id"].as_string()]["moderator"]["fyp_1_report"].as_int()).size();
+                    inputs[1][1][1].field = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_1_id"].as_string()]["moderator"]["fyp_1_presentation"].as_int());
+                    inputs[1][1][1].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_1_id"].as_string()]["moderator"]["fyp_1_presentation"].as_int()).size();
                 }
             }
-            if (users[submitter["info"]["email"].as_string()]["grading"].contains(json("fyp2"))) {
-                if (users[submitter["info"]["email"].as_string()]["grading"]["fyp2"].contains(json("supervisor"))) {
-                    inputs[3][0][0].field = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp2"]["supervisor"]["final_report"].as_int());
-                    inputs[3][0][0].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp2"]["supervisor"]["final_report"].as_int()).size();
-                    inputs[3][1][0].field = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp2"]["supervisor"]["product_demo"].as_int());
-                    inputs[3][1][0].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp2"]["supervisor"]["product_demo"].as_int()).size();
-                    inputs[3][2][0].field = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp2"]["supervisor"]["fyp_2_presentation"].as_int());
-                    inputs[3][2][0].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp2"]["supervisor"]["fyp_2_presentation"].as_int()).size();
-                    inputs[3][3][0].field = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp2"]["supervisor"]["fyp_2_effort"].as_int());
-                    inputs[3][3][0].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp2"]["supervisor"]["fyp_2_effort"].as_int()).size();
+            if (users[submitter["info"]["email"].as_string()]["grading"].contains(json(submitter["fyp_2_id"].as_string()))) {
+                if (users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()].contains(json("supervisor"))) {
+                    inputs[3][0][0].field = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()]["supervisor"]["final_report"].as_int());
+                    inputs[3][0][0].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()]["supervisor"]["final_report"].as_int()).size();
+                    inputs[3][1][0].field = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()]["supervisor"]["product_demo"].as_int());
+                    inputs[3][1][0].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()]["supervisor"]["product_demo"].as_int()).size();
+                    inputs[3][2][0].field = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()]["supervisor"]["fyp_2_presentation"].as_int());
+                    inputs[3][2][0].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()]["supervisor"]["fyp_2_presentation"].as_int()).size();
+                    inputs[3][3][0].field = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()]["supervisor"]["fyp_2_effort"].as_int());
+                    inputs[3][3][0].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()]["supervisor"]["fyp_2_effort"].as_int()).size();
                 }
-                if (users[submitter["info"]["email"].as_string()]["grading"]["fyp2"].contains(json("moderator"))) {
-                    inputs[3][0][1].field = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp2"]["moderator"]["final_report"].as_int());
-                    inputs[3][0][1].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp2"]["moderator"]["final_report"].as_int()).size();
-                    inputs[3][1][1].field = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp2"]["moderator"]["product_demo"].as_int());
-                    inputs[3][1][1].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp2"]["moderator"]["product_demo"].as_int()).size();
-                    inputs[3][2][1].field = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp2"]["moderator"]["fyp_2_presentation"].as_int());
-                    inputs[3][2][1].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"]["fyp2"]["moderator"]["fyp_2_presentation"].as_int()).size();
+                if (users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()].contains(json("moderator"))) {
+                    inputs[3][0][1].field = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()]["moderator"]["final_report"].as_int());
+                    inputs[3][0][1].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()]["moderator"]["final_report"].as_int()).size();
+                    inputs[3][1][1].field = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()]["moderator"]["product_demo"].as_int());
+                    inputs[3][1][1].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()]["moderator"]["product_demo"].as_int()).size();
+                    inputs[3][2][1].field = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()]["moderator"]["fyp_2_presentation"].as_int());
+                    inputs[3][2][1].local_caret_pos = to_string(users[submitter["info"]["email"].as_string()]["grading"][submitter["fyp_2_id"].as_string()]["moderator"]["fyp_2_presentation"].as_int()).size();
                 }
             }
         }
@@ -211,14 +211,14 @@ namespace grading {
                             if (view_submission::get_submitter().contains(json(fyp_number)) && fyps[view_submission::get_submitter()[fyp_number].as_string()]["ownerUUID"].as_string() == user["info"]["email"].as_string()) {
                                 tables[normalized_z][y + 1].push_back(render_input_field(header.field, header.local_caret_pos, header.input_field_view_offset, header.length) + "%");
                             } else {
-                                tables[normalized_z][y + 1].push_back(format(strip_ansi(render_input_field(header.field, header.local_caret_pos, header.input_field_view_offset, header.length) + "%" + " 🔒" ), FG_DARK_GRAY));
+                                tables[normalized_z][y + 1].push_back(format(strip_ansi(render_input_field(header.field, header.local_caret_pos, header.input_field_view_offset, header.length) + "%" /*+ " 🔒"*/ ), FG_DARK_GRAY));
                             }
                             break;
                         case 1:
                             if (view_submission::get_submitter().contains(json(fyp_number)) && fyps[view_submission::get_submitter()[fyp_number].as_string()].contains(json("moderator")) && fyps[view_submission::get_submitter()[fyp_number].as_string()]["moderator"].as_string() == user["info"]["email"].as_string()) {
                                 tables[normalized_z][y + 1].push_back(render_input_field(header.field, header.local_caret_pos, header.input_field_view_offset, header.length) + "%");
                             } else {
-                                tables[normalized_z][y + 1].push_back(format(strip_ansi(render_input_field(header.field, header.local_caret_pos, header.input_field_view_offset, header.length) + "% 🔒"), FG_DARK_GRAY));
+                                tables[normalized_z][y + 1].push_back(format(strip_ansi(render_input_field(header.field, header.local_caret_pos, header.input_field_view_offset, header.length) + "%" /*+ " 🔒"*/), FG_DARK_GRAY));
                             }
                             break;
                     }
@@ -299,7 +299,7 @@ namespace grading {
                                     header.local_caret_pos,
                                     header.input_field_view_offset,
                                     header.length,
-                                    (focus ? (field_coord.z == z && field_coord.y == y && field_coord.x == x ? BG_CYAN : BG_LIGHT_MAGENTA) : (field_coord.z == z && field_coord.y == y && field_coord.x == x ? BG_LIGHT_GREEN : (header.error ? BG_RED : BG_WHITE)))) + "% 🔒"
+                                    (focus ? (field_coord.z == z && field_coord.y == y && field_coord.x == x ? BG_CYAN : BG_LIGHT_MAGENTA) : (field_coord.z == z && field_coord.y == y && field_coord.x == x ? BG_LIGHT_GREEN : (header.error ? BG_RED : BG_WHITE)))) + "%" /*+ " 🔒"*/
                                 ), FG_DARK_GRAY);
                             }
                             break;
@@ -317,7 +317,7 @@ namespace grading {
                                     header.local_caret_pos,
                                     header.input_field_view_offset,
                                     header.length,
-                                    (focus ? (field_coord.z == z && field_coord.y == y && field_coord.x == x ? BG_CYAN : BG_LIGHT_MAGENTA) : (field_coord.z == z && field_coord.y == y && field_coord.x == x ? BG_LIGHT_GREEN : (header.error ? BG_RED : BG_WHITE)))) + "% 🔒"
+                                    (focus ? (field_coord.z == z && field_coord.y == y && field_coord.x == x ? BG_CYAN : BG_LIGHT_MAGENTA) : (field_coord.z == z && field_coord.y == y && field_coord.x == x ? BG_LIGHT_GREEN : (header.error ? BG_RED : BG_WHITE)))) + "%" /*+ " 🔒"*/
                                 ), FG_DARK_GRAY);
                             }
                             break;
@@ -332,27 +332,35 @@ namespace grading {
 
         double cgpa = marks_to_cgpa(total_marks);
         renderer
-        << "Title: " + (view_submission::get_submitter().contains(json("fyp_1_id")) ? fyps[view_submission::get_submitter()["fyp_1_id"].as_string()]["info"]["name"].as_string() : "None")
-        + "\nID: " + (view_submission::get_submitter().contains(json("fyp_1_id")) ? view_submission::get_submitter()["fyp_1_id"].as_string() : "None") << endl << endl
         << (
         view_submission::get_submitter().contains(json("fyp_1_id")) && fyps[view_submission::get_submitter()["fyp_1_id"].as_string()]["ownerUUID"].as_string() == user["info"]["email"].as_string()
         ||
         view_submission::get_submitter().contains(json("fyp_1_id")) && fyps[view_submission::get_submitter()["fyp_1_id"].as_string()].contains(json("moderator")) && fyps[view_submission::get_submitter()["fyp_1_id"].as_string()]["moderator"].as_string() == user["info"]["email"].as_string()
         ?
-        render_static_input_field(inputs[0][0][0].field, inputs[0][0][0].length, (field_coord.z == 0 ? BG_GREEN : BG_WHITE)) + (field_coord.z == 0 ? " 👁" : "") + "\n" + generate_table(tables[0])
+        "Title: " + (view_submission::get_submitter().contains(json("fyp_1_id")) ? fyps[view_submission::get_submitter()["fyp_1_id"].as_string()]["info"]["name"].as_string() : "None")
+        + "\nID: " + (view_submission::get_submitter().contains(json("fyp_1_id")) ? view_submission::get_submitter()["fyp_1_id"].as_string() : "None") + "\n"
+        + render_static_input_field(inputs[0][0][0].field, inputs[0][0][0].length, (field_coord.z == 0 ? BG_GREEN : BG_WHITE)) + (field_coord.z == 0 ? " 👁" : "") + "\n"
+        + generate_table(tables[0])
         :
         format(strip_ansi(
-        render_static_input_field(inputs[0][0][0].field, inputs[0][0][0].length, (field_coord.z == 0 ? BG_GREEN : BG_WHITE)) + (field_coord.z == 0 ? " 👁" : "") + "\n" + generate_table(tables[0])), FG_DARK_GRAY)
+        "Title: " + (view_submission::get_submitter().contains(json("fyp_1_id")) ? fyps[view_submission::get_submitter()["fyp_1_id"].as_string()]["info"]["name"].as_string() : "None")
+        + "\nID: " + (view_submission::get_submitter().contains(json("fyp_1_id")) ? view_submission::get_submitter()["fyp_1_id"].as_string() : "None") + "\n"
+        + render_static_input_field(inputs[0][0][0].field, inputs[0][0][0].length, (field_coord.z == 0 ? BG_GREEN : BG_WHITE)) + (field_coord.z == 0 ? " 👁" : "") + "\n" + generate_table(tables[0])), FG_DARK_GRAY)
         ) << endl
         << (
         view_submission::get_submitter().contains(json("fyp_2_id")) && fyps[view_submission::get_submitter()["fyp_2_id"].as_string()]["ownerUUID"].as_string() == user["info"]["email"].as_string()
         ||
         view_submission::get_submitter().contains(json("fyp_2_id")) && fyps[view_submission::get_submitter()["fyp_2_id"].as_string()].contains(json("moderator")) && fyps[view_submission::get_submitter()["fyp_2_id"].as_string()]["moderator"].as_string() == user["info"]["email"].as_string()
         ?
-        render_static_input_field(inputs[2][0][0].field, inputs[2][0][0].length, (field_coord.z == 2 ? BG_GREEN : BG_WHITE)) + (field_coord.z == 2 ? " 👁" : "") + "\n" + generate_table(tables[1])
+        "Title: " + (view_submission::get_submitter().contains(json("fyp_1_id")) ? fyps[view_submission::get_submitter()["fyp_2_id"].as_string()]["info"]["name"].as_string() : "None")
+        + "\nID: " + (view_submission::get_submitter().contains(json("fyp_1_id")) ? view_submission::get_submitter()["fyp_2_id"].as_string() : "None") + "\n"
+        + render_static_input_field(inputs[2][0][0].field, inputs[2][0][0].length, (field_coord.z == 2 ? BG_GREEN : BG_WHITE)) + (field_coord.z == 2 ? " 👁" : "") + "\n"
+        + generate_table(tables[1])
         :
         format(strip_ansi(
-        render_static_input_field(inputs[2][0][0].field, inputs[2][0][0].length, (field_coord.z == 2 ? BG_GREEN : BG_WHITE)) + (field_coord.z == 2 ? " 👁" : "") + "\n" + generate_table(tables[1])), FG_DARK_GRAY)
+        "Title: " + (view_submission::get_submitter().contains(json("fyp_1_id")) ? fyps[view_submission::get_submitter()["fyp_2_id"].as_string()]["info"]["name"].as_string() : "None")
+        + "\nID: " + (view_submission::get_submitter().contains(json("fyp_1_id")) ? view_submission::get_submitter()["fyp_2_id"].as_string() : "None")
+        + "\n" + render_static_input_field(inputs[2][0][0].field, inputs[2][0][0].length, (field_coord.z == 2 ? BG_GREEN : BG_WHITE)) + (field_coord.z == 2 ? " 👁" : "") + "\n" + generate_table(tables[1])), FG_DARK_GRAY)
         ) << endl
         // << '(' << field_coord.x << ',' << field_coord.y << ',' << field_coord.z << ')' << endl
         << "Final Marks: " << total_marks << '%' << endl
@@ -372,7 +380,7 @@ namespace grading {
                     normalized_z = 1;
                     break;
             }
-            manual_cursor_input_pos = { 26 + (field_coord.x * 11) + inputs[field_coord.z][field_coord.y][field_coord.x].local_caret_pos, 13 + (field_coord.y * 2) + (normalized_z * 11) };
+            manual_cursor_input_pos = { 26 + (field_coord.x * 11) + inputs[field_coord.z][field_coord.y][field_coord.x].local_caret_pos, 12 + (field_coord.y * 2) + (normalized_z * 13) };
         }
     }
 
@@ -660,55 +668,18 @@ namespace grading {
             }
         }
 
-        // play_sound("select");
+        play_sound("select");
         render_page();
 
         for (size_t y = 0; y < inputs[z].size(); y++) {
             for (size_t x = 0; x < inputs[z][y].size(); x++) {
                 if (inputs[z][y][x].error) {
+                    dialog::error_message("The marks given by the supervisor and moderator should not differ by more than 5.");
                     return true;
                 }
             }
         }
         return false;
-    }
-
-    static void reset_data() {
-        field_coord = { 0, 0, 0 };
-        tables = {
-            vector<vector<string>>{
-                { "Component", "Supervisor", "Moderator", "Average" },
-                { "FYP 1 Report (15%)" },
-                { "FYP 1 Presentation (10%)" },
-                { "FYP 1 Effort (5%)" }
-            },
-            vector<vector<string>>{
-                { "Component", "Supervisor", "Moderator", "Average" },
-                { "Final Report (20%)" },
-                { "Product Demo (35%)" },
-                { "FYP 2 Presentation (10%)" },
-                { "FYP 2 Effort (5%)" }
-            }
-        };
-        inputs = {
-            vector<vector<input_header>>{
-                { input_header("View FYP 1", 0, 0, 0, 10, 10, false, 0) }
-            },
-            vector<vector<input_header>>{
-                { input_header("0", 1, 0, 0, 2, 2, false, 15), input_header("0", 1, 0, 0, 2, 2, false, 15) },
-                { input_header("0", 1, 0, 0, 2, 2, false, 10), input_header("0", 1, 0, 0, 2, 2, false, 10) },
-                { input_header("0", 1, 0, 0, 1, 1, false, 5) }
-            },
-            vector<vector<input_header>>{
-                { input_header("View FYP 2", 1, 0, 0, 10, 10, false, 0) }
-            },
-            vector<vector<input_header>>{
-                { input_header("0", 1, 0, 0, 2, 2, false, 20), input_header("0", 1, 0, 0, 2, 2, false, 20) },
-                { input_header("0", 1, 0, 0, 2, 2, false, 35), input_header("0", 1, 0, 0, 2, 2, false, 35) },
-                { input_header("0", 1, 0, 0, 2, 2, false, 10), input_header("0", 1, 0, 0, 2, 2, false, 10) },
-                { input_header("0", 1, 0, 0, 1, 1, false, 5) }
-            }
-        };
     }
 
     void keyboard_input_callback() {
@@ -741,73 +712,63 @@ namespace grading {
 
                     if (!users[submitter_email].contains(json("grading"))) {
                         users[submitter_email]["grading"] = json::dictionary{};
-                    }
 
-                    if (view_submission::get_submitter().contains(json("fyp_1_id")) && !users[submitter_email]["grading"].contains("fyp1")) {
-                        users[submitter_email]["grading"]["fyp1"] = json::dictionary{};
+                        if (view_submission::get_submitter().contains(json("fyp_1_id"))) {
+                            users[submitter_email]["grading"][view_submission::get_submitter()["fyp_1_id"].as_string()] = json::dictionary{};
+                        }
+                        if (view_submission::get_submitter().contains(json("fyp_2_id"))) {
+                            users[submitter_email]["grading"][view_submission::get_submitter()["fyp_2_id"].as_string()] = json::dictionary{};
+                        }
                     }
-
-                    if (view_submission::get_submitter().contains(json("fyp_2_id")) && !users[submitter_email]["grading"].contains("fyp2")) {
-                        users[submitter_email]["grading"]["fyp2"] = json::dictionary{};
-                    }
-
-                    bool has_error = false;
 
                     if (view_submission::get_submitter().contains(json("fyp_1_id")) && fyps[view_submission::get_submitter()["fyp_1_id"].as_string()]["ownerUUID"].as_string() == user["info"]["email"].as_string()) {
-                        if (users[submitter_email]["grading"]["fyp1"].contains(json("moderator"))) {
-                            if (inputs_validation(1)) has_error = true;
+                        if (users[submitter_email]["grading"][view_submission::get_submitter()["fyp_1_id"].as_string()].contains(json("moderator"))) {
+                            if (inputs_validation(1)) return;
                         }
-                        users[submitter_email]["grading"]["fyp1"]["supervisor"] = json::dictionary{
+                        users[submitter_email]["grading"][view_submission::get_submitter()["fyp_1_id"].as_string()]["supervisor"] = json::dictionary{
                             { "fyp_1_report", stoi(inputs[1][0][0].field) },
                             { "fyp_1_presentation", stoi(inputs[1][1][0].field) },
                             { "fyp_1_effort", stoi(inputs[1][2][0].field) }
                         };
                     } else if (view_submission::get_submitter().contains(json("fyp_1_id")) && fyps[view_submission::get_submitter()["fyp_1_id"].as_string()].contains(json("moderator")) && fyps[view_submission::get_submitter()["fyp_1_id"].as_string()]["moderator"].as_string() == user["info"]["email"].as_string()) {
-                        if (users[submitter_email]["grading"]["fyp1"].contains(json("supervisor"))) {
-                            if (inputs_validation(1)) has_error = true;
+                        if (users[submitter_email]["grading"][view_submission::get_submitter()["fyp_1_id"].as_string()].contains(json("supervisor"))) {
+                            if (inputs_validation(1)) return;
                         }
-                        users[submitter_email]["grading"]["fyp1"]["moderator"] = json::dictionary{
+                        users[submitter_email]["grading"][view_submission::get_submitter()["fyp_1_id"].as_string()]["moderator"] = json::dictionary{
                             { "fyp_1_report", stoi(inputs[1][0][1].field) },
                             { "fyp_1_presentation", stoi(inputs[1][1][1].field) }
                         };
                     }
 
                     if (view_submission::get_submitter().contains(json("fyp_2_id")) && fyps[view_submission::get_submitter()["fyp_2_id"].as_string()]["ownerUUID"].as_string() == user["info"]["email"].as_string()) {
-                        if (users[submitter_email]["grading"]["fyp2"].contains(json("moderator"))) {
-                            if (inputs_validation(3)) has_error = true;
+                        if (users[submitter_email]["grading"][view_submission::get_submitter()["fyp_2_id"].as_string()].contains(json("moderator"))) {
+                            if (inputs_validation(3)) return;
                         }
-                        users[submitter_email]["grading"]["fyp2"]["supervisor"] = json::dictionary{
+                        users[submitter_email]["grading"][view_submission::get_submitter()["fyp_2_id"].as_string()]["supervisor"] = json::dictionary{
                             { "final_report", stoi(inputs[3][0][0].field) },
                             { "product_demo", stoi(inputs[3][1][0].field) },
                             { "fyp_2_presentation", stoi(inputs[3][2][0].field) },
                             { "fyp_2_effort", stoi(inputs[3][3][0].field) }
                         };
                     } else if (view_submission::get_submitter().contains(json("fyp_2_id")) && fyps[view_submission::get_submitter()["fyp_2_id"].as_string()].contains(json("moderator")) && fyps[view_submission::get_submitter()["fyp_2_id"].as_string()]["moderator"].as_string() == user["info"]["email"].as_string()) {
-                        if (users[submitter_email]["grading"]["fyp2"].contains(json("supervisor"))) {
-                            if (inputs_validation(3)) has_error = true;
+                        if (users[submitter_email]["grading"][view_submission::get_submitter()["fyp_2_id"].as_string()].contains(json("supervisor"))) {
+                            if (inputs_validation(3)) return;
                         }
-                        users[submitter_email]["grading"]["fyp2"]["moderator"] = json::dictionary{
+                        users[submitter_email]["grading"][view_submission::get_submitter()["fyp_2_id"].as_string()]["moderator"] = json::dictionary{
                             { "final_report", stoi(inputs[3][0][1].field) },
                             { "product_demo", stoi(inputs[3][1][1].field) },
                             { "fyp_2_presentation", stoi(inputs[3][2][1].field) }
                         };
                     }
 
-                    if (has_error) {
-                        dialog::error_message("The marks given by the supervisor and moderator should not differ by more than 5.");
-                        return;
-                    }
-
                     save("../data/user.json", users);
-                    reset_data();
-                    return_page();
                 } else {
                     switch (field_coord.z) {
                         case 0:
-                            open_file(DESTINATION / fs::path(view_submission::get_submitter()["info"]["email"].as_string()) / fs::path("fyp1"));
+                            open_file(DESTINATION / fs::path(view_submission::get_submitter()["info"]["email"].as_string()) / fs::path(view_submission::get_submitter()["fyp_1_id"].as_string()));
                             break;
                         case 2:
-                            open_file(DESTINATION / fs::path(view_submission::get_submitter()["info"]["email"].as_string()) / fs::path("fyp2"));
+                            open_file(DESTINATION / fs::path(view_submission::get_submitter()["info"]["email"].as_string()) / fs::path(view_submission::get_submitter()["fyp_2_id"].as_string()));
                             break;
                     }
                 }
@@ -822,7 +783,41 @@ namespace grading {
                     play_sound("select");
                     render_page();
                 } else {
-                    reset_data();
+                    field_coord = { 0, 0, 0 };
+                    tables = {
+                        vector<vector<string>>{
+                            { "Component", "Supervisor", "Moderator", "Average" },
+                            { "FYP 1 Report (15%)" },
+                            { "FYP 1 Presentation (10%)" },
+                            { "FYP 1 Effort (5%)" }
+                        },
+                        vector<vector<string>>{
+                            { "Component", "Supervisor", "Moderator", "Average" },
+                            { "Final Report (20%)" },
+                            { "Product Demo (35%)" },
+                            { "FYP 2 Presentation (10%)" },
+                            { "FYP 2 Effort (5%)" }
+                        }
+                    };
+                    inputs = {
+                        vector<vector<input_header>>{
+                            { input_header("View FYP 1", 0, 0, 0, 10, 10, false, 0) }
+                        },
+                        vector<vector<input_header>>{
+                            { input_header("0", 1, 0, 0, 2, 2, false, 15), input_header("0", 1, 0, 0, 2, 2, false, 15) },
+                            { input_header("0", 1, 0, 0, 2, 2, false, 10), input_header("0", 1, 0, 0, 2, 2, false, 10) },
+                            { input_header("0", 1, 0, 0, 1, 1, false, 5) }
+                        },
+                        vector<vector<input_header>>{
+                            { input_header("View FYP 2", 1, 0, 0, 10, 10, false, 0) }
+                        },
+                        vector<vector<input_header>>{
+                            { input_header("0", 1, 0, 0, 2, 2, false, 20), input_header("0", 1, 0, 0, 2, 2, false, 20) },
+                            { input_header("0", 1, 0, 0, 2, 2, false, 35), input_header("0", 1, 0, 0, 2, 2, false, 35) },
+                            { input_header("0", 1, 0, 0, 2, 2, false, 10), input_header("0", 1, 0, 0, 2, 2, false, 10) },
+                            { input_header("0", 1, 0, 0, 1, 1, false, 5) }
+                        }
+                    };
                     return_page();
                 }
                 break;

@@ -31,8 +31,8 @@ namespace auth {
     static int field_index = 0;
     static array<input_header, 3> inputs = {
         input_header("", 0, 0, 3, 32, 37, false),
-        input_header("", 0, 0, 8, 32, 37, false),
-        input_header("", 0, 0, 6, 32, 37, false)
+        input_header("", 0, 0, 5, 32, 37, false),
+        input_header("", 0, 0, 8, 32, 37, false)
     };
     /*
     static array<string, 3> fields;
@@ -73,13 +73,17 @@ namespace auth {
     static void sign_up() {
         json j = load("../data/user.json");
 
-        if (j.contains(json(inputs[2].field))) {
+        if (j.contains(json(inputs[1].field))) {
             dialog::warning_message("Account existed! Sign in instead?");
+            inputs[0] = inputs[1];
+            inputs[1] = inputs[2];
+            field_index = 2;
             redirect(static_cast<int>(Page::LOGIN), "select", true);
+            caret_handler();
             return;
         }
 
-        const regex username_regex(R"(^[a-zA-Z]+(?: [a-zA-Z]+)*{8,32}$)");
+        const regex username_regex(R"(^[a-zA-Z]+(?: [a-zA-Z]+)*{3,32}$)");
 
         if (!regex_match(inputs[0].field, username_regex))
             inputs[0].error = true;
@@ -165,48 +169,48 @@ namespace auth {
         subpage ? generate_table({
             { " __   _   __    _          _   _     \n( (` | | / /`_ | |\\ |     | | | |\\ | \n_)_) |_| \\_\\_/ |_| \\|     |_| |_| \\|" },
             {
-                "Email:\n" + render_input_field(inputs[0].field, inputs[0].local_caret_pos, inputs[0].input_field_view_offset, inputs[0].length, inputs[0].error ? BG_RED : BG_WHITE), generate_table({
+                "Email:\n" + render_input_field(inputs[0].field, inputs[0].local_caret_pos, inputs[0].input_field_view_offset, inputs[0].length, inputs[0].error ? BG_RED : (field_index == 0 ? BG_GREEN : BG_WHITE)), generate_table({
                     { "No.", "Guidelines" },
-                    { "1.", "The email must contain at least " + to_string(inputs[0].min_length) + " characters and no more than " + to_string(inputs[0].max_length) + " characters." },
-                    { "2.", "The email must not include the characters..." }
+                    { "1.", "The email must be " + to_string(inputs[0].min_length) + "-" + to_string(inputs[0].max_length) + " characters and contain only letters and digits." },
+                    { "2.", "The email must follow the format: name@utarstudent.com or name@utaradmin.com." }
                 })
             },
             {
-                "Password:\n" + render_input_field(is_password_visible ? inputs[1].field : string(inputs[1].field.length(), '*'), inputs[1].local_caret_pos, inputs[1].input_field_view_offset, inputs[1].length, inputs[1].error ? BG_RED : BG_WHITE), generate_table({
+                "Password:\n" + render_input_field(is_password_visible ? inputs[1].field : string(inputs[1].field.length(), '*'), inputs[1].local_caret_pos, inputs[1].input_field_view_offset, inputs[1].length, inputs[1].error ? BG_RED : (field_index == 1 ? BG_GREEN : BG_WHITE)), generate_table({
                     { "No.", "Guidelines" },
-                    { "1.", "The password must contain at least " + to_string(inputs[1].min_length) + " characters and no more than " + to_string(inputs[1].max_length) + " characters." },
-                    { "2.", "The password must not include the characters..." }
+                    { "1.", "The password must be " + to_string(inputs[1].min_length) + "-" + to_string(inputs[1].max_length) + " characters, no spaces, with at least one lowercase, one uppercase, and one digit." },
+                    { "2.", "The password must also include at least one special character (e.g., ~`!@#$%^&*()-_+=[]{}|;:\"'<>,.?/)." }
                 })
             },
-            { (field_index == 2 ? format("Login", UNDERLINE) : "Login") },
-            { "Do not own an account? " + (field_index == 3 ? format("Login here", UNDERLINE) : "Login here") + "." }
+            { (field_index == 2 ? format("Login", FG_BLACK, BG_WHITE, UNDERLINE) : "Login") },
+            { "Do not own an account? " + (field_index == 3 ? format("Login here", FG_BLACK, BG_WHITE, UNDERLINE) : "Login here") + "." }
         })
         : 
         generate_table({
             { " __   _   __    _          _     ___\n( (` | | / /`_ | |\\ |     | | | | |_)\n_)_) |_| \\_\\_/ |_| \\|     \\_\\_/ |_|" },
             { 
-                "Username:\n" + render_input_field(inputs[0].field, inputs[0].local_caret_pos, inputs[0].input_field_view_offset, inputs[0].length, inputs[0].error ? BG_RED : BG_WHITE), generate_table({
+                "Username:\n" + render_input_field(inputs[0].field, inputs[0].local_caret_pos, inputs[0].input_field_view_offset, inputs[0].length, inputs[0].error ? BG_RED : (field_index == 0 ? BG_GREEN : BG_WHITE)), generate_table({
                     { "No.", "Guidelines" },
-                    { "1.", "The username must contain at least " + to_string(inputs[0].min_length) + " characters and no more than " + to_string(inputs[0].max_length) + " characters." },
-                    { "2.", "The username must not include the characters..." }
+                    { "1.", "The username must be " + to_string(inputs[0].min_length) + "-" + to_string(inputs[0].max_length) + " characters." },
+                    { "2.", "The username may contain only letters and single spaces between words." }
                 })
             },
             {
-                "Email:\n" + render_input_field(inputs[1].field, inputs[1].local_caret_pos, inputs[1].input_field_view_offset, inputs[1].length, inputs[1].error ? BG_RED : BG_WHITE), generate_table({
+                "Email:\n" + render_input_field(inputs[1].field, inputs[1].local_caret_pos, inputs[1].input_field_view_offset, inputs[1].length, inputs[1].error ? BG_RED : (field_index == 1 ? BG_GREEN : BG_WHITE)), generate_table({
                     { "No.", "Guidelines" },
-                    { "1.", "The email must contain at least " + to_string(inputs[1].min_length) + " characters and no more than " + to_string(inputs[1].max_length) + " characters." },
-                    { "2.", "The email must not include the characters..." }
+                    { "1.", "The email must be " + to_string(inputs[1].min_length) + "-" + to_string(inputs[1].max_length) + " characters and contain only letters and digits." },
+                    { "2.", "The email must follow the format: name@utarstudent.com or name@utaradmin.com." }
                 })
             },
             {   
-                "Password:\n" + render_input_field(is_password_visible ? inputs[2].field : string(inputs[2].field.length(), '*'), inputs[2].local_caret_pos, inputs[2].input_field_view_offset, inputs[2].length, inputs[2].error ? BG_RED : BG_WHITE), generate_table({
+                "Password:\n" + render_input_field(is_password_visible ? inputs[2].field : string(inputs[2].field.length(), '*'), inputs[2].local_caret_pos, inputs[2].input_field_view_offset, inputs[2].length, inputs[2].error ? BG_RED : (field_index == 2 ? BG_GREEN : BG_WHITE)), generate_table({
                     { "No.", "Guidelines" },
-                    { "1.", "The password must contain at least " + to_string(inputs[2].min_length) + " characters and no more than " + to_string(inputs[2].max_length) + " characters." },
-                    { "2.", "The password must not include the characters..." }
+                    { "1.", "The password must be " + to_string(inputs[2].min_length) + "-" + to_string(inputs[2].max_length) + " characters, no spaces, with at least one lowercase, one uppercase, and one digit." },
+                    { "2.", "The password must also include at least one special character (e.g., ~`!@#$%^&*()-_+=[]{}|;:\"'<>,.?/)." }
                 })
             },
-            { (field_index == 3 ? format("Sign Up", UNDERLINE) : "Sign Up") },
-            { "Already have an account? " + (field_index == 4 ? format("Login here", UNDERLINE) : "Login here") + "." }
+            { (field_index == 3 ? format("Sign Up", FG_BLACK, BG_WHITE, UNDERLINE) : "Sign Up") },
+            { "Already have an account? " + (field_index == 4 ? format("Login here", FG_BLACK, BG_WHITE, UNDERLINE) : "Login here") + "." }
         }));
 
         /*
@@ -232,6 +236,24 @@ namespace auth {
             manual_cursor_input_pos = { inputs[field_index].local_caret_pos + 1, (field_index * 8) + 12 }; // (field_index * 3) + 12
     }
 
+    void sign_up_init() {
+        field_index = 0;
+        inputs = {
+            input_header("", 0, 0, 3, 32, 37, false),
+            input_header("", 0, 0, 5, 32, 37, false),
+            input_header("", 0, 0, 8, 32, 37, false)
+        };
+    }
+
+    void login_init() {
+        field_index = 0;
+        inputs = {
+            input_header("", 0, 0, 5, 32, 37, false),
+            input_header("", 0, 0, 8, 32, 37, false),
+            input_header("", 0, 0, 3, 32, 37, false)
+        };
+    }
+
     void keyboard_input_callback() {
         int key = -1;
         int special_key = -1;
@@ -253,6 +275,16 @@ namespace auth {
 
         switch (key) {
             case static_cast<int>(Key::ESCAPE):
+                // Data reset
+                subpage = static_cast<bool>(Subpage::SIGN_UP);
+                field_index = 0;
+                inputs = {
+                    input_header("", 0, 0, 3, 32, 37, false),
+                    input_header("", 0, 0, 8, 32, 37, false),
+                    input_header("", 0, 0, 6, 32, 37, false)
+                };
+                is_password_visible = false;
+                
                 return_page();
                 break;
             case static_cast<int>(Key::TAB):
@@ -281,7 +313,7 @@ namespace auth {
                                 break;
                             }
                             case static_cast<int>(SignUpField::LOGIN):
-                                field_index = 0;
+                                login_init();
                                 redirect(static_cast<int>(Page::LOGIN), "select", true);
                                 break;
                         }
@@ -292,7 +324,7 @@ namespace auth {
                                 login();
                                 break;
                             case static_cast<int>(LoginField::SIGN_UP):
-                                field_index = 0;
+                                sign_up_init();
                                 redirect(static_cast<int>(Page::SIGN_UP), "select", true);
                                 break;
                         }

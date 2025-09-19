@@ -50,7 +50,7 @@ class json {
                 dictionary d = get<dictionary>(value);
 
                 return d.find(get<string>(target.value)) != d.end();
-            } else throw runtime_error("Not a list/dictionary.");
+            } else throw runtime_error("From contains() - Not a list/dictionary.");
         }
 
         vector<string> keys() const {
@@ -61,30 +61,30 @@ class json {
 
                 return result;
             }
-            else throw runtime_error("Not a dictionary!");
+            else throw runtime_error("From keys() - Not a dictionary!");
         }
 
         size_t size() const {
             if (is_list()) return get<list>(value).size();
             else if (is_dictionary()) return get<dictionary>(value).size();
-            else throw runtime_error("Not a list/dictionary.");
+            else throw runtime_error("From size() - Not a list/dictionary.");
 
             return 0;
         }
 
         json& operator[](const size_t& idx) {
-            if (!is_list()) throw runtime_error("Not a list!");
+            if (!is_list()) throw runtime_error("`" + to_string(idx) + "` - Not a list!");
             else return get<list>(value)[idx];
         }
 
         json& operator[](const string& key) {
-            if (!is_dictionary()) throw runtime_error("Not a dictionary"); //*this = dictionary{};
+            if (!is_dictionary()) throw runtime_error("`" + key + "` - Not a dictionary"); //*this = dictionary{};
             
             return get<dictionary>(value)[key];
         }
 
         json& operator[](const char* key) {
-            if (!is_dictionary()) throw runtime_error("Not a dictionary"); //*this = dictionary{};
+            if (!is_dictionary()) throw runtime_error("`" + string(key) + "` - Not a dictionary"); //*this = dictionary{};
 
             return (*this)[string(key)];
         }
@@ -111,21 +111,33 @@ class json {
         bool operator!=(const json& j) const { return value != j.value; }
 
         list& as_list() {
-            if (!is_list()) throw runtime_error("Not a dictionary!");
+            if (!is_list()) throw runtime_error("From as_list() - Not a list!");
 
             return get<list>(value);
         }
 
         dictionary& as_dictionary() {
-            if (!is_dictionary()) throw runtime_error("Not a dictionary!");
+            if (!is_dictionary()) throw runtime_error("From as_dictionary() - Not a dictionary!");
 
             return get<dictionary>(value);
         }
 
         string& as_string() {
-            if (!is_string()) throw runtime_error("Not a string!");
+            if (!is_string()) throw runtime_error("From as_string() - Not a string!");
 
             return get<string>(value);
+        }
+
+        double as_double() {
+            if (!is_float()) throw runtime_error("From as_double() - Not a double!");
+
+            return get<double>(value);
+        }
+
+        int64_t as_int() {
+            if (!is_int()) throw runtime_error("From as_int() - Not a int!");
+
+            return get<int64_t>(value);
         }
 
         string parse_string(const size_t indent = 0, const bool left_trim = false, bool destringify = false) const {

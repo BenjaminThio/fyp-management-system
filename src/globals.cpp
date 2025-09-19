@@ -1,4 +1,6 @@
 #include <windows.h>
+#include <shellapi.h>
+#include <stdexcept>
 #include "globals.h"
 #include "terminal.h"
 #include "renderer.h"
@@ -16,7 +18,8 @@ string session_id;
 int page = static_cast<int>(Page::HOME);
 vector<int> previous_page = { static_cast<int>(Page::HOME) };
 json user;
-json fyps;
+json fyps = json::dictionary{};
+json public_fyps = json::dictionary{};
 
 // sessionId: "benjaminthio@utarstudent.com"
 
@@ -25,6 +28,35 @@ fs::path get_exe_dir() {
     GetModuleFileNameA(NULL, buffer, MAX_PATH);
 
     return fs::path(buffer).parent_path();
+}
+
+vector<fs::path> get_files(fs::path path) {
+    vector<fs::path> paths;
+
+    for (const auto& entry : fs::directory_iterator(path)) {
+        paths.push_back(entry.path());
+    }
+
+    return paths;
+}
+
+void open_file(const fs::path& filePath) {
+    if (!fs::exists(filePath)) {
+        throw runtime_error("File does not exist: " + filePath.string());
+    }
+
+    HINSTANCE result = ShellExecute(
+        NULL,
+        "open",
+        filePath.string().c_str(),
+        NULL,
+        NULL,
+        SW_SHOWNORMAL
+    );
+
+    if ((intptr_t)result <= 32) {
+        throw runtime_error("Failed to open file: " + filePath.string());
+    }
 }
 
 bool is_authorized() {
@@ -43,6 +75,22 @@ void update_data() {
     session_id = j["sessionId"].parse_string(0, false, true);
     user = get_user();
     fyps = load("../data/fyp.json");
+    update_fyps();
+}
+
+void update_public_fyps() {
+    public_fyps = json::dictionary{};
+    
+    for (auto& [key, val] : fyps.as_dictionary()) {
+        /*
+        if (!val.contains("isPublic")) {
+            val["isPublic"] = true;
+        }
+        */
+        if (val["isPublic"]) {
+            public_fyps[key] = val;
+        }
+    }
 }
 
 void clear_session() {
@@ -75,6 +123,7 @@ void update_user() {
 
 void update_fyps() {
     save("../data/fyp.json", fyps);
+    update_public_fyps();
 }
 
 bool is_student(const string& email) {
@@ -101,12 +150,22 @@ json::list get_wishlist() {
     return user["wishlist"].as_list();
 }
 
-WishlistStatus get_wishlist_status(const json& fyp_id) {
+WishlistStatus get_wishlist_status(const json& id) {
+    string fyp_id = id.parse_string(0, false, true);
+
+    if (!fyps.contains(fyp_id)) {
+        return WishlistStatus::FYP_DELETED;
+    }
+
     if (user["wishlist"].contains(fyp_id)) {
-        if (fyps[fyp_id.parse_string(0, false, true)]["wishlistPending"].contains(user["info"]["email"]))
-            return WishlistStatus::PENDING;
-        else if (fyps[fyp_id.parse_string(0, false, true)]["wishlistApproved"].contains(user["info"]["email"]))
-            return WishlistStatus::APPROVED;
+        if (user["wishlist"].contains(fyp_id) && (fyps[fyp_id]["wishlistApproved"].contains(user["info"]["email"]) || fyps[fyp_id]["wishlistPending"].contains(user["info"]["email"]))) {
+            if (fyps[fyp_id]["wishlistPending"].contains(user["info"]["email"]))
+                return WishlistStatus::PENDING;
+            else if (fyps[fyp_id]["wishlistApproved"].contains(user["info"]["email"]))
+                return WishlistStatus::APPROVED;
+        } else if (user["wishlist"].contains(fyp_id) && !fyps[fyp_id]["wishlistApproved"].contains(user["info"]["email"]) && !fyps[fyp_id]["wishlistPending"].contains(user["info"]["email"])) {
+            return WishlistStatus::DISCARDED;
+        }
     }
     return WishlistStatus::UNKNOWN;
 }
@@ -117,6 +176,15 @@ string get_pending_wishlist_amount(const string& fyp_id) {
     } else {
         return "[" + to_string(fyps[fyp_id]["wishlistPending"].size()) + "]";
     }
+}
+
+bool has_approved_fyp() {
+    for (auto& [key, val] : fyps.as_dictionary()) {
+        if (val["wishlistApproved"].contains(user["info"]["email"])) {
+            return true;
+        }
+    }
+    return false;
 }
 
 vector<json> get_user_approved_fyps() {
@@ -130,6 +198,15 @@ vector<json> get_user_approved_fyps() {
     }
     
     return approved_fyps;
+}
+
+string get_user_approved_fyp(const string& user_email) {
+    for (auto& [key, val] : fyps.as_dictionary()) {
+        if (val["wishlistApproved"].contains(user_email)) {
+            return key;
+        }
+    }
+    return "";
 }
 
 json::dictionary get_fyps() {

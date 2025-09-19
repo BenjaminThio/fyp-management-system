@@ -47,6 +47,7 @@ enum class Page: int {
     SUBMIT,
     ASSIGN_MOD,
     VIEW_SUBMISSION,
+    VIEW_GRADING,
     NOT_FOUND
 };
 
@@ -60,6 +61,7 @@ enum class WishlistStatus: int {
     APPROVED,
     REJECTED,
     DISCARDED,
+    FYP_DELETED,
     UNKNOWN = -1
 };
 
@@ -71,7 +73,11 @@ extern vector<int> previous_page;
 extern int page;
 extern json user;
 extern json fyps;
+extern json public_fyps;
 
+void update_public_fyps();
+vector<fs::path> get_files(fs::path path);
+void open_file(const fs::path& filePath);
 bool is_authorized();
 void update_data();
 void clear_session();
@@ -80,11 +86,13 @@ json get_user();
 void update_user();
 void update_fyps();
 string get_pending_wishlist_amount(const string& fyp_id);
-WishlistStatus get_wishlist_status(const json& fyp_id);
+WishlistStatus get_wishlist_status(const json& id);
 bool is_student(const string& email);
 bool is_admin(const string& email);
 Role get_role();
+bool has_approved_fyp();
 vector<json> get_user_approved_fyps();
+string get_user_approved_fyp(const string& user_email);
 json::list get_wishlist();
 json::dictionary get_fyps();
 void redirect(int p, const string& snd = "select", const bool incognito_mode = false);

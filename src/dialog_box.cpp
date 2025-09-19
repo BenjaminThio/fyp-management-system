@@ -23,7 +23,7 @@ fs::path dialog_box() {
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = NULL;
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
 
     if (GetOpenFileName(&ofn) == TRUE)
         return fs::path(ofn.lpstrFile);

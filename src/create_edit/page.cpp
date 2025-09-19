@@ -19,6 +19,7 @@
 #include "terminal.h"
 #include "uuid_v4.h"
 #include "assign_mod/page.h"
+#include "dialog_box.h"
 using namespace std;
 using namespace ansi;
 using namespace magic_enum;
@@ -29,13 +30,25 @@ namespace create_edit_fyp {
     static string id;
     static int field_index = 0;
     static array<input_header, 3> inputs = {
-        input_header("", 0, 0, 10, 123, 123, false),
-        input_header("", 0, 0, 1, 130, 130, false)
+        input_header("", 0, 0, 5, 123, 123, false),
+        input_header("", 0, 0, 5, 130, 130, false)
     };
     static bool is_password_visible = false;
+    json mod = nullptr;
 
     string get_fyp_id() {
         return id;
+    }
+
+    bool get_subpage() {
+        return subpage;
+    }
+
+    void create() {
+        subpage = static_cast<bool>(Subpage::CREATE);
+        id = "";
+        caret_handler();
+        redirect(static_cast<int>(Page::CREATE_EDIT));
     }
 
     void edit(const string& fyp_id) {
@@ -61,6 +74,19 @@ namespace create_edit_fyp {
         }
     }
 
+    void reset_data() {
+        subpage = static_cast<bool>(Subpage::CREATE);
+        id = "";
+        field_index = 0;
+        inputs = {
+            input_header("", 0, 0, 10, 123, 123, false),
+            input_header("", 0, 0, 1, 130, 130, false)
+        };
+        is_password_visible = false;
+        mod = nullptr;
+        assign_mod::reset_data();
+    }
+
     void push_frame(ostringstream& renderer, array<int, 2>& manual_cursor_input_pos) {
         renderer << (subpage ?
         generate_table({
@@ -69,7 +95,7 @@ namespace create_edit_fyp {
                 "Title:\n" + render_input_field(inputs[0].field, inputs[0].local_caret_pos, inputs[0].input_field_view_offset, inputs[0].length, inputs[0].error ? BG_RED : BG_WHITE)
             },
             {
-                "Description:\n" + render_input_field(inputs[1].field, inputs[1].local_caret_pos, inputs[1].input_field_view_offset, inputs[1].length, inputs[2].error ? BG_RED : BG_WHITE)
+                "Description:\n" + render_input_field(inputs[1].field, inputs[1].local_caret_pos, inputs[1].input_field_view_offset, inputs[1].length, inputs[1].error ? BG_RED : BG_WHITE)
             },
             {
                 "Assigned Moderator:\n" + format( (fyps[id].contains(json("moderator")) ? fyps[id]["moderator"].as_string() : "None"), FG_BLACK, (field_index == 2 ? BG_GREEN : BG_WHITE))
@@ -83,10 +109,10 @@ namespace create_edit_fyp {
                 "Title:\n" + render_input_field(inputs[0].field, inputs[0].local_caret_pos, inputs[0].input_field_view_offset, inputs[0].length, inputs[0].error ? BG_RED : BG_WHITE)
             },
             {
-                "Description:\n" + render_input_field(inputs[1].field, inputs[1].local_caret_pos, inputs[1].input_field_view_offset, inputs[1].length, inputs[2].error ? BG_RED : BG_WHITE)
+                "Description:\n" + render_input_field(inputs[1].field, inputs[1].local_caret_pos, inputs[1].input_field_view_offset, inputs[1].length, inputs[1].error ? BG_RED : BG_WHITE)
             },
             {
-                "Assigned Moderator:\n" + format( (fyps[id].contains(json("moderator")) ? fyps[id]["moderator"].as_string() : "None"), FG_BLACK, (field_index == 2 ? BG_GREEN : BG_WHITE))
+                "Assigned Moderator:\n" + format( (mod == nullptr ? "None" : mod.as_string()), FG_BLACK, (field_index == 2 ? BG_GREEN : BG_WHITE))
             },
             { (field_index == 3 ? format("Create", UNDERLINE) : "Create") }
         }));
@@ -116,6 +142,7 @@ namespace create_edit_fyp {
 
         switch (key) {
             case static_cast<int>(Key::ESCAPE):
+                reset_data();
                 return_page();
                 break;
             case static_cast<int>(Key::TAB):
@@ -146,6 +173,7 @@ namespace create_edit_fyp {
                                 for (const input_header& input : inputs) {
                                     if (input.error) {
                                         render_page();
+                                        dialog::error_message("Each input field must contain at least 5 characters.");
                                         return;
                                     }
                                 }
@@ -159,7 +187,9 @@ namespace create_edit_fyp {
                                 if (j.is_null()) j = json::dictionary{};
 
                                 if (j.is_dictionary()) {
-                                    j[UUIDv4::generate()] = json::dictionary{
+                                    string uuid = UUIDv4::generate();
+
+                                    j[uuid] = json::dictionary{
                                         {
                                             "info", json::dictionary{
                                                 { "category", "TESTING123" },
@@ -172,17 +202,23 @@ namespace create_edit_fyp {
                                         { "wishlistPending", json::list() },
                                         { "wishlistApproved", json::list() }
                                     };
+                                    if (mod != nullptr) {
+                                        j[uuid]["moderator"] = mod.as_string();
+                                    }
                                 } else throw runtime_error("The fyp data is not a dictionary.");
 
                                 save("../data/fyp.json", j);
                                 fyps = load("../data/fyp.json");
                                 console::refresh_fyps_data();
+                                update_fyps();
+                                reset_data();
 
-                                redirect(static_cast<int>(Page::CONSOLE));
+                                return_page();
                                 break;
                             }
                             case static_cast<int>(CreateField::ASSIGN_MODERATOR):
                                 assign_mod::refresh_admins();
+                                assign_mod::caret_handler();
                                 redirect(static_cast<int>(Page::ASSIGN_MOD));
                                 break;
                         }
@@ -190,14 +226,29 @@ namespace create_edit_fyp {
                     case static_cast<int>(Subpage::EDIT):
                         switch (field_index) {
                             case static_cast<int>(EditField::SAVE):
+                                for (size_t i = 0; i < inputs.size(); i++) 
+                                    inputs[i].error = inputs[i].field.length() < inputs[i].min_length || inputs[i].field.length() > inputs[i].max_length;
+
+                                for (const input_header& input : inputs) {
+                                    if (input.error) {
+                                        render_page();
+                                        dialog::error_message("Each input field must contain at least 5 characters.");
+                                        return;
+                                    }
+                                }
+                                
                                 fyps[id]["info"]["name"] = inputs[0].field;
                                 fyps[id]["info"]["description"] = inputs[1].field;
                                 update_fyps();
                                 console::refresh_fyps_data();
+                                assign_mod::reset_data();
+                                reset_data();
+                                
                                 return_page();
                                 break;
                             case static_cast<int>(EditField::ASSIGN_MODERATOR):
                                 assign_mod::refresh_admins();
+                                assign_mod::caret_handler();
                                 redirect(static_cast<int>(Page::ASSIGN_MOD));
                                 break;
                         }

@@ -15,6 +15,7 @@
 #include "submit/page.h"
 #include "assign_mod/page.h"
 #include "view_submission/page.h"
+#include "view_grading/page.h"
 
 using namespace std;
 
@@ -47,6 +48,7 @@ void detect_keyboard_input() {
         case static_cast<int>(Page::SUBMIT):
         case static_cast<int>(Page::ASSIGN_MOD):
         case static_cast<int>(Page::VIEW_SUBMISSION):
+        case static_cast<int>(Page::VIEW_GRADING):
             if (home::is_initialized) home::is_initialized = false;
 
             switch (page) {
@@ -88,6 +90,9 @@ void detect_keyboard_input() {
                     break;
                 case static_cast<int>(Page::VIEW_SUBMISSION):
                     view_submission::keyboard_input_callback();
+                    break;
+                case static_cast<int>(Page::VIEW_GRADING):
+                    view_grading::keyboard_input_callback();
                     break;
             }
             break;

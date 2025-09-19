@@ -1,3 +1,4 @@
+#include <windows.h>
 #include <string>
 #include <vector>
 #include <conio.h>
@@ -108,13 +109,13 @@ namespace console {
 
         string front_buffer = generate_table(table);
         size_t buffer_length = split(front_buffer, '\n')[0].length();
-        front_buffer.insert(0, (selected_coord.y == 0 && direction == static_cast<int>(Direction::LEFT) ? format("Add Fyp", UNDERLINE) : "Add Fyp") + string(buffer_length - strlen("Add Fyp"), ' ') + "\n");
+        front_buffer.insert(0, (selected_coord.y == 0 && direction == static_cast<int>(Direction::LEFT) ? format("Add Fyp", FG_BLACK, BG_WHITE, UNDERLINE) : "Add Fyp") + string(buffer_length - strlen("Add Fyp"), ' ') + "\n");
         front_buffer.insert(0, string(buffer_length, ' ') + "\n");
 
         vector<vector<string>> select_table = { { (
             selected_coord.y == 0 && direction == static_cast<int>(Direction::RIGHT)
             ?
-            format(select_options[selected_option], UNDERLINE)
+            format(select_options[selected_option], FG_BLACK, BG_WHITE, UNDERLINE)
             :
             select_options[selected_option]) + string(strlen(WISHLIST_APPROVAL_LABEL) - select_options[selected_option].size() - 4, ' ') } };
 
@@ -133,11 +134,36 @@ namespace console {
 
         string back_buffer = generate_table(select_table);
 
-        renderer << overlay(front_buffer, back_buffer, buffer_length - strlen(WISHLIST_APPROVAL_LABEL) - strlen(DELETE_LABEL) + 5)
-        << endl << string(PADDING, ' ')
-        << (selected_coord.y == grouped_fyps[group_idx].size() + 1 && direction == static_cast<int>(Direction::LEFT) ? format("<", UNDERLINE) : "<")
-        << string(buffer_length - (PADDING * 2) - 2, ' ')
-        << (selected_coord.y == grouped_fyps[group_idx].size() + 1 && direction == static_cast<int>(Direction::RIGHT) ? format(">", UNDERLINE) : ">");
+        renderer << "Page " << group_idx + 1 << endl << overlay(front_buffer + string(PADDING, ' ')
+        + (selected_coord.y == grouped_fyps[group_idx].size() + 1 && direction == static_cast<int>(Direction::LEFT) ? format("PREVIOUS", FG_BLACK, BG_WHITE, UNDERLINE) : "PREVIOUS")
+        + string(buffer_length - (PADDING * 2) - 12, ' ')
+        + (selected_coord.y == grouped_fyps[group_idx].size() + 1 && direction == static_cast<int>(Direction::RIGHT) ? format("NEXT", FG_BLACK, BG_WHITE, UNDERLINE) : "NEXT"), back_buffer, buffer_length - strlen(WISHLIST_APPROVAL_LABEL) - strlen(DELETE_LABEL) + 5);
+    }
+
+    static void up() {
+        if (authorized_fyps.size() == 0) return;
+
+        if (collapse) {
+            if (selected_option - 1 >= 0) {
+                selected_option--;
+            } else {
+                selected_option = enum_count<SelectOption>() - 1;
+            }
+        } else {
+            if (selected_coord.y - 1 >= 0) selected_coord.y--;
+            else {
+                selected_coord.y = grouped_fyps[group_idx].size() + 1;
+                direction = round(selected_coord.x / 5.0);
+            }
+        }
+    }
+
+    static void previous_page() {
+        if (group_idx - 1 >= 0)
+            group_idx--;
+        else
+            group_idx = grouped_fyps.size() - 1;
+        selected_coord.y = grouped_fyps[group_idx].size() + 1; 
     }
 
     void keyboard_input_callback() {
@@ -151,22 +177,12 @@ namespace console {
 
                     switch (special_key) {
                         case static_cast<int>(Key::UP): {
-                            if (collapse) {
-                                if (selected_option - 1 >= 0) {
-                                    selected_option--;
-                                } else {
-                                    selected_option = enum_count<SelectOption>() - 1;
-                                }
-                            } else {
-                                if (selected_coord.y - 1 >= 0) selected_coord.y--;
-                                else {
-                                    selected_coord.y = grouped_fyps[group_idx].size() + 1;
-                                    direction = round(selected_coord.x / 5.0);
-                                }
-                            }
+                            up();
                             break;
                         }
                         case static_cast<int>(Key::DOWN): {
+                            if (authorized_fyps.size() == 0) return;
+
                             if (collapse) {
                                 if (selected_option + 1 < enum_count<SelectOption>()) {
                                     selected_option++;
@@ -185,7 +201,7 @@ namespace console {
                             break;
                         }
                         case static_cast<int>(Key::LEFT): {
-                            if (collapse) return;
+                            if (collapse || authorized_fyps.size() == 0) return;
 
                             if (selected_coord.y == 0 || selected_coord.y == grouped_fyps[group_idx].size() + 1) {
                                 if (direction - 1 >= 0)
@@ -201,7 +217,7 @@ namespace console {
                             break;
                         }
                         case static_cast<int>(Key::RIGHT): {
-                            if (collapse) return;
+                            if (collapse || authorized_fyps.size() == 0) return;
 
                             if (selected_coord.y == 0 || selected_coord.y == grouped_fyps[group_idx].size() + 1) {
                                 if (direction + 1 < enum_count<Direction>())
@@ -227,7 +243,7 @@ namespace console {
                     if (selected_coord.y == 0) {
                         switch (direction) {
                             case static_cast<int>(Direction::LEFT):
-                                redirect(static_cast<int>(Page::CREATE_EDIT));
+                                create_edit_fyp::create();
                                 break;
                             case static_cast<int>(Direction::RIGHT):
                                 collapse = !collapse;
@@ -244,7 +260,7 @@ namespace console {
                         switch (selected_coord.x) {
                             case static_cast<int>(Option::PUBLIC):
                                 fyp["isPublic"] = !fyp["isPublic"];
-                                save("../data/fyp.json", fyps);
+                                update_fyps();
                                 refresh_fyps_data();
                                 break;
                             case static_cast<int>(Option::VIEW):
@@ -257,6 +273,34 @@ namespace console {
                                 wishlist_approval::wishlist_approval(fyp_id);
                                 break;
                             case static_cast<int>(Option::DELETEE):
+                                int result = MessageBox(
+                                    NULL,
+                                    "This action will permanently delete the FYP. Are you sure you want to continue?",
+                                    "Error",
+                                    MB_ICONERROR | MB_OKCANCEL
+                                );
+
+                                if (result == IDOK) {
+                                    fyps.as_dictionary().erase(fyp_id);
+
+                                    update_fyps();
+                                    refresh_fyps_data();
+                                    if (group_idx >= grouped_fyps.size()) {
+                                        if (group_idx - 1 >= 0)
+                                            group_idx--;
+                                        selected_coord.y = grouped_fyps[group_idx].size() + 1;
+                                    }
+                                    if (grouped_fyps[group_idx].size() > 0) {
+                                        if (selected_coord.y - 1 >= grouped_fyps[group_idx].size()) {
+                                            up();
+                                        }
+                                    }
+
+                                    if (authorized_fyps.size() == 0) {
+                                        selected_coord = { 0, 0 };
+                                        direction = 0;
+                                    }
+                                }
                                 break;
                         }
 
@@ -264,12 +308,7 @@ namespace console {
                     } else if (selected_coord.y == grouped_fyps[group_idx].size() + 1) {
                         switch (direction) {
                             case static_cast<int>(Direction::LEFT):
-                                if (group_idx - 1 > 0)
-                                    group_idx--;
-                                else
-                                    group_idx = grouped_fyps.size() - 1;
-                                selected_coord.y = grouped_fyps[group_idx].size() + 1; 
-                                
+                                previous_page();
                                 render_page();
                                 break;
                             case static_cast<int>(Direction::RIGHT):
@@ -286,6 +325,15 @@ namespace console {
                     break;
                 }
                 case static_cast<int>(Key::ESCAPE): {
+                    // Data reset
+                    selected_coord = { 0, 0 };
+                    authorized_fyps = json::dictionary{};
+                    grouped_fyps = {};
+                    group_idx = 0;
+                    direction = 0;
+                    collapse = false;
+                    selected_option = static_cast<int>(SelectOption::TEN);
+
                     return_page();
                     break;
                 }

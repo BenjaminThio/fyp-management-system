@@ -1,3 +1,4 @@
+#include <windows.h>
 #include <sstream>
 #include <vector>
 #include <conio.h>
@@ -9,6 +10,7 @@
 #include "audio.h"
 #include "table.h"
 #include "text_formatter.h"
+#include <algorithm>
 using namespace std;
 using namespace ansi;
 
@@ -25,6 +27,10 @@ namespace wishlist_approval {
     void wishlist_approval(const string& fyp_id) {
         id = fyp_id;
         refresh_wishlist_data();
+        if (wishlist[selected_coord.x].size() == 0) {
+            selected_coord.x = static_cast<int>(!static_cast<bool>(selected_coord.x));
+            selected_coord.y = 0;
+        }
         redirect(static_cast<int>(Page::WISHLIST_APPROVAL));
     }
 
@@ -35,19 +41,41 @@ namespace wishlist_approval {
         vector<vector<string>> approved_emails;
 
         for (size_t i = 0; i < wishlist[0].size(); i++) {
-            pending_emails.push_back({ selected_coord.x == 0 && selected_coord.y == i ? format(wishlist[0][i].as_string(), FG_BLACK, BG_GREEN) : format(wishlist[0][i].as_string(), FG_YELLOW) });
+            pending_emails.push_back({ (selected_coord.x == 0 && selected_coord.y == i ? format(wishlist[0][i].as_string(), FG_BLACK, BG_GREEN) : format(wishlist[0][i].as_string(), FG_YELLOW)) });
         }
         for (size_t i = 0; i < wishlist[1].size(); i++) {
-            approved_emails.push_back({ selected_coord.x == 1 && selected_coord.y == i ? format(wishlist[1][i].as_string(), FG_BLACK, BG_YELLOW) : format(wishlist[1][i].as_string(), FG_GREEN) });
+            approved_emails.push_back({ (selected_coord.x == 1 && selected_coord.y == i ? format(wishlist[1][i].as_string(), FG_BLACK, BG_YELLOW) : format(wishlist[1][i].as_string(), FG_GREEN)) + 
+            (fyps[id]["wishlistApproved"].contains(wishlist[1][i]) ? "🔒" : "") });
         }
 
         renderer << "Title: " << fyps[id]["info"]["name"].as_string()
         << endl << "ID: " << id << endl
         << endl << generate_table({ { "Pending", "Approved" }, { 
-            (wishlist[0].size() > 0 ? generate_table(pending_emails) : R"(Noone wishlist this FYP currently ¯\(ツ)/¯)"), 
-            (wishlist[1].size() > 0 ? generate_table(approved_emails) : R"(Noone is assigned to this FYP currently ¯\(ツ)/¯)")
+            (wishlist[0].size() > 0 ? generate_table(pending_emails) : "Noone wishlist this FYP currently"), 
+            (wishlist[1].size() > 0 ? generate_table(approved_emails) : "Noone is assigned to this FYP currently")
         } }) << endl
-        << (selected_coord.y == wishlist[selected_coord.x].size() ? format(string("SAVE"), UNDERLINE) : "SAVE");
+        << (selected_coord.y == wishlist[selected_coord.x].size() ? format(string("SAVE"), FG_BLACK, BG_WHITE, UNDERLINE) : "SAVE")
+        << (fyps[id]["wishlistPending"] == wishlist[0] && fyps[id]["wishlistApproved"] == wishlist[1] ? "" : "*");
+        // << endl << json(wishlist[0]).parse_string() << ',' << fyps[id]["wishlistPending"].parse_string() << ',' << boolalpha << (json(wishlist[0]) == fyps[id]["wishlistPending"]);
+    }
+
+    static void up() {
+        if (selected_coord.y - 1 >= 0) {
+            selected_coord.y--;
+        } else {
+            selected_coord.y = wishlist[selected_coord.x].size();
+        }
+    }
+
+    static void reset_data() {
+        id = "";
+        selected_coord = { 0, 0 };
+        wishlist = { json::list{}, json::list{} };
+    }
+
+    static void update_fyp_wishlist() {
+        fyps[id]["wishlistPending"] = wishlist[0];
+        fyps[id]["wishlistApproved"] = wishlist[1];
     }
 
     void keyboard_input_callback() {
@@ -61,11 +89,7 @@ namespace wishlist_approval {
 
                     switch(special_key) {
                         case static_cast<int>(Key::UP):
-                            if (selected_coord.y - 1 >= 0) {
-                                selected_coord.y--;
-                            } else {
-                                selected_coord.y = wishlist[selected_coord.x].size(); // - 1;
-                            }
+                            up();
                             break;
                         case static_cast<int>(Key::DOWN):
                             if (selected_coord.y + 1 <= wishlist[selected_coord.x].size()) {
@@ -100,31 +124,81 @@ namespace wishlist_approval {
                                 selected_coord.y = wishlist[selected_coord.x].size() - 1;
                             }
                             break;
+                        case static_cast<int>(Key::DEL):
+                            switch (selected_coord.x){
+                                case 1:
+                                    MessageBox(
+                                        NULL,
+                                        "You can't delete this approved student from this FYP.",
+                                        "Warning",
+                                        MB_ICONWARNING | MB_OK
+                                    );
+                                    return;
+                            }
+                            int result = MessageBox(
+                                NULL,
+                                "Are you sure you want to remove this student from this FYP?",
+                                "Warning",
+                                MB_ICONWARNING | MB_OKCANCEL
+                            );
+
+                            if (result == IDOK) {
+                                wishlist[selected_coord.x].erase(wishlist[selected_coord.x].begin() + selected_coord.y);
+                                
+                                update_fyp_wishlist();
+                                update_fyps();
+                                refresh_wishlist_data();
+                                if (wishlist[selected_coord.x].size() > 0) {
+                                    if (selected_coord.y >= wishlist[selected_coord.x].size()) {
+                                        up();
+                                    }
+                                } else {
+                                    selected_coord.x = static_cast<int>(!static_cast<bool>(selected_coord.x));
+                                    selected_coord.y = wishlist[selected_coord.x].size() - 1;
+                                }
+                            }
+                            break;
                     }
                     render_page();
                     break;
                 }
                 case static_cast<int>(Key::ENTER): {
                     if (selected_coord.y == wishlist[selected_coord.x].size()) {
-                        fyps[id]["wishlistPending"] = wishlist[0];
-                        fyps[id]["wishlistApproved"] = wishlist[1];
+                        for (auto& email : wishlist[1]) {
+                            for (auto& [key, val] : fyps.as_dictionary()) {
+                                json::list pending_wishlist = val["wishlistPending"].as_list();
 
+                                pending_wishlist.erase(remove(pending_wishlist.begin(), pending_wishlist.end(), email), pending_wishlist.end());
+                                val["wishlistPending"] = pending_wishlist;
+                            }
+                        }
+                        update_fyp_wishlist();
                         update_fyps();
+                        reset_data();
                         return_page();
                         return;
                     }
 
                     string selected_email = wishlist[selected_coord.x][selected_coord.y].as_string();
 
-                    wishlist[selected_coord.x].erase(wishlist[selected_coord.x].begin() + selected_coord.y);
-                    wishlist[static_cast<int>(!static_cast<bool>(selected_coord.x))].push_back(json(selected_email));
-                    if (wishlist[selected_coord.x].size() > 0) {
-                        if (selected_coord.y + 1 > wishlist[selected_coord.x].size()) {
+                    if (fyps[id]["wishlistApproved"].contains(json(selected_email))) {
+                        MessageBox(
+                            NULL,
+                            "You can't remove this approved student from this FYP.",
+                            "Warning",
+                            MB_ICONWARNING | MB_OK
+                        );
+                    } else {
+                        wishlist[selected_coord.x].erase(wishlist[selected_coord.x].begin() + selected_coord.y);
+                        wishlist[static_cast<int>(!static_cast<bool>(selected_coord.x))].push_back(json(selected_email));
+                        if (wishlist[selected_coord.x].size() > 0) {
+                            if (selected_coord.y + 1 > wishlist[selected_coord.x].size()) {
+                                selected_coord.y = wishlist[selected_coord.x].size() - 1;
+                            }
+                        } else {
+                            selected_coord.x = static_cast<int>(!static_cast<bool>(selected_coord.x));
                             selected_coord.y = wishlist[selected_coord.x].size() - 1;
                         }
-                    } else {
-                        selected_coord.x = static_cast<int>(!static_cast<bool>(selected_coord.x));
-                        selected_coord.y = wishlist[selected_coord.x].size() - 1;
                     }
                     
                     render_page();

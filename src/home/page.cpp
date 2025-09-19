@@ -15,12 +15,20 @@
 #include "dialog_box.h"
 #include "submit/page.h"
 #include "view_submission/page.h"
+#include "console/page.h"
+#include "wishlist/page.h"
+#include "auth/page.h"
+#include <cstdlib>
 
 using namespace std;
 using namespace magic_enum;
 
 namespace home {
-    static array<const char*, 2> hint_messages = { "* Press the [Up] and [Down] arrow keys to navigate the selections.", "* Press [Enter] to select." };
+    static array<const char*, 3> hint_messages = { 
+        "💡 Press the arrow keys to navigate the selections.", 
+        "💡 Press [Enter] to select.",
+        "💡 Press [ESC] to return to the previous page."
+    };
     static int selected_option = 0;
     
     // For typing effect.
@@ -37,7 +45,7 @@ namespace home {
         if (!is_authorized()) {
             renderer
             << frame_chunk << endl << endl
-            << hint_messages[0] << endl << hint_messages[1] << endl << endl
+            << hint_messages[0] << endl << hint_messages[1] << endl << hint_messages[2] << endl << endl
             << (selected_option == static_cast<int>(UnauthorizedOption::SIGN_UP) ? '>' : ' ') << " SIGN UP" << endl
             << (selected_option == static_cast<int>(UnauthorizedOption::LOGIN) ? '>' : ' ') << " SIGN IN" << endl
             << (selected_option == static_cast<int>(UnauthorizedOption::EXIT) ? '>' : ' ') << " EXIT";
@@ -47,21 +55,22 @@ namespace home {
             if (get_role() == Role::STUDENT) {
                 renderer
                 << frame_chunk << endl << endl
-                << welcome_message << string(strlen(hint_messages[0]) - welcome_message.size() - strlen(" Role: Student") - 1, ' ') + " Role: Student" << endl << endl
-                << hint_messages[0] << endl << hint_messages[1] << endl << endl
+                << welcome_message  << string(strlen(hint_messages[0]) - welcome_message.size() - strlen(" Role: Student") - 1, ' ') + " Role: Student" << endl << endl
+                << hint_messages[0] << endl << hint_messages[1] << endl << hint_messages[2] << endl << endl
                 << (selected_option == static_cast<int>(StudentOption::FYP_LIST) ? '>' : ' ') << " FINAL YEAR PROJECTS LIST" << endl
                 << (selected_option == static_cast<int>(StudentOption::WISHLIST) ? '>' : ' ') << " SHORTLIST" << endl
                 << (selected_option == static_cast<int>(StudentOption::SUBMIT) ? '>' : ' ') << " SUBMIT" << endl
+                << (selected_option == static_cast<int>(StudentOption::VIEW_GRADING) ? '>' : ' ') << " VIEW GRADING" << endl
                 << (selected_option == static_cast<int>(StudentOption::LOG_OUT) ? '>' : ' ') << " LOGOUT" << endl
                 << (selected_option == static_cast<int>(StudentOption::EXIT) ? '>' : ' ') << " EXIT";
             } else if (get_role() == Role::ADMIN) {
                 renderer
                 << frame_chunk << endl << endl
                 << welcome_message << string(strlen(hint_messages[0]) - welcome_message.size() - strlen(" Role: Admin") - 1, ' ') + " Role: Admin" << endl << endl
-                << hint_messages[0] << endl << hint_messages[1] << endl << endl
+                << hint_messages[0] << endl << hint_messages[1] << endl << hint_messages[2] << endl << endl
                 << (selected_option == static_cast<int>(AdminOption::FYP_LIST) ? '>' : ' ') << " FINAL YEAR PROJECTS LIST" << endl
                 << (selected_option == static_cast<int>(AdminOption::CONSOLE) ? '>' : ' ') << " CONSOLE" << endl
-                << (selected_option == static_cast<int>(AdminOption::GRADING) ? '>' : ' ') << " GRADING" << endl
+                << (selected_option == static_cast<int>(AdminOption::GRADING) ? '>' : ' ') << " VIEW SUBMISSION & GRADING" << endl
                 << (selected_option == static_cast<int>(AdminOption::LOG_OUT) ? '>' : ' ') << " LOG OUT" << endl
                 << (selected_option == static_cast<int>(AdminOption::EXIT) ? '>' : ' ') << " EXIT";
             }
@@ -143,21 +152,26 @@ namespace home {
                     if (!is_authorized()) {
                         switch (selected_option) {
                             case static_cast<int>(UnauthorizedOption::SIGN_UP):
+                                auth::sign_up_init();
                                 redirect(static_cast<int>(Page::SIGN_UP), "select", true);
                                 break;
                             case static_cast<int>(UnauthorizedOption::LOGIN):
+                                auth::login_init();
                                 redirect(static_cast<int>(Page::LOGIN), "select", true);
                                 break;
                             case static_cast<int>(UnauthorizedOption::EXIT):
-                                exit(0);
+                                stop_all_tasks();
+                                exit(EXIT_SUCCESS);
                         }
                     } else {
                         if (get_role() == Role::STUDENT) {
                             switch (selected_option) {
                                 case static_cast<int>(StudentOption::FYP_LIST):
+                                    update_public_fyps();
                                     redirect(static_cast<int>(Page::FYP_LIST), "select", true);
                                     break;
                                 case static_cast<int>(StudentOption::WISHLIST):
+                                    wishlist::update_wishlist();
                                     redirect(static_cast<int>(Page::WISHLIST), "select", true);
                                     break;
                                 case static_cast<int>(StudentOption::SUBMIT):
@@ -165,19 +179,25 @@ namespace home {
                                     redirect(static_cast<int>(Page::SUBMIT), "select", true);
                                     // dialog_box();
                                     break;
+                                case static_cast<int>(StudentOption::VIEW_GRADING):
+                                    redirect(static_cast<int>(Page::VIEW_GRADING), "select", true);
+                                    break;
                                 case static_cast<int>(StudentOption::LOG_OUT):
                                     selected_option = 0;
                                     clear_session();
                                     break;
                                 case static_cast<int>(StudentOption::EXIT):
-                                    exit(0);
+                                    stop_all_tasks();
+                                    exit(EXIT_SUCCESS);
                             }
                         } else if (get_role() == Role::ADMIN) {
                             switch (selected_option) {
                                 case static_cast<int>(AdminOption::FYP_LIST):
+                                    update_public_fyps();
                                     redirect(static_cast<int>(Page::FYP_LIST), "select", true);
                                     break;
                                 case static_cast<int>(AdminOption::CONSOLE):
+                                    console::refresh_fyps_data();
                                     redirect(static_cast<int>(Page::CONSOLE), "select", true);
                                     break;
                                 case static_cast<int>(AdminOption::GRADING):
@@ -189,8 +209,9 @@ namespace home {
                                     selected_option = 0;
                                     clear_session();
                                     break;
-                                case static_cast<int>(StudentOption::EXIT):
-                                    exit(0);
+                                case static_cast<int>(AdminOption::EXIT):
+                                    stop_all_tasks();
+                                    exit(EXIT_SUCCESS);
                             }
                         }
                     }

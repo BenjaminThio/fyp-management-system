@@ -9,7 +9,8 @@ enum class Key: int {
     ENTER = 13,
     ESCAPE = 27,
     BACKSPACE = 8,
-    TAB = 9
+    TAB = 9,
+    DEL = 83
 };
 
 void detect_keyboard_input(void);

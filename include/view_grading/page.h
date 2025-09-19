@@ -3,8 +3,7 @@
 #include <sstream>
 using namespace std;
 
-namespace wishlist {
-    void update_wishlist();
+namespace view_grading {
     void push_frame(ostringstream& renderer);
     void keyboard_input_callback();
 }

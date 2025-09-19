@@ -1,9 +1,103 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <stdexcept>
+#include <windows.h>
+#include <cwchar>
+#include <cstdint> // For uint32_t
 #include "json.h"
 #include "utils.h"
 using namespace std;
+
+// Minimal wcwidth fallback (works on Windows + emoji fix)
+static int wcwidth_fallback(uint32_t ucs) {  // Changed to uint32_t for full code points
+    if (ucs == 0) return 0;
+    if (ucs < 32 || (ucs >= 0x7f && ucs < 0xa0)) return -1; // control chars
+
+    // ---- Manual overrides (ambiguous emojis that Windows console shows as width=1) ----
+    switch (ucs) {
+        case 0x2B50: return 1; // ⭐ Star
+        case 0x274C: return 2; // ❌ Cross Mark
+        case 0x2705: return 1; // ✅ Check Mark Button
+        case 0x26A0: return 1; // ⚠ Warning
+        case 0x2728: return 1; // ✨ Sparkles
+        case 0x2B55: return 1; // ⭕ Heavy Circle
+        case 0x1F441: return 1; // 👁 Eye  <--- Set to 1 to match what works in your second code
+        case 0x30C4: return 2;
+    }
+
+    // ---- East Asian Wide ranges (always width=2) ----
+    if ((ucs >= 0x1100 && ucs <= 0x115f) || // Hangul Jamo
+        (ucs >= 0x231A && ucs <= 0x231B) || // ⌚ ⌛
+        (ucs == 0x2329 || ucs == 0x232A) || // angle brackets
+        (ucs >= 0x23E9 && ucs <= 0x23EC) || // media controls
+        (ucs == 0x23F0 || ucs == 0x23F3) || // alarm clock, hourglass
+        (ucs >= 0x25FD && ucs <= 0x25FE) || // ◽ ◾
+        (ucs >= 0x2614 && ucs <= 0x2615) || // ☔ ☕
+        (ucs >= 0x2648 && ucs <= 0x2653) || // zodiac signs
+        (ucs == 0x267F) ||                  // ♿
+        (ucs >= 0x2693 && ucs <= 0x26A1) || // ⚓ ... ⚡
+        (ucs >= 0x26AA && ucs <= 0x26AB) || // ⚪ ⚫
+        (ucs >= 0x26BD && ucs <= 0x26BE) || // ⚽ ⚾
+        (ucs >= 0x26C4 && ucs <= 0x26C5) || // ⛄ ☁
+        (ucs == 0x26CE) ||                  // ⛎
+        (ucs >= 0x26D4 && ucs <= 0x26F5) || // ⛔ ... ⛵
+        (ucs >= 0x26FA && ucs <= 0x26FD) || // ⛺ ⛽
+        (ucs >= 0x270A && ucs <= 0x270B) || // ✊ ✋
+        (ucs == 0x2728) ||                  // ✨
+        (ucs >= 0x2744 && ucs <= 0x2747) || // ❄ ❇
+        (ucs == 0x274C || ucs == 0x274E) || // ❌ ❎
+        (ucs >= 0x2753 && ucs <= 0x2755) || // ❓ ❔ ❕ ❗
+        (ucs == 0x2757) ||                  // ❗
+        (ucs >= 0x2795 && ucs <= 0x2797) || // ➕ ➖ ➗
+        (ucs == 0x27B0 || ucs == 0x27BF) || // ➰ ➿
+        (ucs >= 0x2B1B && ucs <= 0x2B1C) || // ⬛ ⬜
+        (ucs == 0x2B50) ||                  // ⭐
+        (ucs == 0x2B55) ||                  // ⭕
+        (ucs >= 0x1F300 && ucs <= 0x1FAFF)) // full emoji range
+    {
+        return 2;
+    }
+
+    return 1; // default single-width
+}
+
+// ---------------- UTF-8 & width helpers ----------------
+
+// UTF-8 -> wstring using Windows API
+static std::wstring utf8_to_wstring(const std::string& str) {
+    if (str.empty()) return L"";
+    int size_needed = MultiByteToWideChar(
+        CP_UTF8, 0, str.c_str(), (int)str.size(), nullptr, 0);
+    std::wstring wstr(size_needed, 0);
+    MultiByteToWideChar(
+        CP_UTF8, 0, str.c_str(), (int)str.size(), &wstr[0], size_needed);
+    return wstr;
+}
+
+static int utf8_width(const std::string& s) {
+    std::wstring ws = utf8_to_wstring(s);
+    int width = 0;
+    for (size_t i = 0; i < ws.size(); i++) {
+        wchar_t wc = ws[i];
+        uint32_t cp = static_cast<uint32_t>(wc);  // Default to single wchar_t
+        if (wc >= 0xD800 && wc <= 0xDBFF && i + 1 < ws.size()) {
+            wchar_t next_wc = ws[i + 1];
+            if (next_wc >= 0xDC00 && next_wc <= 0xDFFF) {
+                // Decode full code point
+                cp = ((static_cast<uint32_t>(wc) - 0xD800) << 10) +
+                     (static_cast<uint32_t>(next_wc) - 0xDC00) + 0x10000;
+                i++; // Skip the low surrogate
+            }
+        }
+        int w = wcwidth_fallback(cp);
+        if (w < 0) w = 0; // ignore control chars
+        width += w;
+    }
+    return width;
+}
+
+// ---------------- Helpers ----------------
 
 static pair<string, size_t> next_utf8_char(const string& input, size_t raw_pos) {
     unsigned char c = input[raw_pos];
@@ -51,17 +145,18 @@ static size_t visible_length(const string& s) {
 
     while (i < s.size()) {
         if (s[i] == '\x1b') {
-            // Skip ANSI escape sequence
+            // Skip ANSI escape codes
             i++;
             if (i < s.size() && s[i] == '[') {
                 i++;
                 while (i < s.size() && (s[i] < 0x40 || s[i] > 0x7E)) i++;
-                if (i < s.size()) i++; // consume final command char
+                if (i < s.size()) i++;
             }
         } else {
-            // Count one Unicode character
+            // Extract next UTF-8 char
             auto [ch, next_pos] = next_utf8_char(s, i);
-            length++;
+            // Measure its actual display width
+            length += utf8_width(ch);
             i = next_pos;
         }
     }
@@ -103,9 +198,9 @@ string generate_table(vector<vector<string>> table) {
         renderer << '+';
         for (size_t i = 0; i < column_widths.size(); i++) {
             renderer << string(column_widths[i], '-');
-            if (i < column_widths.size() - 1) renderer << '-';
+            renderer << '+';
         }
-        renderer << '+' << endl
+        renderer << endl
         << '|';
         
         if (row_heights[r] > 1) {
@@ -147,9 +242,9 @@ string generate_table(vector<vector<string>> table) {
     renderer << '+';
     for (size_t i = 0; i < column_widths.size(); i++) {
         renderer << string(column_widths[i], '-');
-        if (i < column_widths.size() - 1) renderer << '-';
+        renderer << '+';
     }
-    renderer << '+' << endl;
+    renderer << endl;
 
     return renderer.str();
 }

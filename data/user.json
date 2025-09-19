@@ -8,6 +8,18 @@
             "username": "Fatin Afiqah Binti Hamdan"
         }
     },
+    "afiqahh@utarstudent.com": {
+        "fyps": []
+,
+        "info": {
+            "email": "afiqahh@utarstudent.com",
+            "password": "@FatinAfiqahBintiHamdan123",
+            "username": "Fatin Afiqah Binti Hamdan"
+        },
+        "wishlist": [
+            "08ec89d4-637c-47cb-9e9d-bc9fa61a657b"
+        ]
+    },
     "audah@utaradmin.com": {
         "fyps": []
 ,
@@ -56,17 +68,39 @@
     "benjaminthio@utarstudent.com": {
         "fyps": []
 ,
+        "grading": {
+            "fyp1": {
+                "moderator": {
+                    "fyp_1_presentation": 10,
+                    "fyp_1_report": 15
+                },
+                "supervisor": {
+                    "fyp_1_effort": 5,
+                    "fyp_1_presentation": 10,
+                    "fyp_1_report": 15
+                }
+            },
+            "fyp2": {
+                "moderator": {
+                    "final_report": 20,
+                    "fyp_2_presentation": 10,
+                    "product_demo": 30
+                },
+                "supervisor": {
+                    "final_report": 20,
+                    "fyp_2_effort": 5,
+                    "fyp_2_presentation": 10,
+                    "product_demo": 35
+                }
+            }
+        },
         "info": {
             "email": "benjaminthio@utarstudent.com",
             "password": "@BenjaminThio123",
             "username": "Benjamin Thio Zi Liang"
         },
         "wishlist": [
-            "08ec89d4-637c-47cb-9e9d-bc9fa61a657b",
-            "b738c225-89ea-4abd-88bf-60bc08db5569",
-            "330408f0-c46d-42c2-b6ec-d058f61325a2",
-            "53db3c07-27b3-42e6-88f3-9b4962b728e0",
-            "28e65fba-91b3-44b9-951b-1d7c151aa6cf"
+            "08ec89d4-637c-47cb-9e9d-bc9fa61a657b"
         ]
     },
     "bhyap@utaradmin.com": {
@@ -141,11 +175,11 @@
             "username": "Faranak Nejati"
         }
     },
-    "fauziahi@utaradmin.com ": {
+    "fauziahi@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "fauziahi@utaradmin.com ",
+            "email": "fauziahi@utaradmin.com",
             "password": "@SitiFauziahIdris123",
             "username": "Siti Fauziah Idris"
         },
@@ -232,21 +266,21 @@
             "username": "Hafiz Bin Basarudin"
         }
     },
-    "hafizm@utaradmin.com ": {
+    "hafizm@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "hafizm@utaradmin.com ",
+            "email": "hafizm@utaradmin.com",
             "password": "@TengkuMuhamadBadrulHafizBinTengkuMahmood123",
             "username": "Tengku Muhamad Badrul Hafiz Bin Tengku Mahmood"
         },
         "ownerUUID": null
     },
-    "hanirah@utaradmin.com ": {
+    "hanirah@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "hanirah@utaradmin.com ",
+            "email": "hanirah@utaradmin.com",
             "password": "@SitiHanirahBintiRahmat123",
             "username": "Siti Hanirah Binti Rahmat"
         },
@@ -260,6 +294,20 @@
             "password": "@HanisahBintiMustaffa123",
             "username": "Hanisah Binti Mustaffa"
         }
+    },
+    "helloworld@utarstudent.com": {
+        "fyps": []
+,
+        "info": {
+            "email": "helloworld@utarstudent.com",
+            "password": "@HelloWorld123",
+            "username": "Hello World"
+        },
+        "wishlist": [
+            "08ec89d4-637c-47cb-9e9d-bc9fa61a657b",
+            "0bc9e603-e30e-41b0-be85-97d8e3e6f831",
+            "1535a5e0-866c-432b-bea3-9c7f75005b2b"
+        ]
     },
     "hocc@utaradmin.com": {
         "fyps": []
@@ -351,11 +399,11 @@
             "username": "Jun Hieng Kiat"
         }
     },
-    "kalthum@utaradmin.com ": {
+    "kalthum@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "kalthum@utaradmin.com ",
+            "email": "kalthum@utaradmin.com",
             "password": "@UmmuKalthumZulkifli123",
             "username": "Ummu Kalthum Zulkifli"
         },
@@ -625,11 +673,11 @@
             "username": "Lee Wah Peng"
         }
     },
-    "lkyap@utaradmin.com ": {
+    "lkyap@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "lkyap@utaradmin.com ",
+            "email": "lkyap@utaradmin.com",
             "password": "@YapLeeKen123",
             "username": "Yap Lee Ken"
         },
@@ -659,15 +707,30 @@
             "b738c225-89ea-4abd-88bf-60bc08db5569"
         ]
     },
-    "mcwong@utaradmin.com ": {
+    "mcwong@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "mcwong@utaradmin.com ",
+            "email": "mcwong@utaradmin.com",
             "password": "@WongMeeChu123",
             "username": "Wong Mee Chu"
         },
         "ownerUUID": null
+    },
+    "nawaf123@utarstudent.com": {
+        "fyps": []
+,
+        "info": {
+            "email": "nawaf123@utarstudent.com",
+            "password": "@Nawaf123",
+            "username": "Nawaf"
+        },
+        "wishlist": [
+            "428b577b-0c2a-4db2-8cd5-a4778c0b0f14",
+            "256620f6-151c-49c1-ae90-3efcc9942ded",
+            "28e65fba-91b3-44b9-951b-1d7c151aa6cf",
+            "2e03ccd5-8a5c-4521-be88-deef49992162"
+        ]
     },
     "ngwk@utaradmin.com": {
         "fyps": []
@@ -699,111 +762,111 @@
             "username": "Ng Keng Hoong"
         }
     },
-    "oktan@utaradmin.com ": {
+    "oktan@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "oktan@utaradmin.com ",
+            "email": "oktan@utaradmin.com",
             "password": "@TanOoiKuan123",
             "username": "Tan Ooi Kuan"
         },
         "ownerUUID": null
     },
-    "pfwong@utaradmin.com ": {
+    "pfwong@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "pfwong@utaradmin.com ",
+            "email": "pfwong@utaradmin.com",
             "password": "@WongPhuiFung123",
             "username": "Wong Phui Fung"
         },
         "ownerUUID": null
     },
-    "simcl@utaradmin.com ": {
+    "simcl@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "simcl@utaradmin.com ",
+            "email": "simcl@utaradmin.com",
             "password": "@SimLanChing123",
             "username": "Sim Lan Ching"
         },
         "ownerUUID": null
     },
-    "simjh@utaradmin.com ": {
+    "simjh@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "simjh@utaradmin.com ",
+            "email": "simjh@utaradmin.com",
             "password": "@SimJiaHuey123",
             "username": "Sim Jia Huey"
         },
         "ownerUUID": null
     },
-    "sneha@utaradmin.com ": {
+    "sneha@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "sneha@utaradmin.com ",
+            "email": "sneha@utaradmin.com",
             "password": "@SnehaKanchan123",
             "username": "Sneha Kanchan"
         },
         "ownerUUID": null
     },
-    "solehah@utaradmin.com ": {
+    "solehah@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "solehah@utaradmin.com ",
+            "email": "solehah@utaradmin.com",
             "password": "@SitiSolehahBintiKadir123",
             "username": "Siti Solehah Binti Kadir"
         },
         "ownerUUID": null
     },
-    "stellam@utaradmin.com ": {
+    "stellam@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "stellam@utaradmin.com ",
+            "email": "stellam@utaradmin.com",
             "password": "@StellaMorris123",
             "username": "Stella Morris"
         },
         "ownerUUID": null
     },
-    "stevenlim@utaradmin.com ": {
+    "stevenlim@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "stevenlim@utaradmin.com ",
+            "email": "stevenlim@utaradmin.com",
             "password": "@StevenLim123",
             "username": "Steven Lim"
         },
         "ownerUUID": null
     },
-    "sugumaran@utaradmin.com ": {
+    "sugumaran@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "sugumaran@utaradmin.com ",
+            "email": "sugumaran@utaradmin.com",
             "password": "@SugumaranALNallusamy123",
             "username": "Sugumaran a/l Nallusamy"
         },
         "ownerUUID": null
     },
-    "suzana@utaradmin.com ": {
+    "suzana@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "suzana@utaradmin.com ",
+            "email": "suzana@utaradmin.com",
             "password": "@SuzanaBintiIshak123",
             "username": "Suzana binti Ishak"
         },
         "ownerUUID": null
     },
-    "syafiq@utaradmin.com ": {
+    "syafiq@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "syafiq@utaradmin.com ",
+            "email": "syafiq@utaradmin.com",
             "password": "@WanMohdSyafiqBinWanHanapi123",
             "username": "Wan Mohd Syafiq Bin Wan Hanapi"
         },
@@ -818,101 +881,139 @@
             "username": "Chua Sing Yee"
         }
     },
-    "tangpy@utaradmin.com ": {
+    "tangpy@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "tangpy@utaradmin.com ",
+            "email": "tangpy@utaradmin.com",
             "password": "@TangPekYee123",
             "username": "Tang Pek Yee"
         },
         "ownerUUID": null
     },
-    "tanlf@utaradmin.com ": {
+    "tanlf@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "tanlf@utaradmin.com ",
+            "email": "tanlf@utaradmin.com",
             "password": "@TanLeeFan123",
             "username": "Tan Lee Fan"
         },
         "ownerUUID": null
     },
-    "tanlx@utaradmin.com ": {
+    "tanlx@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "tanlx@utaradmin.com ",
+            "email": "tanlx@utaradmin.com",
             "password": "@TanLiXian123",
             "username": "Tan Li Xian"
         },
         "ownerUUID": null
     },
-    "tanwc@utaradmin.com ": {
+    "tanwc@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "tanwc@utaradmin.com ",
+            "email": "tanwc@utaradmin.com",
             "password": "@TanWengCheong123",
             "username": "Tan Weng Cheong"
         },
         "ownerUUID": null
     },
-    "tanwl@utaradmin.com ": {
+    "tanwl@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "tanwl@utaradmin.com ",
+            "email": "tanwl@utaradmin.com",
             "password": "@TanWeiLun123",
             "username": "Tan Wei Lun"
         },
         "ownerUUID": null
     },
-    "tanxz@utaradmin.com ": {
+    "tanxz@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "tanxz@utaradmin.com ",
+            "email": "tanxz@utaradmin.com",
             "password": "@TanXiaoZhen123",
             "username": "Tan Xiao Zhen"
         },
         "ownerUUID": null
     },
-    "tanya@utaradmin.com ": {
+    "tanya@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "tanya@utaradmin.com ",
+            "email": "tanya@utaradmin.com",
             "password": "@TanYongAnn123",
             "username": "Tan Yong Ann"
         },
         "ownerUUID": null
     },
-    "tanyq@utaradmin.com ": {
+    "tanyq@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "tanyq@utaradmin.com ",
+            "email": "tanyq@utaradmin.com",
             "password": "@TanYinQing123",
             "username": "Tan Yin Qing"
         },
         "ownerUUID": null
     },
-    "tanzm@utaradmin.com ": {
+    "tanzm@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "tanzm@utaradmin.com ",
+            "email": "tanzm@utaradmin.com",
             "password": "@TanZongMing123",
             "username": "Tan Zong Ming"
         },
         "ownerUUID": null
     },
-    "teesf@utaradmin.com ": {
+    "teehueleng123@utarstudent.com": {
+        "fyps": []
+,
+        "grading": {
+            "fyp1": {
+                "moderator": {
+                    "fyp_1_presentation": 10,
+                    "fyp_1_report": 10
+                },
+                "supervisor": {
+                    "fyp_1_effort": 0,
+                    "fyp_1_presentation": 10,
+                    "fyp_1_report": 10
+                }
+            },
+            "fyp2": {
+                "moderator": {
+                    "final_report": 20,
+                    "fyp_2_presentation": 10,
+                    "product_demo": 30
+                },
+                "supervisor": {
+                    "final_report": 20,
+                    "fyp_2_effort": 5,
+                    "fyp_2_presentation": 10,
+                    "product_demo": 35
+                }
+            }
+        },
+        "info": {
+            "email": "teehueleng123@utarstudent.com",
+            "password": "Teehueleng123@",
+            "username": "teehueleng"
+        },
+        "wishlist": [
+            "08ec89d4-637c-47cb-9e9d-bc9fa61a657b"
+        ]
+    },
+    "teesf@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "teesf@utaradmin.com ",
+            "email": "teesf@utaradmin.com",
             "password": "@TeeShiauFoon123",
             "username": "Tee Shiau Foon"
         },
@@ -921,6 +1022,32 @@
     "tehyifan@utarstudent.com": {
         "fyps": []
 ,
+        "grading": {
+            "fyp1": {
+                "moderator": {
+                    "fyp_1_presentation": 10,
+                    "fyp_1_report": 10
+                },
+                "supervisor": {
+                    "fyp_1_effort": 5,
+                    "fyp_1_presentation": 10,
+                    "fyp_1_report": 10
+                }
+            },
+            "fyp2": {
+                "moderator": {
+                    "final_report": 20,
+                    "fyp_2_presentation": 5,
+                    "product_demo": 30
+                },
+                "supervisor": {
+                    "final_report": 20,
+                    "fyp_2_effort": 5,
+                    "fyp_2_presentation": 10,
+                    "product_demo": 35
+                }
+            }
+        },
         "info": {
             "email": "tehyifan@utarstudent.com",
             "password": "@TehYiFan123",
@@ -930,71 +1057,71 @@
             "b738c225-89ea-4abd-88bf-60bc08db5569"
         ]
     },
-    "teogm@utaradmin.com ": {
+    "teogm@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "teogm@utaradmin.com ",
+            "email": "teogm@utaradmin.com",
             "password": "@TeoGeeMan123",
             "username": "Teo Gee Man"
         },
         "ownerUUID": null
     },
-    "teohhc@utaradmin.com ": {
+    "teohhc@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "teohhc@utaradmin.com ",
+            "email": "teohhc@utaradmin.com",
             "password": "@TeohHuiChieh123",
             "username": "Teoh Hui Chieh"
         },
         "ownerUUID": null
     },
-    "teohle@utaradmin.com ": {
+    "teohle@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "teohle@utaradmin.com ",
+            "email": "teohle@utaradmin.com",
             "password": "@TeohLayEng123",
             "username": "Teoh Lay Eng"
         },
         "ownerUUID": null
     },
-    "tewbt@utaradmin.com ": {
+    "tewbt@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "tewbt@utaradmin.com ",
+            "email": "tewbt@utaradmin.com",
             "password": "@TewBunTeck123",
             "username": "Tew Bun Teck"
         },
         "ownerUUID": null
     },
-    "teyjy@utaradmin.com ": {
+    "teyjy@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "teyjy@utaradmin.com ",
+            "email": "teyjy@utaradmin.com",
             "password": "@TeyJingYuen123",
             "username": "Tey Jing Yuen"
         },
         "ownerUUID": null
     },
-    "thamml@utaradmin.com ": {
+    "thamml@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "thamml@utaradmin.com ",
+            "email": "thamml@utaradmin.com",
             "password": "@ThamMauLuen123",
             "username": "Tham Mau Luen"
         },
         "ownerUUID": null
     },
-    "thiamhs@utaradmin.com ": {
+    "thiamhs@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "thiamhs@utaradmin.com ",
+            "email": "thiamhs@utaradmin.com",
             "password": "@ThiamHuiSan123",
             "username": "Thiam Hui San"
         },
@@ -1009,151 +1136,151 @@
             "username": "Thiau Leng"
         }
     },
-    "thomascyk@utaradmin.com ": {
+    "thomascyk@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "thomascyk@utaradmin.com ",
+            "email": "thomascyk@utaradmin.com",
             "password": "@ThomasChungKuangYang123",
             "username": "Thomas Chung-Kuang Yang"
         },
         "ownerUUID": null
     },
-    "tohcm@utaradmin.com ": {
+    "tohcm@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "tohcm@utaradmin.com ",
+            "email": "tohcm@utaradmin.com",
             "password": "@TohChiaMing123",
             "username": "Toh Chia Ming"
         },
         "ownerUUID": null
     },
-    "tohtc@utaradmin.com ": {
+    "tohtc@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "tohtc@utaradmin.com ",
+            "email": "tohtc@utaradmin.com",
             "password": "@TohTienChoon123",
             "username": "Toh Tien Choon"
         },
         "ownerUUID": null
     },
-    "tsaoke@utaradmin.com ": {
+    "tsaoke@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "tsaoke@utaradmin.com ",
+            "email": "tsaoke@utaradmin.com",
             "password": "@TsaoKheeErn123",
             "username": "Tsao Khee Ern"
         },
         "ownerUUID": null
     },
-    "tungyh@utaradmin.com ": {
+    "tungyh@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "tungyh@utaradmin.com ",
+            "email": "tungyh@utaradmin.com",
             "password": "@TungYewHou123",
             "username": "Tung Yew Hou"
         },
         "ownerUUID": null
     },
-    "umik@utaradmin.com ": {
+    "umik@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "umik@utaradmin.com ",
+            "email": "umik@utaradmin.com",
             "password": "@UmiKalsomBintiAriffin123",
             "username": "Umi Kalsom Binti Ariffin"
         },
         "ownerUUID": null
     },
-    "wanghk@utaradmin.com ": {
+    "wanghk@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "wanghk@utaradmin.com ",
+            "email": "wanghk@utaradmin.com",
             "password": "@WangHongKok123",
             "username": "Wang Hong Kok"
         },
         "ownerUUID": null
     },
-    "weeyn@utaradmin.com ": {
+    "weeyn@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "weeyn@utaradmin.com ",
+            "email": "weeyn@utaradmin.com",
             "password": "@WeeYuNi123",
             "username": "Wee Yu Ni"
         },
         "ownerUUID": null
     },
-    "wonghm@utaradmin.com ": {
+    "wonghm@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "wonghm@utaradmin.com ",
+            "email": "wonghm@utaradmin.com",
             "password": "@WongHongMun123",
             "username": "Wong Hong Mun"
         },
         "ownerUUID": null
     },
-    "wongkh@utaradmin.com ": {
+    "wongkh@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "wongkh@utaradmin.com ",
+            "email": "wongkh@utaradmin.com",
             "password": "@WongKamHuei123",
             "username": "Wong Kam Huei"
         },
         "ownerUUID": null
     },
-    "wongkw@utaradmin.com ": {
+    "wongkw@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "wongkw@utaradmin.com ",
+            "email": "wongkw@utaradmin.com",
             "password": "@WongKuanWai123",
             "username": "Wong Kuan Wai"
         },
         "ownerUUID": null
     },
-    "wongwy@utaradmin.com ": {
+    "wongwy@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "wongwy@utaradmin.com ",
+            "email": "wongwy@utaradmin.com",
             "password": "@WongWheeYen123",
             "username": "Wong Whee Yen"
         },
         "ownerUUID": null
     },
-    "wongyc@utaradmin.com ": {
+    "wongyc@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "wongyc@utaradmin.com ",
+            "email": "wongyc@utaradmin.com",
             "password": "@WongYeeChoong123",
             "username": "Wong Yee Choong"
         },
         "ownerUUID": null
     },
-    "wookk@utaradmin.com ": {
+    "wookk@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "wookk@utaradmin.com ",
+            "email": "wookk@utaradmin.com",
             "password": "@WooKwanKit123",
             "username": "Woo Kwan Kit"
         },
         "ownerUUID": null
     },
-    "woonks@utaradmin.com ": {
+    "woonks@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "woonks@utaradmin.com ",
+            "email": "woonks@utaradmin.com",
             "password": "@WoonKaiSiong123",
             "username": "Woon Kai Siong"
         },
@@ -1168,131 +1295,146 @@
             "username": "Gillian Woo Yi Han"
         }
     },
-    "yanlei@utaradmin.com ": {
+    "yanlei@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "yanlei@utaradmin.com ",
+            "email": "yanlei@utaradmin.com",
             "password": "@YanLei123",
             "username": "Yan Lei"
         },
         "ownerUUID": null
     },
-    "yaphk@utaradmin.com ": {
+    "yaphk@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "yaphk@utaradmin.com ",
+            "email": "yaphk@utaradmin.com",
             "password": "@YapHongKeat123",
             "username": "Yap Hong Keat"
         },
         "ownerUUID": null
     },
-    "yapyh@utaradmin.com ": {
+    "yapyh@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "yapyh@utaradmin.com ",
+            "email": "yapyh@utaradmin.com",
             "password": "@YapYeowHong123",
             "username": "Yap Yeow Hong"
         },
         "ownerUUID": null
     },
-    "yasuo@utaradmin.com ": {
+    "yasuo@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "yasuo@utaradmin.com ",
+            "email": "yasuo@utaradmin.com",
             "password": "@YasuoTanaka123",
             "username": "Yasuo Tanaka"
         },
         "ownerUUID": null
     },
-    "yaukl@utaradmin.com ": {
+    "yaukl@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "yaukl@utaradmin.com ",
+            "email": "yaukl@utaradmin.com",
             "password": "@YauKokLim123",
             "username": "Yau Kok Lim"
         },
         "ownerUUID": null
     },
-    "yeohg@utaradmin.com ": {
+    "yeohg@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "yeohg@utaradmin.com ",
+            "email": "yeohg@utaradmin.com",
             "password": "@YeoHengGiapIvan123",
             "username": "Yeo Heng Giap Ivan"
         },
         "ownerUUID": null
     },
-    "yewmk@utaradmin.com ": {
+    "yewmk@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "yewmk@utaradmin.com ",
+            "email": "yewmk@utaradmin.com",
             "password": "@YewMingKun123",
             "username": "Yew Ming Kun"
         },
         "ownerUUID": null
     },
-    "yongck@utaradmin.com ": {
+    "yongck@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "yongck@utaradmin.com ",
+            "email": "yongck@utaradmin.com",
             "password": "@YongChinKhian123",
             "username": "Yong Chin Khian"
         },
         "ownerUUID": null
     },
-    "yongsz@utaradmin.com ": {
+    "yongsz@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "yongsz@utaradmin.com ",
+            "email": "yongsz@utaradmin.com",
             "password": "@YongSongZhe123",
             "username": "Yong Song Zhe"
         },
         "ownerUUID": null
     },
-    "yongtk@utaradmin.com ": {
+    "yongtk@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "yongtk@utaradmin.com ",
+            "email": "yongtk@utaradmin.com",
             "password": "@YongThianKhok123",
             "username": "Yong Thian Khok"
         },
         "ownerUUID": null
     },
-    "yowhk@utaradmin.com ": {
+    "yowhk@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "yowhk@utaradmin.com ",
+            "email": "yowhk@utaradmin.com",
             "password": "@YowHoKwang123",
             "username": "Yow Ho Kwang"
         },
         "ownerUUID": null
     },
-    "yowlp@utaradmin.com ": {
+    "yowlp@utaradmin.com": {
         "fyps": []
 ,
         "info": {
-            "email": "yowlp@utaradmin.com ",
+            "email": "yowlp@utaradmin.com",
             "password": "@YowLiPing123",
             "username": "Yow Li Ping"
         },
         "ownerUUID": null
     },
-    "zulfikriz@utaradmin.com ": {
+    "zanelim@utarstudent.com": {
         "fyps": []
 ,
         "info": {
-            "email": "zulfikriz@utaradmin.com ",
+            "email": "zanelim@utarstudent.com",
+            "password": "@ZaneLim123",
+            "username": "Zane Lim"
+        },
+        "wishlist": [
+            "0bc9e603-e30e-41b0-be85-97d8e3e6f831",
+            "1535a5e0-866c-432b-bea3-9c7f75005b2b",
+            "2032bb58-f8b3-4fdb-9898-65cfb966afc3",
+            "08ec89d4-637c-47cb-9e9d-bc9fa61a657b"
+        ]
+    },
+    "zulfikriz@utaradmin.com": {
+        "fyps": []
+,
+        "info": {
+            "email": "zulfikriz@utaradmin.com",
             "password": "@ZulfikriBinZulkifley123",
             "username": "Zulfikri Bin Zulkifley"
         },

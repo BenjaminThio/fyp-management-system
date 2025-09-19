@@ -66,11 +66,12 @@ namespace view_submission {
                     submitters[email.string()] = get_users()[email.string()];
 
                     if (approved_fyp_ids.size() > 0 && !submitters[email.string()].contains(json("fyp_1_id"))) {
-                        submitters[email.string()]["fyp_1_id"] = json(get_user_approved_fyp(email.string()));
+                        submitters[email.string()]["fyp_1_id"] = json(approved_fyp_ids[0].filename().string());
                     }
                     if (approved_fyp_ids.size() > 1 && !submitters[email.string()].contains(json("fyp_2_id"))) {
-                        submitters[email.string()]["fyp_2_id"] = json(get_user_approved_fyp(email.string()));
+                        submitters[email.string()]["fyp_2_id"] = json(approved_fyp_ids[1].filename().string());
                     }
+                    break;
                 }
             }
         }

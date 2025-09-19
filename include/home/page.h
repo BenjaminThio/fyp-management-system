@@ -26,6 +26,7 @@ namespace home {
         FYP_LIST,
         WISHLIST,
         SUBMIT,
+        VIEW_GRADING,
         LOG_OUT,
         EXIT
     };

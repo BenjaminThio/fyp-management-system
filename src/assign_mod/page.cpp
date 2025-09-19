@@ -16,10 +16,21 @@ namespace assign_mod {
     static json visible_admins = json::dictionary{};
     static int selected_option = 0;
     static string search_field;
-    static int local_caret_pos;
-    static int input_field_view_offset;
-    static int visible_quantity = 20;
+    static int local_caret_pos = 0;
+    static int input_field_view_offset = 0;
+    static int visible_quantity = 30;
     static int field_length = 30;
+    static int selection_offset = 0;
+
+    void reset_data() {
+        admins = json::dictionary{};
+        visible_admins = json::dictionary{};
+        selected_option = 0;
+        search_field = "";
+        local_caret_pos = 0;
+        input_field_view_offset = 0;
+        selection_offset = 0;
+    }
 
     void refresh_admins() {
         json j = load("../data/user.json");
@@ -41,7 +52,7 @@ namespace assign_mod {
     }
 
     void push_frame(ostringstream& renderer, array<int, 2>& manual_cursor_input_pos) {
-        renderer << "Search: " << render_input_field(search_field, local_caret_pos, input_field_view_offset, field_length) << endl << endl;
+        renderer << "Search: " << render_input_field(search_field, local_caret_pos, input_field_view_offset, field_length, (selected_option == 0 ? BG_GREEN : BG_WHITE)) << endl << endl;
 
         if (search_field.length() > 0) {
             visible_admins = json::dictionary{};
@@ -55,18 +66,25 @@ namespace assign_mod {
 
         size_t counter = 0;
 
+        for (size_t i = selection_offset; i < selection_offset + (visible_quantity > (search_field.length() == 0 ? admins : visible_admins).size() ? (search_field.length() == 0 ? admins : visible_admins).size() : visible_quantity); i++, counter++) {
+            renderer << ((counter + 1 == selected_option) ? '>' : ' ') << ' ' << i + 1 << ". " << (search_field.length() == 0 ? admins : visible_admins)[(search_field.length() == 0 ? admins : visible_admins).keys()[i]]["info"]["username"].as_string() << endl;
+        }
+
+        return;
+
+        /*
         for (auto& [key, val] : (search_field.length() == 0 ? admins : visible_admins).as_dictionary()) {
             if (counter < visible_quantity) {
                 renderer << ((counter++ + 1 == selected_option) ? '>' : ' ') << ' ' << val["info"]["username"].as_string() << endl;
             }
         }
+        */
 
         switch (selected_option) {
             case 0:
                 manual_cursor_input_pos = { local_caret_pos + 8, 6 };
                 break;
         }
-        caret_handler();
     }
 
     void keyboard_input_callback() {
@@ -93,22 +111,52 @@ namespace assign_mod {
 
         switch (special_key) {
             case static_cast<int>(Key::UP): {
+                if (selected_option - 1 > 0) {
+                    selected_option--;
+                } else {
+                    if (selected_option > 0) {
+                        if (selection_offset - 1 >= 0) {
+                            selection_offset--;
+                        } else {
+                            if (selected_option - 1 >= 0) {
+                                selected_option--;
+                            } else {
+                                // selected_option = (visible_quantity > (search_field.length() == 0 ? admins : visible_admins).size() ? (search_field.length() == 0 ? admins : visible_admins).size() : visible_quantity); // admins.size() - 1
+                            }
+                        }
+                    } else {
+                        // selected_option = (visible_quantity > (search_field.length() == 0 ? admins : visible_admins).size() ? (search_field.length() == 0 ? admins : visible_admins).size() : visible_quantity);
+                    }
+                }
+                /*
                 if (selected_option - 1 >= 0) {
                     selected_option--;
                 } else {
                     selected_option = (visible_quantity > (search_field.length() == 0 ? admins : visible_admins).size() ? (search_field.length() == 0 ? admins : visible_admins).size() : visible_quantity);
                 }
+                */
                 // play_sound("squeak");
                 render_page();
                 caret_handler();
                 break;
             }
             case static_cast<int>(Key::DOWN): {
+                if (selected_option + 1 <= (visible_quantity > (search_field.length() == 0 ? admins : visible_admins).size() ? (search_field.length() == 0 ? admins : visible_admins).size() : visible_quantity)) { // selected_option + 1 < admins.size()
+                    selected_option++;
+                } else {
+                    if (selection_offset + selected_option + 1 <= (search_field.length() == 0 ? admins : visible_admins).size()) {
+                        selection_offset++;
+                    } else {
+                        // selected_option = 0;
+                    }
+                }
+                /*
                 if (selected_option + 1 <= (visible_quantity > (search_field.length() == 0 ? admins : visible_admins).size() ? (search_field.length() == 0 ? admins : visible_admins).size() : visible_quantity)) {
                     selected_option++;
                 } else {
                     selected_option = 0;
                 }
+                */
                 // play_sound("squeak");
                 render_page();
                 caret_handler();
@@ -122,12 +170,20 @@ namespace assign_mod {
                     case 0:
                         return;
                 }
-                fyps[create_edit_fyp::get_fyp_id()]["moderator"] = (search_field.length() == 0 ? admins : visible_admins).keys()[selected_option - 1];
-                update_fyps();
+
+                create_edit_fyp::mod = (search_field.length() == 0 ? admins : visible_admins).keys()[selection_offset + selected_option - 1];
+                
+                if (create_edit_fyp::get_subpage()) {
+                    fyps[create_edit_fyp::get_fyp_id()]["moderator"] = (search_field.length() == 0 ? admins : visible_admins).keys()[selection_offset + selected_option - 1];
+                    update_fyps();
+                }
                 return_page();
                 break;
             }
             case static_cast<int>(Key::ESCAPE): {
+                if (create_edit_fyp::mod == nullptr) {
+                    assign_mod::reset_data();
+                }
                 return_page();
                 break;
             }

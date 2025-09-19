@@ -28,4 +28,6 @@ namespace auth {
     void push_frame(ostringstream& renderer, array<int, 2>& manual_input_cursor_pos);
     void keyboard_input_callback(void);
     void caret_handler(void);
+    void sign_up_init();
+    void login_init();
 }
