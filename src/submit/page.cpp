@@ -83,11 +83,18 @@ namespace submit {
                         "None"
                     ),
                     "\n" + (
-                        fs::exists(destination) && !fs::is_empty(destination)
-                        ?
-                        (selected_coord.x == 1 && selected_coord.y == i ? format("Edit", FG_BLACK, BG_YELLOW) : "Edit")
+                        user.contains("lock_submission_" + to_string(i + 1)) && user["lock_submission_" + to_string(i + 1)]
+                        ? 
+                        (selected_coord.x == 1 && selected_coord.y == i ? format("Locked", FG_DARK_GRAY, BG_RED) : format("Locked", FG_DARK_GRAY)) + " 🔒"
                         :
-                        (selected_coord.x == 1 && selected_coord.y == i ? format("Submit", FG_BLACK, BG_GREEN) : "Submit")
+                        (
+                            fs::exists(destination) && !fs::is_empty(destination)
+                            ?
+                            (selected_coord.x == 1 && selected_coord.y == i ? format("Edit", FG_BLACK, BG_YELLOW) : "Edit")
+                            :
+                            (selected_coord.x == 1 && selected_coord.y == i ? format("Submit", FG_BLACK, BG_GREEN) : "Submit") +
+                            (i == 1 && !fs::exists(DESTINATION / fs::path(user["info"]["email"].as_string()) / fs::path("fyp1")) ? " 🔒" : "")
+                        )
                     )
                 });
             }
@@ -121,6 +128,12 @@ namespace submit {
         }
 
         renderer << generate_table(table) << endl;
+    }
+
+    static void reset_data() {
+        // Data reset
+        selected_coord = { 1, 0 };
+        approved_fyps = {};
     }
 
     void keyboard_input_callback() {
@@ -174,6 +187,25 @@ namespace submit {
                         return;
                     }
 
+                    switch (selected_coord.y) {
+                        case 0:
+                            if (user.contains("lock_submission_1") && user["lock_submission_1"]) {
+                                dialog::error_message("You cannot edit submitted FYP 1.");
+                                return;
+                            }
+                            break;
+                        case 1:
+                            if (user.contains("lock_submission_2") && user["lock_submission_2"]) {
+                                dialog::error_message("You cannot edit submitted FYP 2.");
+                                return;
+                            }
+                            if (!fs::exists(DESTINATION / fs::path(user["info"]["email"].as_string()) / fs::path("fyp1"))) {
+                                dialog::error_message("You must submit FYP 1 before submitting FYP 2.");
+                                return;
+                            }
+                            break;
+                    }
+
                     fs::path source = dialog_box();
 
                     if (!source.empty()) {
@@ -183,10 +215,56 @@ namespace submit {
                     break;
                 }
                 case static_cast<int>(Key::ESCAPE): {
-                    // Data reset
-                    selected_coord = { 1, 0 };
-                    approved_fyps = {};
-                    
+                    if ((fs::exists(DESTINATION / fs::path(user["info"]["email"].as_string()) / fs::path("fyp1")) && !user.contains("lock_submission_1")) && 
+                    (fs::exists(DESTINATION / fs::path(user["info"]["email"].as_string()) / fs::path("fyp2")) && !user.contains("lock_submission_2")) ) {
+                        int result = MessageBox(
+                            NULL,
+                            "Are you sure you want to leave and save both FYP 1 and FYP 2 submissions? This action cannot be reversed.",
+                            "Warning",
+                            MB_ICONWARNING | MB_OKCANCEL
+                        );
+
+                        if (result == IDOK) {
+                            user["lock_submission_1"] = true;
+                            user["lock_submission_2"] = true;
+                            update_user();
+                            reset_data();
+                            return_page();
+                        }
+                        return;
+                    }
+                    if (fs::exists(DESTINATION / fs::path(user["info"]["email"].as_string()) / fs::path("fyp1")) && !user.contains("lock_submission_1") ) {
+                        int result = MessageBox(
+                            NULL,
+                            "Are you sure you want to leave and save FYP 1 submissions? This action cannot be reversed.",
+                            "Warning",
+                            MB_ICONWARNING | MB_OKCANCEL
+                        );
+
+                        if (result == IDOK) {
+                            user["lock_submission_1"] = true;
+                            update_user();
+                            reset_data();
+                            return_page();
+                        }
+                        return;
+                    }
+                    if (fs::exists(DESTINATION / fs::path(user["info"]["email"].as_string()) / fs::path("fyp2")) && !user.contains("lock_submission_2") ) {
+                        int result = MessageBox(
+                            NULL,
+                            "Are you sure you want to leave and save FYP 2 submissions? This action cannot be reversed.",
+                            "Warning",
+                            MB_ICONWARNING | MB_OKCANCEL
+                        );
+
+                        if (result == IDOK) {
+                            user["lock_submission_2"] = true;
+                            update_user();
+                            reset_data();
+                            return_page();
+                        }
+                        return;
+                    }
                     return_page();
                     break;
                 }
