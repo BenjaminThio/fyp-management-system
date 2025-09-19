@@ -265,6 +265,7 @@ namespace submit {
                         }
                         return;
                     }
+                    reset_data();
                     return_page();
                     break;
                 }
