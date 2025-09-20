@@ -1,6 +1,7 @@
 #include <sstream>
 #include <string>
 #include <conio.h>
+#include <array>
 #include "keyboard.h"
 #include "globals.h"
 #include "renderer.h"
@@ -10,7 +11,7 @@ using namespace std;
 namespace view_grading {
     static array<vector<vector<string>>, 2> tables;
 
-    bool is_grading_completed() {
+    static bool is_grading_completed() {
         if (!user.contains("grading")) {
             return false;
         }
@@ -29,7 +30,7 @@ namespace view_grading {
         return true;
     }
 
-    string to_fixed(double value, int precision = 2) {
+    static string to_fixed(double value, int precision = 2) {
         ostringstream oss;
         oss << std::fixed << setprecision(precision) << value;
         

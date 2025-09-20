@@ -18,6 +18,7 @@ namespace console {
         VIEW,
         EDIT,
         WISHLIST_APPROVAL,
+        SUMMARY,
         DELETEE
     };
     enum class Direction: int {

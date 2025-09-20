@@ -21,6 +21,7 @@
 #include "fyp/page.h"
 #include "create_edit/page.h"
 #include "wishlist_approval/page.h"
+#include "summary/page.h"
 using namespace std;
 using namespace ansi;
 using namespace magic_enum;
@@ -101,7 +102,8 @@ namespace console {
                 (collapse ? "View" : (selected_coord.y == i && selected_coord.x == 1) ? format("View", FG_BLACK, BG_GREEN) : format("View", FG_GREEN)),
                 (collapse ? "Edit" : (selected_coord.y == i && selected_coord.x == 2) ? format("Edit", FG_BLACK, BG_YELLOW) : format("Edit", FG_YELLOW)),
                 (collapse ? (WISHLIST_APPROVAL_LABEL + get_pending_wishlist_amount(key)) : (selected_coord.y == i && selected_coord.x == 3) ? format((WISHLIST_APPROVAL_LABEL + get_pending_wishlist_amount(key)), FG_BLACK, BG_LIGHT_RED) : format((WISHLIST_APPROVAL_LABEL + get_pending_wishlist_amount(key)), FG_LIGHT_RED)),
-                (collapse ? DELETE_LABEL : (selected_coord.y == i && selected_coord.x == 4) ? format(DELETE_LABEL, FG_BLACK, BG_RED) : format(DELETE_LABEL, FG_RED))
+                (collapse ? "Summary" : (selected_coord.y == i && selected_coord.x == 4) ? format("Summary", FG_BLACK, BG_LIGHT_MAGENTA) : format("Summary", FG_LIGHT_MAGENTA)),
+                (collapse ? DELETE_LABEL : (selected_coord.y == i && selected_coord.x == 5) ? format(DELETE_LABEL, FG_BLACK, BG_RED) : format(DELETE_LABEL, FG_RED))
             };
             i++;
             table.push_back(row);
@@ -193,7 +195,7 @@ namespace console {
                                 if (selected_coord.y + 1 <= grouped_fyps[group_idx].size() + 1) {
                                     selected_coord.y++;
                                     if (selected_coord.y == grouped_fyps[group_idx].size() + 1)
-                                        direction = round(selected_coord.x / 5.0);
+                                        direction = round(selected_coord.x / 6.0);
                                 }
                                 else
                                     selected_coord.y = 0;
@@ -212,7 +214,7 @@ namespace console {
                                 if (selected_coord.x - 1 >= 0)
                                     selected_coord.x--;
                                 else
-                                    selected_coord.x = 4;
+                                    selected_coord.x = 5;
                             }
                             break;
                         }
@@ -226,7 +228,7 @@ namespace console {
                                     direction = 0;
                             }
                             else {
-                                if (selected_coord.x + 1 <= 4)
+                                if (selected_coord.x + 1 <= 5)
                                     selected_coord.x++;
                                 else
                                     selected_coord.x = 0;
@@ -271,6 +273,9 @@ namespace console {
                                 break;
                             case static_cast<int>(Option::WISHLIST_APPROVAL):
                                 wishlist_approval::wishlist_approval(fyp_id);
+                                break;
+                            case static_cast<int>(Option::SUMMARY):
+                                summary::summary(fyp_id);
                                 break;
                             case static_cast<int>(Option::DELETEE):
                                 int result = MessageBox(

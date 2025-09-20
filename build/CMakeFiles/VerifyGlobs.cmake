@@ -23,6 +23,7 @@ set(OLD_GLOB
   "C:/Users/User/Documents/hell/fyp-management-system/src/renderer.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/search.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/submit/page.cpp"
+  "C:/Users/User/Documents/hell/fyp-management-system/src/summary/page.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/table.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/terminal.cpp"
   "C:/Users/User/Documents/hell/fyp-management-system/src/typing.cpp"

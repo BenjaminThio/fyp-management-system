@@ -10,6 +10,9 @@
 #include "C:/Users/User/Documents/hell/fyp-management-system/src/submit/page.cpp"
 
 /* NOLINTNEXTLINE(bugprone-suspicious-include,misc-include-cleaner) */
+#include "C:/Users/User/Documents/hell/fyp-management-system/src/summary/page.cpp"
+
+/* NOLINTNEXTLINE(bugprone-suspicious-include,misc-include-cleaner) */
 #include "C:/Users/User/Documents/hell/fyp-management-system/src/table.cpp"
 
 /* NOLINTNEXTLINE(bugprone-suspicious-include,misc-include-cleaner) */
@@ -20,7 +23,4 @@
 
 /* NOLINTNEXTLINE(bugprone-suspicious-include,misc-include-cleaner) */
 #include "C:/Users/User/Documents/hell/fyp-management-system/src/utils.cpp"
-
-/* NOLINTNEXTLINE(bugprone-suspicious-include,misc-include-cleaner) */
-#include "C:/Users/User/Documents/hell/fyp-management-system/src/view_grading/page.cpp"
 

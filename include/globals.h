@@ -48,6 +48,7 @@ enum class Page: int {
     ASSIGN_MOD,
     VIEW_SUBMISSION,
     VIEW_GRADING,
+    SUMMARY,
     NOT_FOUND
 };
 
